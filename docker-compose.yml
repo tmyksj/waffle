@@ -1,0 +1,9 @@
+services:
+  db:
+    environment:
+      MARIADB_RANDOM_ROOT_PASSWORD: "yes"
+    image: "mariadb:10.10"
+    ports:
+      - "3306:3306"
+    volumes:
+      - "./docker-compose/db/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro"
