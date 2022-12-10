@@ -3,7 +3,7 @@ package waffle.infrastructure.jpa.entity
 import jakarta.persistence.Entity
 import jakarta.persistence.EntityListeners
 import jakarta.persistence.Id
-import org.springframework.data.annotation.Version
+import jakarta.persistence.Version
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import waffle.domain.time.now
 import java.time.LocalDateTime
