@@ -1,5 +1,6 @@
 package waffle.domain.entity
 
+import waffle.domain.time.now
 import java.net.URL
 import java.time.LocalDateTime
 import java.util.*
@@ -17,12 +18,12 @@ data class WebReg(
     /**
      * Test cases.
      */
-    val cases: List<Case>,
+    val cases: List<Case> = listOf(),
 
     /**
      * Test result.
      */
-    val result: String?,
+    val result: String? = null,
 
     /**
      * State.
@@ -47,12 +48,12 @@ data class WebReg(
     /**
      * Date that the entity was created.
      */
-    val createdDate: LocalDateTime? = null,
+    val createdDate: LocalDateTime = now(),
 
     /**
      * Date that the entity was recently modified.
      */
-    val lastModifiedDate: LocalDateTime? = null,
+    val lastModifiedDate: LocalDateTime = createdDate,
 
     ) {
 
