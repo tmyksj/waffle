@@ -20,7 +20,7 @@ data class WebRegJpaEntity(
      * ID.
      */
     @field:Id
-    val id: UUID = UUID.randomUUID(),
+    val id: String = "",
 
     /**
      * Test result.
