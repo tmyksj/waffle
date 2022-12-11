@@ -7,3 +7,9 @@ services:
       - "3306:3306"
     volumes:
       - "./docker-compose/db/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro"
+  web:
+    image: "httpd:2.4"
+    ports:
+      - "8081:80"
+    volumes:
+      - "./docker-compose/web/usr/local/apache2/htdocs:/usr/local/apache2/htdocs:ro"
