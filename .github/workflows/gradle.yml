@@ -16,6 +16,11 @@ jobs:
         with:
           distribution: "temurin"
           java-version: "17"
+      - uses: "actions/setup-node@v3"
+        with:
+          node-version: "18"
+
+      - run: "npm install -g reg-suit"
 
       - run: "docker compose up --detach"
 
