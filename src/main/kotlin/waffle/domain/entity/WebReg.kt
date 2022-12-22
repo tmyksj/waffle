@@ -58,6 +58,41 @@ data class WebReg(
     ) {
 
     /**
+     * The transition to the state "Started".
+     * @return
+     */
+    fun start(): WebReg {
+        return copy(
+            state = State.Started,
+            lastModifiedDate = now(),
+        )
+    }
+
+    /**
+     * The transition to the state "Completed" with a given result.
+     * @param result
+     * @return
+     */
+    fun complete(result: ByteArray): WebReg {
+        return copy(
+            result = result,
+            state = State.Completed,
+            lastModifiedDate = now(),
+        )
+    }
+
+    /**
+     * The transition to the state "Failed".
+     * @return
+     */
+    fun fail(): WebReg {
+        return copy(
+            state = State.Failed,
+            lastModifiedDate = now(),
+        )
+    }
+
+    /**
      * Test case.
      */
     data class Case(
