@@ -23,7 +23,7 @@ data class WebReg(
     /**
      * Test result.
      */
-    val result: String? = null,
+    val result: ByteArray? = null,
 
     /**
      * State.
@@ -99,6 +99,41 @@ data class WebReg(
          */
         Failed,
 
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as WebReg
+
+        if (id != other.id) return false
+        if (cases != other.cases) return false
+        if (result != null) {
+            if (other.result == null) return false
+            if (!result.contentEquals(other.result)) return false
+        } else if (other.result != null) return false
+        if (state != other.state) return false
+        if (startedDate != other.startedDate) return false
+        if (completedDate != other.completedDate) return false
+        if (failedDate != other.failedDate) return false
+        if (createdDate != other.createdDate) return false
+        if (lastModifiedDate != other.lastModifiedDate) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result1 = id.hashCode()
+        result1 = 31 * result1 + cases.hashCode()
+        result1 = 31 * result1 + (result?.contentHashCode() ?: 0)
+        result1 = 31 * result1 + state.hashCode()
+        result1 = 31 * result1 + (startedDate?.hashCode() ?: 0)
+        result1 = 31 * result1 + (completedDate?.hashCode() ?: 0)
+        result1 = 31 * result1 + (failedDate?.hashCode() ?: 0)
+        result1 = 31 * result1 + createdDate.hashCode()
+        result1 = 31 * result1 + lastModifiedDate.hashCode()
+        return result1
     }
 
 }

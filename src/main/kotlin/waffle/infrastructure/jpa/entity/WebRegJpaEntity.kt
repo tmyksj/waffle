@@ -25,7 +25,7 @@ data class WebRegJpaEntity(
     /**
      * Test result.
      */
-    val result: String? = null,
+    val result: ByteArray? = null,
 
     /**
      * State.
@@ -63,4 +63,40 @@ data class WebRegJpaEntity(
     @field:Version
     val version: Long? = null,
 
-    )
+    ) {
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as WebRegJpaEntity
+
+        if (id != other.id) return false
+        if (result != null) {
+            if (other.result == null) return false
+            if (!result.contentEquals(other.result)) return false
+        } else if (other.result != null) return false
+        if (state != other.state) return false
+        if (startedDate != other.startedDate) return false
+        if (completedDate != other.completedDate) return false
+        if (failedDate != other.failedDate) return false
+        if (createdDate != other.createdDate) return false
+        if (lastModifiedDate != other.lastModifiedDate) return false
+        if (version != other.version) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result1 = id.hashCode()
+        result1 = 31 * result1 + (result?.contentHashCode() ?: 0)
+        result1 = 31 * result1 + state.hashCode()
+        result1 = 31 * result1 + (startedDate?.hashCode() ?: 0)
+        result1 = 31 * result1 + (completedDate?.hashCode() ?: 0)
+        result1 = 31 * result1 + (failedDate?.hashCode() ?: 0)
+        result1 = 31 * result1 + createdDate.hashCode()
+        result1 = 31 * result1 + lastModifiedDate.hashCode()
+        result1 = 31 * result1 + (version?.hashCode() ?: 0)
+        return result1
+    }
+}

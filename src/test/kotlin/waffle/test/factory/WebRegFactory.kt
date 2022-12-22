@@ -24,7 +24,7 @@ class WebRegFactory {
                 actual = URL("https://example.com"),
             ),
         ),
-        result: String? = null,
+        result: ByteArray? = null,
         state: WebReg.State = WebReg.State.Ready,
         startedDate: LocalDateTime? = null,
         completedDate: LocalDateTime? = null,
@@ -51,7 +51,7 @@ class WebRegFactory {
     fun modify(
         entity: WebReg,
         cases: List<WebReg.Case> = entity.cases,
-        result: String? = entity.result,
+        result: ByteArray? = entity.result,
         state: WebReg.State = entity.state,
         startedDate: LocalDateTime? = entity.startedDate,
         completedDate: LocalDateTime? = entity.completedDate,
