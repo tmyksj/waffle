@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en"
+      th:fragment="layout(meta, title, content)"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"
+          th:replace="${meta}">
+    <title th:replace="${title}">Waffle</title>
+    <link rel="stylesheet"
+          th:href="@{/Stylesheets/Core.css}">
+</head>
+<body>
+<header class="c_Nav">
+    <h1 class="c_Nav_Header">waffle</h1>
+</header>
+<main class="c_Main"
+      th:insert="${content}">
+</main>
+</body>
+</html>
