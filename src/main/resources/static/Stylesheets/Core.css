@@ -20,6 +20,71 @@ body::after {
     z-index: -1;
 }
 
+h1 {
+    font-size: 1.7rem;
+    margin: 1.2rem 0;
+}
+
+h2 {
+    font-size: 1.6rem;
+    margin: 1.1rem 0;
+}
+
+h3 {
+    font-size: 1.5rem;
+    margin: 1rem 0;
+}
+
+h4 {
+    font-size: 1.4rem;
+    margin: 0.9rem 0;
+}
+
+h5 {
+    font-size: 1.3rem;
+    margin: 0.8rem 0;
+}
+
+h6 {
+    font-size: 1.2rem;
+    margin: 0.7rem 0;
+}
+
+p {
+    margin: 0.5rem 0;
+}
+
+.c_Button {
+    background: #3e2723;
+    border: thin solid #3e2723;
+    border-radius: 0.25rem;
+    color: #fff8e1;
+    cursor: pointer;
+    display: inline-block;
+    font-family: "Segoe UI", "SegoeUI", "Yu Gothic UI", "Meiryo UI", "Helvetica Neue", "Helvetica", "Arial", "sans-serif";
+    font-size: 0.9rem;
+    font-weight: bold;
+    padding: 0.3rem 1rem;
+    text-decoration: none;
+}
+
+.c_Button:hover {
+    background: #1b0000;
+    border: thin solid #1b0000;
+}
+
+.c_Input {
+    border: thin solid #1b0000;
+    border-radius: 0.25rem;
+    color: #3e2723;
+    display: block;
+    font-family: "Segoe UI", "SegoeUI", "Yu Gothic UI", "Meiryo UI", "Helvetica Neue", "Helvetica", "Arial", "sans-serif";
+    font-size: 0.9rem;
+    font-weight: 400;
+    padding: 0.3rem 1rem;
+    width: 100%;
+}
+
 .c_Main {
     margin: 1rem auto;
     max-width: 102rem;
@@ -36,4 +101,43 @@ body::after {
     margin: 0 auto;
     max-width: 102rem;
     padding: 0.5rem 1rem;
+}
+
+.c_Table {
+    overflow-x: auto;
+}
+
+.c_Table > table {
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 100%;
+}
+
+.c_Table > table td {
+    border: thin solid #fff8e1;
+    padding: 0.3rem 1rem;
+}
+
+.c_Table > table th {
+    border: thin solid #fff8e1;
+    font-weight: bold;
+    padding: 0.3rem 1rem;
+    text-align: center;
+}
+
+.c_Table > table tr::after {
+    content: "";
+    display: table-cell;
+}
+
+.u_ta-c {
+    text-align: center;
+}
+
+.u_ta-l {
+    text-align: left;
+}
+
+.u_ta-r {
+    text-align: right;
 }
