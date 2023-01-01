@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en"
+      th:replace="~{default :: layout(~{:: meta}, ~{:: title}, ~{:: 'th:block'})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>WebReg - Waffle</title>
+</head>
+<body>
+<th:block>
+    <h1>WebReg</h1>
+    <div class="c_Table">
+        <table>
+            <thead>
+            <tr>
+                <th style="width: 50%;">Expected URL</th>
+                <th style="width: 50%;">Actual URL</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="case : ${webReg.cases}">
+                <td>
+                    <p th:text="${case.expected}"></p>
+                </td>
+                <td>
+                    <p th:text="${case.actual}"></p>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</th:block>
+</body>
+</html>

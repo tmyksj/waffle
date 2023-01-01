@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en"
+      th:replace="~{default :: layout(~{:: meta}, ~{:: title}, ~{:: 'th:block'})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>WebReg - Waffle</title>
+</head>
+<body>
+<th:block>
+    <h1>WebReg</h1>
+    <form method="post"
+          th:action="@{/WebReg}"
+          th:object="${createForm}">
+        <div class="c_Table">
+            <table>
+                <thead>
+                <tr>
+                    <th style="width: 50%;">Expected URL</th>
+                    <th style="width: 50%;">Actual URL</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="case, iterStat : *{cases}">
+                    <td>
+                        <input aria-label="Expected URL"
+                               class="c_Input"
+                               th:field="*{cases[__${iterStat.index}__].expected}"
+                               type="text">
+                        <p th:errors="*{cases[__${iterStat.index}__].expected}"></p>
+                    </td>
+                    <td>
+                        <input aria-label="Actual URL"
+                               class="c_Input"
+                               th:field="*{cases[__${iterStat.index}__].actual}"
+                               type="text">
+                        <p th:errors="*{cases[__${iterStat.index}__].actual}"></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="u_ta-r">
+                        <button class="c_Button"
+                                type="submit">Submit
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
+</th:block>
+</body>
+</html>
