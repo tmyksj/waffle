@@ -26,4 +26,22 @@ class WebRegQueryImpl(
         )
     }
 
+    override fun result(
+            id: UUID,
+    ): WebRegQuery.ResultResponse {
+        val entity: WebReg = webRegRepository.findById(id)
+                ?: return WebRegQuery.ResultResponse.Error(
+                        isNotFound = true,
+                )
+
+        val result: ByteArray = entity.result
+                ?: return WebRegQuery.ResultResponse.Error(
+                        isNotFound = true,
+                )
+
+        return WebRegQuery.ResultResponse.Ok(
+                result = result,
+        )
+    }
+
 }
