@@ -19,11 +19,11 @@ class RootControllerTests {
     @Test
     fun index_responds_SeeOther() {
         val resultActions: ResultActions = mockMvc.perform(
-            MockMvcRequestBuilders.get("/"),
+                MockMvcRequestBuilders.get("/"),
         )
 
         resultActions.andExpect(MockMvcResultMatchers.status().isSeeOther)
-            .andExpect(MockMvcResultMatchers.redirectedUrl("/Home"))
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/Home"))
     }
 
 }

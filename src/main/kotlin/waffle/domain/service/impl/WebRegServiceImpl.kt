@@ -14,10 +14,10 @@ import waffle.domain.service.WebRegService
 @Service
 @Transactional
 class WebRegServiceImpl(
-    private val platformTransactionManager: PlatformTransactionManager,
-    private val browserComponent: BrowserComponent,
-    private val reportingComponent: ReportingComponent,
-    private val webRegRepository: WebRegRepository,
+        private val platformTransactionManager: PlatformTransactionManager,
+        private val browserComponent: BrowserComponent,
+        private val reportingComponent: ReportingComponent,
+        private val webRegRepository: WebRegRepository,
 ) : WebRegService {
 
     override fun run(webReg: WebReg): WebReg {

@@ -16,54 +16,54 @@ import java.util.*
 @EntityListeners(AuditingEntityListener::class)
 data class WebRegJpaEntity(
 
-    /**
-     * ID.
-     */
-    @field:Id
-    val id: String = "",
+        /**
+         * ID.
+         */
+        @field:Id
+        val id: String = "",
 
-    /**
-     * Test result.
-     */
-    val result: ByteArray? = null,
+        /**
+         * Test result.
+         */
+        val result: ByteArray? = null,
 
-    /**
-     * State.
-     */
-    val state: Long = 0,
+        /**
+         * State.
+         */
+        val state: Long = 0,
 
-    /**
-     * Date that the test was started.
-     */
-    val startedDate: LocalDateTime? = null,
+        /**
+         * Date that the test was started.
+         */
+        val startedDate: LocalDateTime? = null,
 
-    /**
-     * Date that the test was completed.
-     */
-    val completedDate: LocalDateTime? = null,
+        /**
+         * Date that the test was completed.
+         */
+        val completedDate: LocalDateTime? = null,
 
-    /**
-     * Date that the test was failed.
-     */
-    val failedDate: LocalDateTime? = null,
+        /**
+         * Date that the test was failed.
+         */
+        val failedDate: LocalDateTime? = null,
 
-    /**
-     * Date that the entity was created.
-     */
-    val createdDate: LocalDateTime = now(),
+        /**
+         * Date that the entity was created.
+         */
+        val createdDate: LocalDateTime = now(),
 
-    /**
-     * Date that the entity was recently modified.
-     */
-    val lastModifiedDate: LocalDateTime = createdDate,
+        /**
+         * Date that the entity was recently modified.
+         */
+        val lastModifiedDate: LocalDateTime = createdDate,
 
-    /**
-     * Version to implement optimistic locking.
-     */
-    @field:Version
-    val version: Long? = null,
+        /**
+         * Version to implement optimistic locking.
+         */
+        @field:Version
+        val version: Long? = null,
 
-    ) {
+        ) {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

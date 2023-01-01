@@ -17,31 +17,31 @@ class WebRegFactory {
      * Returns a new entity.
      */
     fun build(
-        id: UUID = UUID.randomUUID(),
-        cases: List<WebReg.Case> = listOf(
-            WebReg.Case(
-                expected = URL("http://127.0.0.1:8081"),
-                actual = URL("http://127.0.0.1:8081"),
+            id: UUID = UUID.randomUUID(),
+            cases: List<WebReg.Case> = listOf(
+                    WebReg.Case(
+                            expected = URL("http://127.0.0.1:8081"),
+                            actual = URL("http://127.0.0.1:8081"),
+                    ),
             ),
-        ),
-        result: ByteArray? = null,
-        state: WebReg.State = WebReg.State.Ready,
-        startedDate: LocalDateTime? = null,
-        completedDate: LocalDateTime? = null,
-        failedDate: LocalDateTime? = null,
-        createdDate: LocalDateTime = now(),
-        lastModifiedDate: LocalDateTime = createdDate,
+            result: ByteArray? = null,
+            state: WebReg.State = WebReg.State.Ready,
+            startedDate: LocalDateTime? = null,
+            completedDate: LocalDateTime? = null,
+            failedDate: LocalDateTime? = null,
+            createdDate: LocalDateTime = now(),
+            lastModifiedDate: LocalDateTime = createdDate,
     ): WebReg {
         return WebReg(
-            id = id,
-            cases = cases,
-            result = result,
-            state = state,
-            startedDate = startedDate,
-            completedDate = completedDate,
-            failedDate = failedDate,
-            createdDate = createdDate,
-            lastModifiedDate = lastModifiedDate,
+                id = id,
+                cases = cases,
+                result = result,
+                state = state,
+                startedDate = startedDate,
+                completedDate = completedDate,
+                failedDate = failedDate,
+                createdDate = createdDate,
+                lastModifiedDate = lastModifiedDate,
         )
     }
 
@@ -49,25 +49,25 @@ class WebRegFactory {
      * Returns a modified entity based on a given entity.
      */
     fun modify(
-        entity: WebReg,
-        cases: List<WebReg.Case> = entity.cases,
-        result: ByteArray? = entity.result,
-        state: WebReg.State = entity.state,
-        startedDate: LocalDateTime? = entity.startedDate,
-        completedDate: LocalDateTime? = entity.completedDate,
-        failedDate: LocalDateTime? = entity.failedDate,
-        createdDate: LocalDateTime = entity.createdDate,
-        lastModifiedDate: LocalDateTime = now(),
+            entity: WebReg,
+            cases: List<WebReg.Case> = entity.cases,
+            result: ByteArray? = entity.result,
+            state: WebReg.State = entity.state,
+            startedDate: LocalDateTime? = entity.startedDate,
+            completedDate: LocalDateTime? = entity.completedDate,
+            failedDate: LocalDateTime? = entity.failedDate,
+            createdDate: LocalDateTime = entity.createdDate,
+            lastModifiedDate: LocalDateTime = now(),
     ): WebReg {
         return entity.copy(
-            cases = cases,
-            result = result,
-            state = state,
-            startedDate = startedDate,
-            completedDate = completedDate,
-            failedDate = failedDate,
-            createdDate = createdDate,
-            lastModifiedDate = lastModifiedDate,
+                cases = cases,
+                result = result,
+                state = state,
+                startedDate = startedDate,
+                completedDate = completedDate,
+                failedDate = failedDate,
+                createdDate = createdDate,
+                lastModifiedDate = lastModifiedDate,
         )
     }
 

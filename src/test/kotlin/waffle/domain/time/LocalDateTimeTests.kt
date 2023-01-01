@@ -11,7 +11,7 @@ class LocalDateTimeTests {
     @Test
     fun now_returns_LocalDateTime_with_a_microseconds_precision() {
         val a: LocalDateTime = LocalDateTime.now()
-            .let { it.minusNanos(it.nano % 1000L) }
+                .let { it.minusNanos(it.nano % 1000L) }
         val b: LocalDateTime = now()
         val c: LocalDateTime = LocalDateTime.now()
 

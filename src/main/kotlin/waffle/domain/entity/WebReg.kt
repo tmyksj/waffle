@@ -10,52 +10,52 @@ import java.util.*
  */
 data class WebReg(
 
-    /**
-     * ID.
-     */
-    val id: UUID = UUID.randomUUID(),
+        /**
+         * ID.
+         */
+        val id: UUID = UUID.randomUUID(),
 
-    /**
-     * Test cases.
-     */
-    val cases: List<Case> = listOf(),
+        /**
+         * Test cases.
+         */
+        val cases: List<Case> = listOf(),
 
-    /**
-     * Test result.
-     */
-    val result: ByteArray? = null,
+        /**
+         * Test result.
+         */
+        val result: ByteArray? = null,
 
-    /**
-     * State.
-     */
-    val state: State = State.Ready,
+        /**
+         * State.
+         */
+        val state: State = State.Ready,
 
-    /**
-     * Date that the test was started.
-     */
-    val startedDate: LocalDateTime? = null,
+        /**
+         * Date that the test was started.
+         */
+        val startedDate: LocalDateTime? = null,
 
-    /**
-     * Date that the test was completed.
-     */
-    val completedDate: LocalDateTime? = null,
+        /**
+         * Date that the test was completed.
+         */
+        val completedDate: LocalDateTime? = null,
 
-    /**
-     * Date that the test was failed.
-     */
-    val failedDate: LocalDateTime? = null,
+        /**
+         * Date that the test was failed.
+         */
+        val failedDate: LocalDateTime? = null,
 
-    /**
-     * Date that the entity was created.
-     */
-    val createdDate: LocalDateTime = now(),
+        /**
+         * Date that the entity was created.
+         */
+        val createdDate: LocalDateTime = now(),
 
-    /**
-     * Date that the entity was recently modified.
-     */
-    val lastModifiedDate: LocalDateTime = createdDate,
+        /**
+         * Date that the entity was recently modified.
+         */
+        val lastModifiedDate: LocalDateTime = createdDate,
 
-    ) {
+        ) {
 
     /**
      * The transition to the state "Started".
@@ -63,8 +63,8 @@ data class WebReg(
      */
     fun start(): WebReg {
         return copy(
-            state = State.Started,
-            lastModifiedDate = now(),
+                state = State.Started,
+                lastModifiedDate = now(),
         )
     }
 
@@ -75,9 +75,9 @@ data class WebReg(
      */
     fun complete(result: ByteArray): WebReg {
         return copy(
-            result = result,
-            state = State.Completed,
-            lastModifiedDate = now(),
+                result = result,
+                state = State.Completed,
+                lastModifiedDate = now(),
         )
     }
 
@@ -87,8 +87,8 @@ data class WebReg(
      */
     fun fail(): WebReg {
         return copy(
-            state = State.Failed,
-            lastModifiedDate = now(),
+                state = State.Failed,
+                lastModifiedDate = now(),
         )
     }
 
@@ -97,17 +97,17 @@ data class WebReg(
      */
     data class Case(
 
-        /**
-         * URL for expected page.
-         */
-        val expected: URL,
+            /**
+             * URL for expected page.
+             */
+            val expected: URL,
 
-        /**
-         * URL for actual page.
-         */
-        val actual: URL,
+            /**
+             * URL for actual page.
+             */
+            val actual: URL,
 
-        )
+            )
 
     /**
      * WebReg state.
