@@ -13,7 +13,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import waffle.domain.entity.WebReg
 import waffle.domain.repository.WebRegRepository
 import waffle.test.factory.WebRegFactory
+import java.io.ByteArrayOutputStream
 import java.util.*
+import java.util.zip.ZipOutputStream
 
 @AutoConfigureMockMvc
 @SpringBootTest
@@ -118,6 +120,47 @@ class WebRegControllerTests {
     fun details_responds_NotFound_when_params_are_invalid() {
         val resultActions: ResultActions = mockMvc.perform(
                 MockMvcRequestBuilders.get("/WebReg/INVALID_ID"),
+        )
+
+        resultActions.andExpect(MockMvcResultMatchers.status().isNotFound)
+    }
+
+    @Test
+    fun result_responds_Ok_when_the_WebReg_and_its_result_exist() {
+        val result: ByteArray = ByteArrayOutputStream().apply { use { ZipOutputStream(it) } }.toByteArray()
+        val entity: WebReg = webRegRepository.save(webRegFactory.build(result = result))
+
+        val resultActions: ResultActions = mockMvc.perform(
+                MockMvcRequestBuilders.get("/WebReg/${entity.id}/Result"),
+        )
+
+        resultActions.andExpect(MockMvcResultMatchers.status().isOk)
+    }
+
+    @Test
+    fun result_responds_NotFound_when_the_result_doesnt_exist() {
+        val entity: WebReg = webRegRepository.save(webRegFactory.build(result = null))
+
+        val resultActions: ResultActions = mockMvc.perform(
+                MockMvcRequestBuilders.get("/WebReg/${entity.id}/Result"),
+        )
+
+        resultActions.andExpect(MockMvcResultMatchers.status().isNotFound)
+    }
+
+    @Test
+    fun result_responds_NotFound_when_the_WebReg_doesnt_exist() {
+        val resultActions: ResultActions = mockMvc.perform(
+                MockMvcRequestBuilders.get("/WebReg/${UUID.randomUUID()}/Result"),
+        )
+
+        resultActions.andExpect(MockMvcResultMatchers.status().isNotFound)
+    }
+
+    @Test
+    fun result_responds_NotFound_when_params_are_invalid() {
+        val resultActions: ResultActions = mockMvc.perform(
+                MockMvcRequestBuilders.get("/WebReg/INVALID_ID/Result"),
         )
 
         resultActions.andExpect(MockMvcResultMatchers.status().isNotFound)

@@ -1,6 +1,7 @@
 package waffle.web.controller
 
 import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.validation.BindingResult
 import org.springframework.validation.annotation.Validated
@@ -12,6 +13,7 @@ import waffle.usecase.command.WebRegCommand
 import waffle.usecase.query.WebRegQuery
 import waffle.web.form.webreg.CreateForm
 import waffle.web.form.webreg.DetailsForm
+import waffle.web.form.webreg.ResultForm
 import java.net.URL
 
 /**
@@ -104,6 +106,32 @@ class WebRegController(
                 status = HttpStatus.OK
                 viewName = "WebReg/details"
             }
+        } else {
+            throw ResponseStatusException(HttpStatus.NOT_FOUND)
+        }
+    }
+
+    /**
+     * GET: /WebReg/{id}/Result
+     *
+     * Responds a result by its id or responds HTTP status 404 if none found.
+     */
+    @RequestMapping(method = [RequestMethod.GET], path = ["/WebReg/{id}/Result"])
+    fun result(
+            @Validated resultForm: ResultForm,
+            bindingResult: BindingResult,
+    ): Any {
+        if (bindingResult.hasErrors()) {
+            throw ResponseStatusException(HttpStatus.NOT_FOUND)
+        }
+
+        val response: WebRegQuery.ResultResponse = webRegQuery.result(
+                id = resultForm.id,
+        )
+
+        if (response is WebRegQuery.ResultResponse.Ok) {
+            return ResponseEntity.ok()
+                    .body(response.result)
         } else {
             throw ResponseStatusException(HttpStatus.NOT_FOUND)
         }
