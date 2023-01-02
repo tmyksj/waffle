@@ -18,7 +18,7 @@ class BrowserComponentImpl : BrowserComponent {
             height: Int?,
     ): ByteArray {
         return ChromeDriver(ChromeOptions().setHeadless(true)).run {
-            Closeable { close() }.use {
+            Closeable { quit() }.use {
                 manage().window().size =
                         Dimension(width ?: BrowserComponent.DEFAULT_WIDTH, height ?: BrowserComponent.DEFAULT_HEIGHT)
 
