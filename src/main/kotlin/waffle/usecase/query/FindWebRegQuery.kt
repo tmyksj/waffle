@@ -14,28 +14,28 @@ interface FindWebRegQuery {
      * @return
      */
     fun execute(
-            id: UUID,
+        id: UUID,
     ): Response
 
     interface Response {
 
         data class Ok(
 
-                /**
-                 * WebReg.
-                 */
-                val webReg: WebReg,
+            /**
+             * WebReg.
+             */
+            val webReg: WebReg,
 
-                ) : Response
+            ) : Response
 
         data class Error(
 
-                /**
-                 * True if WebReg is not found.
-                 */
-                val isNotFound: Boolean = false,
+            /**
+             * True if WebReg is not found.
+             */
+            val isNotFound: Boolean = false,
 
-                ) : Response
+            ) : Response
 
     }
 

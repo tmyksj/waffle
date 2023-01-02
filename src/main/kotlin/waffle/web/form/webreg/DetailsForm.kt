@@ -7,9 +7,9 @@ import java.util.*
  */
 data class DetailsForm(
 
-        /**
-         * WebReg ID.
-         */
-        val id: UUID = UUID.randomUUID(),
+    /**
+     * WebReg ID.
+     */
+    val id: UUID = UUID.randomUUID(),
 
-        )
+    )

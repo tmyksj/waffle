@@ -21,12 +21,12 @@ class CreateWebRegCommandTests {
     @Test
     fun execute_returns_Ok() {
         val response: CreateWebRegCommand.Response = createWebRegCommand.execute(
-                webRegCases = listOf(
-                        CreateWebRegCommand.WebRegCase(
-                                expected = URL("http://127.0.0.1:8081"),
-                                actual = URL("http://127.0.0.1:8081"),
-                        ),
+            webRegCases = listOf(
+                CreateWebRegCommand.WebRegCase(
+                    expected = URL("http://127.0.0.1:8081"),
+                    actual = URL("http://127.0.0.1:8081"),
                 ),
+            ),
         )
 
         Assertions.assertThat(response).isInstanceOf(CreateWebRegCommand.Response.Ok::class.java)
@@ -36,12 +36,12 @@ class CreateWebRegCommandTests {
             it.assertThat(response.webReg).isEqualTo(webRegRepository.findById(response.webReg.id))
 
             it.assertThat(response.webReg.cases).isEqualTo(
-                    listOf(
-                            WebReg.Case(
-                                    expected = URL("http://127.0.0.1:8081"),
-                                    actual = URL("http://127.0.0.1:8081"),
-                            ),
+                listOf(
+                    WebReg.Case(
+                        expected = URL("http://127.0.0.1:8081"),
+                        actual = URL("http://127.0.0.1:8081"),
                     ),
+                ),
             )
             it.assertThat(response.webReg.result).isNull()
             it.assertThat(response.webReg.state).isEqualTo(WebReg.State.Ready)

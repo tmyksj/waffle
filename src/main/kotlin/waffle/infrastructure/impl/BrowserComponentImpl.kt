@@ -13,14 +13,14 @@ import java.net.URL
 class BrowserComponentImpl : BrowserComponent {
 
     override fun captureScreenshot(
-            url: URL,
-            width: Int?,
-            height: Int?,
+        url: URL,
+        width: Int?,
+        height: Int?,
     ): ByteArray {
         return ChromeDriver(ChromeOptions().setHeadless(true)).run {
             Closeable { quit() }.use {
                 manage().window().size =
-                        Dimension(width ?: BrowserComponent.DEFAULT_WIDTH, height ?: BrowserComponent.DEFAULT_HEIGHT)
+                    Dimension(width ?: BrowserComponent.DEFAULT_WIDTH, height ?: BrowserComponent.DEFAULT_HEIGHT)
 
                 get(url.toString())
 
@@ -28,7 +28,7 @@ class BrowserComponentImpl : BrowserComponent {
                 check(scrollHeight is Number)
 
                 manage().window().size =
-                        Dimension(width ?: BrowserComponent.DEFAULT_WIDTH, height ?: scrollHeight.toInt())
+                    Dimension(width ?: BrowserComponent.DEFAULT_WIDTH, height ?: scrollHeight.toInt())
 
                 getScreenshotAs(OutputType.BYTES)
             }

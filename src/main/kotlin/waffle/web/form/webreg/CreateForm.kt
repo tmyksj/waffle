@@ -9,32 +9,32 @@ import jakarta.validation.constraints.Pattern
  */
 data class CreateForm(
 
-        /**
-         * Test cases.
-         */
-        @field:NotEmpty
-        @field:Valid
-        val cases: List<WebRegCase> = mutableListOf(),
+    /**
+     * Test cases.
+     */
+    @field:NotEmpty
+    @field:Valid
+    val cases: List<WebRegCase> = mutableListOf(),
 
-        ) {
+    ) {
 
     /**
      * Test case.
      */
     data class WebRegCase(
 
-            /**
-             * URL for expected page.
-             */
-            @field:Pattern(regexp = "^https?://.+$")
-            var expected: String = "",
+        /**
+         * URL for expected page.
+         */
+        @field:Pattern(regexp = "^https?://.+$")
+        var expected: String = "",
 
-            /**
-             * URL for actual page.
-             */
-            @field:Pattern(regexp = "^https?://.+$")
-            var actual: String = "",
+        /**
+         * URL for actual page.
+         */
+        @field:Pattern(regexp = "^https?://.+$")
+        var actual: String = "",
 
-            )
+        )
 
 }

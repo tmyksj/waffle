@@ -19,7 +19,7 @@ class HomeControllerTests {
     @Test
     fun index_responds_Ok() {
         val resultActions: ResultActions = mockMvc.perform(
-                MockMvcRequestBuilders.get("/Home"),
+            MockMvcRequestBuilders.get("/Home"),
         )
 
         resultActions.andExpect(MockMvcResultMatchers.status().isOk)

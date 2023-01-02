@@ -10,19 +10,19 @@ import java.util.*
 @Component
 @Transactional
 class FindWebRegQueryImpl(
-        private val webRegRepository: WebRegRepository,
+    private val webRegRepository: WebRegRepository,
 ) : FindWebRegQuery {
 
     override fun execute(
-            id: UUID,
+        id: UUID,
     ): FindWebRegQuery.Response {
         val entity: WebReg = webRegRepository.findById(id)
-                ?: return FindWebRegQuery.Response.Error(
-                        isNotFound = true,
-                )
+            ?: return FindWebRegQuery.Response.Error(
+                isNotFound = true,
+            )
 
         return FindWebRegQuery.Response.Ok(
-                webReg = entity,
+            webReg = entity,
         )
     }
 

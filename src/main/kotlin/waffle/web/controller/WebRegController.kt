@@ -21,8 +21,8 @@ import java.net.URL
  */
 @Controller
 class WebRegController(
-        private val createWebRegCommand: CreateWebRegCommand,
-        private val findWebRegQuery: FindWebRegQuery,
+    private val createWebRegCommand: CreateWebRegCommand,
+    private val findWebRegQuery: FindWebRegQuery,
 ) {
 
     /**
@@ -32,7 +32,7 @@ class WebRegController(
      */
     @RequestMapping(method = [RequestMethod.GET], path = ["/WebReg"])
     fun index(
-            createForm: CreateForm,
+        createForm: CreateForm,
     ): Any {
         return ModelAndView().apply {
             addObject("createForm", createForm.copy(cases = listOf(CreateForm.WebRegCase())))
@@ -49,8 +49,8 @@ class WebRegController(
      */
     @RequestMapping(method = [RequestMethod.POST], path = ["/WebReg"])
     fun create(
-            @Validated createForm: CreateForm,
-            bindingResult: BindingResult,
+        @Validated createForm: CreateForm,
+        bindingResult: BindingResult,
     ): Any {
         if (bindingResult.hasErrors()) {
             return ModelAndView().apply {
@@ -60,12 +60,12 @@ class WebRegController(
         }
 
         val response: CreateWebRegCommand.Response = createWebRegCommand.execute(
-                webRegCases = createForm.cases.map {
-                    CreateWebRegCommand.WebRegCase(
-                            expected = URL(it.expected),
-                            actual = URL(it.actual),
-                    )
-                },
+            webRegCases = createForm.cases.map {
+                CreateWebRegCommand.WebRegCase(
+                    expected = URL(it.expected),
+                    actual = URL(it.actual),
+                )
+            },
         )
 
         return if (response is CreateWebRegCommand.Response.Ok) {
@@ -88,15 +88,15 @@ class WebRegController(
      */
     @RequestMapping(method = [RequestMethod.GET], path = ["/WebReg/{id}"])
     fun details(
-            @Validated detailsForm: DetailsForm,
-            bindingResult: BindingResult,
+        @Validated detailsForm: DetailsForm,
+        bindingResult: BindingResult,
     ): Any {
         if (bindingResult.hasErrors()) {
             throw ResponseStatusException(HttpStatus.NOT_FOUND)
         }
 
         val response: FindWebRegQuery.Response = findWebRegQuery.execute(
-                id = detailsForm.id,
+            id = detailsForm.id,
         )
 
         return if (response is FindWebRegQuery.Response.Ok) {
@@ -118,20 +118,20 @@ class WebRegController(
      */
     @RequestMapping(method = [RequestMethod.GET], path = ["/WebReg/{id}/Result"])
     fun result(
-            @Validated resultForm: ResultForm,
-            bindingResult: BindingResult,
+        @Validated resultForm: ResultForm,
+        bindingResult: BindingResult,
     ): Any {
         if (bindingResult.hasErrors()) {
             throw ResponseStatusException(HttpStatus.NOT_FOUND)
         }
 
         val response: FindWebRegQuery.Response = findWebRegQuery.execute(
-                id = resultForm.id,
+            id = resultForm.id,
         )
 
         if (response is FindWebRegQuery.Response.Ok) {
             val result: ByteArray = response.webReg.result
-                    ?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
+                ?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
 
             return ResponseEntity.ok().body(result)
         } else {

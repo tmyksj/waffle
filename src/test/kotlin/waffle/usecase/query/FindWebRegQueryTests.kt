@@ -30,7 +30,7 @@ class FindWebRegQueryTests {
         val entity: WebReg = webRegRepository.save(webRegFactory.build(result = result))
 
         val response: FindWebRegQuery.Response = findWebRegQuery.execute(
-                id = entity.id,
+            id = entity.id,
         )
 
         Assertions.assertThat(response).isInstanceOf(FindWebRegQuery.Response.Ok::class.java)
@@ -44,7 +44,7 @@ class FindWebRegQueryTests {
     @Test
     fun execute_returns_Error_when_the_WebReg_doesnt_exist() {
         val response: FindWebRegQuery.Response = findWebRegQuery.execute(
-                id = UUID.randomUUID(),
+            id = UUID.randomUUID(),
         )
 
         Assertions.assertThat(response).isInstanceOf(FindWebRegQuery.Response.Error::class.java)

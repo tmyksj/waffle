@@ -11,29 +11,29 @@ import kotlin.io.path.*
 
 @Component
 class ReportingComponentImpl(
-        private val contentTypeComponent: ContentTypeComponent,
+    private val contentTypeComponent: ContentTypeComponent,
 ) : ReportingComponent {
 
     @OptIn(ExperimentalPathApi::class)
     override fun compareImages(a: List<ByteArray>, b: List<ByteArray>): ByteArray {
         val extMap: Map<String, String> = mapOf(
-                "image/jpeg" to "jpg",
-                "image/png" to "png",
+            "image/jpeg" to "jpg",
+            "image/png" to "png",
         )
 
         return createTempDirectory().run {
             path("regconfig.json").writeText(
-                    """
-                        {
-                            "core": {
-                                "actualDir": "actual",
-                                "workingDir": ".reg",
-                                "ximgdiff": {
-                                    "invocationType": "none"
-                                }
+                """
+                    {
+                        "core": {
+                            "actualDir": "actual",
+                            "workingDir": ".reg",
+                            "ximgdiff": {
+                                "invocationType": "none"
                             }
                         }
-                    """.trimIndent(),
+                    }
+                """.trimIndent(),
             )
 
             path(".reg", "expected").createDirectories()
@@ -49,9 +49,9 @@ class ReportingComponentImpl(
             }
 
             ProcessBuilder("reg-suit", "--config", "regconfig.json", "compare")
-                    .directory(toFile())
-                    .start()
-                    .waitFor()
+                .directory(toFile())
+                .start()
+                .waitFor()
 
             ZipOutputStream(FileOutputStream(path(".reg.zip").toFile())).use { zipOutputStream ->
                 val startIndex: Int = path(".reg").toString().length

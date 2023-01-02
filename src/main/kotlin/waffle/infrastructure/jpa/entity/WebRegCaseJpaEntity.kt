@@ -11,32 +11,32 @@ import java.io.Serializable
 @EntityListeners(AuditingEntityListener::class)
 data class WebRegCaseJpaEntity(
 
-        /**
-         * ID.
-         */
-        @field:EmbeddedId
-        val id: Id = Id(),
+    /**
+     * ID.
+     */
+    @field:EmbeddedId
+    val id: Id = Id(),
 
-        /**
-         * URL for expected page.
-         */
-        val expected: String = "",
+    /**
+     * URL for expected page.
+     */
+    val expected: String = "",
 
-        /**
-         * URL for actual page.
-         */
-        val actual: String = "",
+    /**
+     * URL for actual page.
+     */
+    val actual: String = "",
 
-        ) {
+    ) {
 
     @Embeddable
     data class Id(
 
-            @field:Column(name = "wf_web_reg_id")
-            val webRegId: String = "",
+        @field:Column(name = "wf_web_reg_id")
+        val webRegId: String = "",
 
-            val id: Long = 0,
+        val id: Long = 0,
 
-            ) : Serializable
+        ) : Serializable
 
 }

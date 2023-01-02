@@ -33,64 +33,64 @@ class WebRegControllerTests {
     @Test
     fun index_responds_Ok() {
         val resultActions: ResultActions = mockMvc.perform(
-                MockMvcRequestBuilders.get("/WebReg"),
+            MockMvcRequestBuilders.get("/WebReg"),
         )
 
         resultActions.andExpect(MockMvcResultMatchers.status().isOk)
     }
 
     @CsvSource(
-            textBlock = """
-                http://127.0.0.1, ,                 http://127.0.0.1, ,
-                http://127.0.0.1, http://127.0.0.1, http://127.0.0.1, http://127.0.0.1,""",
+        textBlock = """
+            http://127.0.0.1, ,                 http://127.0.0.1, ,
+            http://127.0.0.1, http://127.0.0.1, http://127.0.0.1, http://127.0.0.1,""",
     )
     @ParameterizedTest
     fun create_responds_SeeOther_when_params_are_valid(
-            expected0: String?,
-            expected1: String?,
-            actual0: String?,
-            actual1: String?,
+        expected0: String?,
+        expected1: String?,
+        actual0: String?,
+        actual1: String?,
     ) {
         val resultActions: ResultActions = mockMvc.perform(
-                MockMvcRequestBuilders.post("/WebReg")
-                        .apply { expected0?.let { param("cases[0].expected", it) } }
-                        .apply { expected1?.let { param("cases[1].expected", it) } }
-                        .apply { actual0?.let { param("cases[0].actual", it) } }
-                        .apply { actual1?.let { param("cases[1].actual", it) } },
+            MockMvcRequestBuilders.post("/WebReg")
+                .apply { expected0?.let { param("cases[0].expected", it) } }
+                .apply { expected1?.let { param("cases[1].expected", it) } }
+                .apply { actual0?.let { param("cases[0].actual", it) } }
+                .apply { actual1?.let { param("cases[1].actual", it) } },
         )
 
         resultActions.andExpect(MockMvcResultMatchers.status().isSeeOther)
-                .andExpect(MockMvcResultMatchers.redirectedUrlPattern("/WebReg/*"))
+            .andExpect(MockMvcResultMatchers.redirectedUrlPattern("/WebReg/*"))
     }
 
     @CsvSource(
-            textBlock = """
-                ,                 ,                 ,                 ,    
-                '',               ,                 '',               ,    
-                http://127.0.0.1, ,                 ,                 ,    
-                ,                 ,                 http://127.0.0.1, ,    
-                http://127.0.0.1, ,                 '',               ,    
-                '',               ,                 http://127.0.0.1, ,    
-                http://127.0.0.1, ,                 INVALID_URL,      ,    
-                INVALID_URL,      ,                 http://127.0.0.1, ,    
-                http://127.0.0.1, http://127.0.0.1, http://127.0.0.1, ,    
-                http://127.0.0.1, ,                 http://127.0.0.1, http://127.0.0.1,
-                http://127.0.0.1, http://127.0.0.1, http://127.0.0.1, '',
-                http://127.0.0.1, '',               http://127.0.0.1, http://127.0.0.1,""",
+        textBlock = """
+            ,                 ,                 ,                 ,    
+            '',               ,                 '',               ,    
+            http://127.0.0.1, ,                 ,                 ,    
+            ,                 ,                 http://127.0.0.1, ,    
+            http://127.0.0.1, ,                 '',               ,    
+            '',               ,                 http://127.0.0.1, ,    
+            http://127.0.0.1, ,                 INVALID_URL,      ,    
+            INVALID_URL,      ,                 http://127.0.0.1, ,    
+            http://127.0.0.1, http://127.0.0.1, http://127.0.0.1, ,    
+            http://127.0.0.1, ,                 http://127.0.0.1, http://127.0.0.1,
+            http://127.0.0.1, http://127.0.0.1, http://127.0.0.1, '',
+            http://127.0.0.1, '',               http://127.0.0.1, http://127.0.0.1,""",
     )
     @ParameterizedTest
     fun create_responds_BadRequest_when_params_are_invalid(
-            expected0: String?,
-            expected1: String?,
-            actual0: String?,
-            actual1: String?,
+        expected0: String?,
+        expected1: String?,
+        actual0: String?,
+        actual1: String?,
     ) {
         val resultActions: ResultActions = mockMvc.perform(
-                MockMvcRequestBuilders.post("/WebReg")
-                        .apply { expected0?.let { param("cases[0].expected", it) } }
-                        .apply { expected1?.let { param("cases[1].expected", it) } }
-                        .apply { actual0?.let { param("cases[0].actual", it) } }
-                        .apply { actual1?.let { param("cases[1].actual", it) } },
+            MockMvcRequestBuilders.post("/WebReg")
+                .apply { expected0?.let { param("cases[0].expected", it) } }
+                .apply { expected1?.let { param("cases[1].expected", it) } }
+                .apply { actual0?.let { param("cases[0].actual", it) } }
+                .apply { actual1?.let { param("cases[1].actual", it) } },
         )
 
         resultActions.andExpect(MockMvcResultMatchers.status().isBadRequest)
@@ -101,7 +101,7 @@ class WebRegControllerTests {
         val entity: WebReg = webRegRepository.save(webRegFactory.build())
 
         val resultActions: ResultActions = mockMvc.perform(
-                MockMvcRequestBuilders.get("/WebReg/${entity.id}"),
+            MockMvcRequestBuilders.get("/WebReg/${entity.id}"),
         )
 
         resultActions.andExpect(MockMvcResultMatchers.status().isOk)
@@ -110,7 +110,7 @@ class WebRegControllerTests {
     @Test
     fun details_responds_NotFound_when_the_WebReg_doesnt_exist() {
         val resultActions: ResultActions = mockMvc.perform(
-                MockMvcRequestBuilders.get("/WebReg/${UUID.randomUUID()}"),
+            MockMvcRequestBuilders.get("/WebReg/${UUID.randomUUID()}"),
         )
 
         resultActions.andExpect(MockMvcResultMatchers.status().isNotFound)
@@ -119,7 +119,7 @@ class WebRegControllerTests {
     @Test
     fun details_responds_NotFound_when_params_are_invalid() {
         val resultActions: ResultActions = mockMvc.perform(
-                MockMvcRequestBuilders.get("/WebReg/INVALID_ID"),
+            MockMvcRequestBuilders.get("/WebReg/INVALID_ID"),
         )
 
         resultActions.andExpect(MockMvcResultMatchers.status().isNotFound)
@@ -131,7 +131,7 @@ class WebRegControllerTests {
         val entity: WebReg = webRegRepository.save(webRegFactory.build(result = result))
 
         val resultActions: ResultActions = mockMvc.perform(
-                MockMvcRequestBuilders.get("/WebReg/${entity.id}/Result"),
+            MockMvcRequestBuilders.get("/WebReg/${entity.id}/Result"),
         )
 
         resultActions.andExpect(MockMvcResultMatchers.status().isOk)
@@ -142,7 +142,7 @@ class WebRegControllerTests {
         val entity: WebReg = webRegRepository.save(webRegFactory.build(result = null))
 
         val resultActions: ResultActions = mockMvc.perform(
-                MockMvcRequestBuilders.get("/WebReg/${entity.id}/Result"),
+            MockMvcRequestBuilders.get("/WebReg/${entity.id}/Result"),
         )
 
         resultActions.andExpect(MockMvcResultMatchers.status().isNotFound)
@@ -151,7 +151,7 @@ class WebRegControllerTests {
     @Test
     fun result_responds_NotFound_when_the_WebReg_doesnt_exist() {
         val resultActions: ResultActions = mockMvc.perform(
-                MockMvcRequestBuilders.get("/WebReg/${UUID.randomUUID()}/Result"),
+            MockMvcRequestBuilders.get("/WebReg/${UUID.randomUUID()}/Result"),
         )
 
         resultActions.andExpect(MockMvcResultMatchers.status().isNotFound)
@@ -160,7 +160,7 @@ class WebRegControllerTests {
     @Test
     fun result_responds_NotFound_when_params_are_invalid() {
         val resultActions: ResultActions = mockMvc.perform(
-                MockMvcRequestBuilders.get("/WebReg/INVALID_ID/Result"),
+            MockMvcRequestBuilders.get("/WebReg/INVALID_ID/Result"),
         )
 
         resultActions.andExpect(MockMvcResultMatchers.status().isNotFound)

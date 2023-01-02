@@ -29,9 +29,9 @@ interface BrowserComponent {
      * @return the captured screenshot.
      */
     fun captureScreenshot(
-            url: URL,
-            width: Int? = null,
-            height: Int? = null,
+        url: URL,
+        width: Int? = null,
+        height: Int? = null,
     ): ByteArray
 
 }
