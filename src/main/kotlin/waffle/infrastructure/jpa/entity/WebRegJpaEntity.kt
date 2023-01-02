@@ -99,4 +99,5 @@ data class WebRegJpaEntity(
         result1 = 31 * result1 + (version?.hashCode() ?: 0)
         return result1
     }
+
 }
