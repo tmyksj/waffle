@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.servlet.ModelAndView
 import waffle.usecase.command.CreateWebRegCommand
-import waffle.usecase.query.WebRegQuery
+import waffle.usecase.query.FindWebRegQuery
 import waffle.web.form.webreg.CreateForm
 import waffle.web.form.webreg.DetailsForm
 import waffle.web.form.webreg.ResultForm
@@ -22,7 +22,7 @@ import java.net.URL
 @Controller
 class WebRegController(
         private val createWebRegCommand: CreateWebRegCommand,
-        private val webRegQuery: WebRegQuery,
+        private val findWebRegQuery: FindWebRegQuery,
 ) {
 
     /**
@@ -95,11 +95,11 @@ class WebRegController(
             throw ResponseStatusException(HttpStatus.NOT_FOUND)
         }
 
-        val response: WebRegQuery.DetailsResponse = webRegQuery.details(
+        val response: FindWebRegQuery.Response = findWebRegQuery.execute(
                 id = detailsForm.id,
         )
 
-        return if (response is WebRegQuery.DetailsResponse.Ok) {
+        return if (response is FindWebRegQuery.Response.Ok) {
             ModelAndView().apply {
                 addObject("webReg", response.webReg)
 
@@ -125,13 +125,15 @@ class WebRegController(
             throw ResponseStatusException(HttpStatus.NOT_FOUND)
         }
 
-        val response: WebRegQuery.ResultResponse = webRegQuery.result(
+        val response: FindWebRegQuery.Response = findWebRegQuery.execute(
                 id = resultForm.id,
         )
 
-        if (response is WebRegQuery.ResultResponse.Ok) {
-            return ResponseEntity.ok()
-                    .body(response.result)
+        if (response is FindWebRegQuery.Response.Ok) {
+            val result: ByteArray = response.webReg.result
+                    ?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
+
+            return ResponseEntity.ok().body(result)
         } else {
             throw ResponseStatusException(HttpStatus.NOT_FOUND)
         }
