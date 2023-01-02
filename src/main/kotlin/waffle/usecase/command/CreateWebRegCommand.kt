@@ -14,7 +14,7 @@ interface CreateWebRegCommand {
      * @return
      */
     fun execute(
-            webRegCases: List<WebRegCase>,
+        webRegCases: List<WebRegCase>,
     ): Response
 
     /**
@@ -22,28 +22,28 @@ interface CreateWebRegCommand {
      */
     data class WebRegCase(
 
-            /**
-             * URL for expected page.
-             */
-            val expected: URL,
+        /**
+         * URL for expected page.
+         */
+        val expected: URL,
 
-            /**
-             * URL for actual page.
-             */
-            val actual: URL,
+        /**
+         * URL for actual page.
+         */
+        val actual: URL,
 
-            )
+        )
 
     interface Response {
 
         data class Ok(
 
-                /**
-                 * WebReg.
-                 */
-                val webReg: WebReg,
+            /**
+             * WebReg.
+             */
+            val webReg: WebReg,
 
-                ) : Response
+            ) : Response
 
     }
 
