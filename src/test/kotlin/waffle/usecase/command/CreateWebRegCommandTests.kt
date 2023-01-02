@@ -19,7 +19,7 @@ class CreateWebRegCommandTests {
     private lateinit var createWebRegCommand: CreateWebRegCommand
 
     @Test
-    fun execute_responds_Ok() {
+    fun execute_returns_Ok() {
         val response: CreateWebRegCommand.Response = createWebRegCommand.execute(
                 webRegCases = listOf(
                         CreateWebRegCommand.WebRegCase(
