@@ -10,27 +10,27 @@ import waffle.domain.repository.WebRegRepository
 import java.net.URL
 
 @SpringBootTest
-class WebRegCommandTests {
+class CreateWebRegCommandTests {
 
     @Autowired
     private lateinit var webRegRepository: WebRegRepository
 
     @Autowired
-    private lateinit var webRegCommand: WebRegCommand
+    private lateinit var createWebRegCommand: CreateWebRegCommand
 
     @Test
-    fun create_responds_Ok() {
-        val response: WebRegCommand.CreateResponse = webRegCommand.create(
+    fun execute_responds_Ok() {
+        val response: CreateWebRegCommand.Response = createWebRegCommand.execute(
                 webRegCases = listOf(
-                        WebRegCommand.WebRegCase(
+                        CreateWebRegCommand.WebRegCase(
                                 expected = URL("http://127.0.0.1:8081"),
                                 actual = URL("http://127.0.0.1:8081"),
                         ),
                 ),
         )
 
-        Assertions.assertThat(response).isInstanceOf(WebRegCommand.CreateResponse.Ok::class.java)
-        check(response is WebRegCommand.CreateResponse.Ok)
+        Assertions.assertThat(response).isInstanceOf(CreateWebRegCommand.Response.Ok::class.java)
+        check(response is CreateWebRegCommand.Response.Ok)
 
         SoftAssertions.assertSoftly {
             it.assertThat(response.webReg).isEqualTo(webRegRepository.findById(response.webReg.id))

@@ -4,34 +4,18 @@ import waffle.domain.entity.WebReg
 import java.net.URL
 
 /**
- * Commands for WebReg.
+ * Creates a WebReg entity.
  */
-interface WebRegCommand {
+interface CreateWebRegCommand {
 
     /**
-     * Creates an entity.
+     * Executes a command with a given arguments.
      * @param webRegCases
      * @return
      */
-    fun create(
+    fun execute(
             webRegCases: List<WebRegCase>,
-    ): CreateResponse
-
-    /**
-     * Response for create.
-     */
-    interface CreateResponse {
-
-        data class Ok(
-
-                /**
-                 * WebReg.
-                 */
-                val webReg: WebReg,
-
-                ) : CreateResponse
-
-    }
+    ): Response
 
     /**
      * Test case.
@@ -49,5 +33,18 @@ interface WebRegCommand {
             val actual: URL,
 
             )
+
+    interface Response {
+
+        data class Ok(
+
+                /**
+                 * WebReg.
+                 */
+                val webReg: WebReg,
+
+                ) : Response
+
+    }
 
 }

@@ -4,17 +4,17 @@ import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import waffle.domain.entity.WebReg
 import waffle.domain.repository.WebRegRepository
-import waffle.usecase.command.WebRegCommand
+import waffle.usecase.command.CreateWebRegCommand
 
 @Component
 @Transactional
-class WebRegCommandImpl(
+class CreateWebRegCommandImpl(
         private val webRegRepository: WebRegRepository,
-) : WebRegCommand {
+) : CreateWebRegCommand {
 
-    override fun create(
-            webRegCases: List<WebRegCommand.WebRegCase>,
-    ): WebRegCommand.CreateResponse {
+    override fun execute(
+            webRegCases: List<CreateWebRegCommand.WebRegCase>,
+    ): CreateWebRegCommand.Response {
         val entity: WebReg = webRegRepository.save(
                 WebReg(
                         cases = webRegCases.map {
@@ -26,7 +26,7 @@ class WebRegCommandImpl(
                 ),
         )
 
-        return WebRegCommand.CreateResponse.Ok(
+        return CreateWebRegCommand.Response.Ok(
                 webReg = entity,
         )
     }

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.servlet.ModelAndView
-import waffle.usecase.command.WebRegCommand
+import waffle.usecase.command.CreateWebRegCommand
 import waffle.usecase.query.WebRegQuery
 import waffle.web.form.webreg.CreateForm
 import waffle.web.form.webreg.DetailsForm
@@ -21,7 +21,7 @@ import java.net.URL
  */
 @Controller
 class WebRegController(
-        private val webRegCommand: WebRegCommand,
+        private val createWebRegCommand: CreateWebRegCommand,
         private val webRegQuery: WebRegQuery,
 ) {
 
@@ -59,16 +59,16 @@ class WebRegController(
             }
         }
 
-        val response: WebRegCommand.CreateResponse = webRegCommand.create(
+        val response: CreateWebRegCommand.Response = createWebRegCommand.execute(
                 webRegCases = createForm.cases.map {
-                    WebRegCommand.WebRegCase(
+                    CreateWebRegCommand.WebRegCase(
                             expected = URL(it.expected),
                             actual = URL(it.actual),
                     )
                 },
         )
 
-        return if (response is WebRegCommand.CreateResponse.Ok) {
+        return if (response is CreateWebRegCommand.Response.Ok) {
             ModelAndView().apply {
                 status = HttpStatus.SEE_OTHER
                 viewName = "redirect:/WebReg/${response.webReg.id}"
