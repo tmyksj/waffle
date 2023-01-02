@@ -12,7 +12,7 @@ import java.io.Serializable
 data class WebRegCaseJpaEntity(
 
         /**
-         * Id.
+         * ID.
          */
         @field:EmbeddedId
         val id: Id = Id(),
