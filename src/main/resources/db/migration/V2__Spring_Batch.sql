@@ -1,5 +1,5 @@
-# https://docs.spring.io/spring-batch/docs/current/reference/html/index-single.html#metaDataSchema
-# https://github.com/spring-projects/spring-batch/tree/main/spring-batch-core/src/main/resources/org/springframework/batch/core
+# https://docs.spring.io/spring-batch/docs/5.0.0/reference/html/index-single.html#metaDataSchema
+# https://github.com/spring-projects/spring-batch/tree/v5.0.0/spring-batch-core/src/main/resources/org/springframework/batch/core
 
 create sequence BATCH_STEP_EXECUTION_SEQ
     engine = InnoDB
