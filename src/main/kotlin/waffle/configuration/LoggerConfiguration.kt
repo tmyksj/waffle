@@ -1,4 +1,4 @@
-package waffle.configuration.bean
+package waffle.configuration
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Scope
 
 @Configuration
-class LoggerBean {
+class LoggerConfiguration {
 
     @Bean
     @Scope(value = "prototype")
