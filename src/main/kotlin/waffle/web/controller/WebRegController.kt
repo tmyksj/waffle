@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.servlet.ModelAndView
+import waffle.batch.launcher.WebRegLauncher
 import waffle.usecase.command.CreateWebRegCommand
 import waffle.usecase.query.FindWebRegQuery
 import waffle.web.form.webreg.CreateForm
@@ -21,6 +22,7 @@ import java.net.URL
  */
 @Controller
 class WebRegController(
+    private val webRegLauncher: WebRegLauncher,
     private val createWebRegCommand: CreateWebRegCommand,
     private val findWebRegQuery: FindWebRegQuery,
 ) {
@@ -69,6 +71,9 @@ class WebRegController(
         )
 
         return if (response is CreateWebRegCommand.Response.Ok) {
+            // Run a regression test after creating WebReg.
+            webRegLauncher.run(response.webReg)
+
             ModelAndView().apply {
                 status = HttpStatus.SEE_OTHER
                 viewName = "redirect:/WebReg/${response.webReg.id}"
