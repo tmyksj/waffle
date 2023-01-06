@@ -15,13 +15,13 @@ class HomeController {
     /**
      * GET: /Home
      *
-     * Render homepage.
+     * Redirects to `/WebReg`.
      */
     @RequestMapping(method = [RequestMethod.GET], path = ["/Home"])
     fun index(): Any {
         return ModelAndView().apply {
-            status = HttpStatus.OK
-            viewName = "Home/index"
+            status = HttpStatus.SEE_OTHER
+            viewName = "redirect:/WebReg"
         }
     }
 
