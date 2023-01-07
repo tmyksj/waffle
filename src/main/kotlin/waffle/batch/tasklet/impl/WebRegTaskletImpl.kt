@@ -5,6 +5,9 @@ import org.springframework.batch.core.StepContribution
 import org.springframework.batch.core.scope.context.ChunkContext
 import org.springframework.batch.repeat.RepeatStatus
 import org.springframework.stereotype.Component
+import org.springframework.transaction.PlatformTransactionManager
+import org.springframework.transaction.TransactionDefinition
+import org.springframework.transaction.support.TransactionTemplate
 import waffle.batch.tasklet.WebRegTasklet
 import waffle.component.BrowserComponent
 import waffle.component.ReportingComponent
@@ -14,6 +17,7 @@ import java.util.*
 
 @Component
 class WebRegTaskletImpl(
+    private val platformTransactionManager: PlatformTransactionManager,
     private val browserComponent: BrowserComponent,
     private val reportingComponent: ReportingComponent,
     private val webRegRepository: WebRegRepository,
@@ -24,10 +28,18 @@ class WebRegTaskletImpl(
 
         val id: UUID = UUID.fromString(jobParameters.getString(WebRegTasklet.Keys.Id.toString()))
 
-        val entity1: WebReg = webRegRepository.findById(id)
-            ?: return RepeatStatus.FINISHED
+        val transactionTemplate: TransactionTemplate = TransactionTemplate().apply {
+            propagationBehavior = TransactionDefinition.PROPAGATION_REQUIRES_NEW
+            transactionManager = platformTransactionManager
+        }
 
-        val entity2: WebReg = webRegRepository.save(entity1.start())
+        val entity1: WebReg = transactionTemplate.execute {
+            webRegRepository.findById(id)
+        } ?: return RepeatStatus.FINISHED
+
+        val entity2: WebReg = transactionTemplate.execute {
+            webRegRepository.save(entity1.start())
+        }.let { checkNotNull(it) }
 
         try {
             val a: List<ByteArray> = entity2.cases.map {
@@ -40,9 +52,13 @@ class WebRegTaskletImpl(
 
             val result: ByteArray = reportingComponent.compareImages(a, b)
 
-            webRegRepository.save(entity2.complete(result))
+            transactionTemplate.execute {
+                webRegRepository.save(entity2.complete(result))
+            }
         } catch (e: Exception) {
-            webRegRepository.save(entity2.fail())
+            transactionTemplate.execute {
+                webRegRepository.save(entity2.fail())
+            }
         }
 
         return RepeatStatus.FINISHED
