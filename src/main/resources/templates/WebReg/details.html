@@ -9,8 +9,31 @@
 <body>
 <th:block>
     <h1>WebReg</h1>
-    <div class="u_ta-r">
-        <a th:href="@{/WebReg/{id}/Result(id=${webReg.id})}">Download</a>
+    <div class="u_ai_c u_d-f u_jc-sb">
+        <div th:if="${webReg.state.toString()} == 'Ready'">
+            <div class="c_Box">
+                <span class="c_Status +Ready"></span> Ready
+            </div>
+        </div>
+        <div th:if="${webReg.state.toString()} == 'Started'">
+            <div class="c_Box">
+                <span class="c_Status +Started"></span> Started
+            </div>
+        </div>
+        <div th:if="${webReg.state.toString()} == 'Completed'">
+            <div class="c_Box">
+                <span class="c_Status +Completed"></span> Completed
+            </div>
+        </div>
+        <div th:if="${webReg.state.toString()} == 'Failed'">
+            <div class="c_Box">
+                <span class="c_Status +Failed"></span> Failed
+            </div>
+        </div>
+        <div th:if="${webReg.state.toString()} == 'Completed'">
+            <a class="c_Button"
+               th:href="@{/WebReg/{id}/Result(id=${webReg.id})}">Download</a>
+        </div>
     </div>
     <div class="c_Table">
         <table>
