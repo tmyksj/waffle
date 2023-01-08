@@ -37,8 +37,6 @@ class WebRegController(
         createForm: CreateForm,
     ): Any {
         return ModelAndView().apply {
-            addObject("createForm", createForm.copy(cases = listOf(CreateForm.WebRegCase())))
-
             status = HttpStatus.OK
             viewName = "WebReg/index"
         }

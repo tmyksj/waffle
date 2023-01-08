@@ -12,7 +12,8 @@
     <form method="post"
           th:action="@{/WebReg}"
           th:object="${createForm}">
-        <div class="c_Table">
+        <div class="c_Table"
+             id="form">
             <table>
                 <thead>
                 <tr>
@@ -21,33 +22,91 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="case, iterStat : *{cases}">
+                <tr v-for="(item, idx) in form.cases"
+                    :key="item.key">
                     <td>
                         <input aria-label="Expected URL"
                                class="c_Input"
-                               th:field="*{cases[__${iterStat.index}__].expected}"
-                               type="text">
-                        <p th:errors="*{cases[__${iterStat.index}__].expected}"></p>
+                               type="text"
+                               v-model="item.expected"
+                               :name="filter(idx, 'cases[' + idx + '].expected')"
+                               @focus="rearrange([idx])"
+                               @input="rearrange([idx])">
+                        <div v-for="err in errors['cases[' + idx + '].expected']">{{ err }}</div>
                     </td>
                     <td>
                         <input aria-label="Actual URL"
                                class="c_Input"
-                               th:field="*{cases[__${iterStat.index}__].actual}"
-                               type="text">
-                        <p th:errors="*{cases[__${iterStat.index}__].actual}"></p>
+                               type="text"
+                               v-model="item.actual"
+                               :name="filter(idx, 'cases[' + idx + '].actual')"
+                               @focus="rearrange([idx])"
+                               @input="rearrange([idx])">
+                        <div v-for="err in errors['cases[' + idx + '].actual']">{{ err }}</div>
                     </td>
                 </tr>
                 <tr>
                     <td></td>
                     <td class="u_ta-r">
                         <button class="c_Button"
-                                type="submit">Submit
+                                type="submit"
+                                @click="rearrange([])">Submit
                         </button>
                     </td>
                 </tr>
                 </tbody>
             </table>
         </div>
+        <script th:src="@{/Scripts/vue.global.js}"></script>
+        <script th:inline="javascript">
+            Vue.createApp({
+                data() {
+                    const keys = [
+                        "expected",
+                        "actual",
+                    ];
+
+                    const form = [[${createForm}]];
+                    form.cases.forEach((item) => {
+                        item.key = Math.random();
+                    });
+
+                    const errors = {};
+                    [# th:each="err : ${#fields.detailedErrors()}"]
+                        errors[ [[${err.fieldName}]] ] ||= [];
+                        errors[ [[${err.fieldName}]] ].push([[${err.message}]]);
+                    [/]
+
+                    return {
+                        keys: keys,
+                        form: form,
+                        errors: errors,
+                    };
+                },
+
+                methods: {
+                    filter(idx, value) {
+                        return idx === 0 || idx < this.form.cases.length - 1 ? value : null;
+                    },
+
+                    rearrange(idxes) {
+                        this.form.cases = this.form.cases.filter((item, idx) => {
+                            return idxes.includes(idx) || this.keys.some(key => item[key] !== "");
+                        });
+
+                        if (this.form.cases.length === 0
+                            || this.keys.some(key => this.form.cases[this.form.cases.length - 1][key] !== "")) {
+                            this.form.cases.push(Object.assign(
+                                { key: Math.random() }, Object.fromEntries(this.keys.map(key => [key, ""]))));
+                        }
+                    },
+                },
+
+                created() {
+                    this.rearrange(this.form.cases.map((_, idx) => idx));
+                },
+            }).mount("#form");
+        </script>
     </form>
 </th:block>
 </body>
