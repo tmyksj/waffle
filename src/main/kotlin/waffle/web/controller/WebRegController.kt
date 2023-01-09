@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.servlet.ModelAndView
 import waffle.batch.launcher.WebRegLauncher
+import waffle.component.ContentTypeComponent
 import waffle.usecase.command.CreateWebRegCommand
 import waffle.usecase.query.FindWebRegQuery
 import waffle.web.form.webreg.CreateForm
@@ -23,6 +24,7 @@ import java.net.URL
 @Controller
 class WebRegController(
     private val webRegLauncher: WebRegLauncher,
+    private val contentTypeComponent: ContentTypeComponent,
     private val createWebRegCommand: CreateWebRegCommand,
     private val findWebRegQuery: FindWebRegQuery,
 ) {
@@ -136,7 +138,13 @@ class WebRegController(
             val result: ByteArray = response.webReg.result
                 ?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
 
-            return ResponseEntity.ok().body(result)
+            val type: String = contentTypeComponent.guessType(result)
+            val extension: String = contentTypeComponent.guessExtension(result)
+
+            return ResponseEntity.ok()
+                .header("Content-Type", type)
+                .header("Content-Disposition", "attachment; filename=\"${response.webReg.id}${extension}\"")
+                .body(result)
         } else {
             throw ResponseStatusException(HttpStatus.NOT_FOUND)
         }
