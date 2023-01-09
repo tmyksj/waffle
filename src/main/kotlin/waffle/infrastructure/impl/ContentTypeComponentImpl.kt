@@ -1,14 +1,14 @@
-package waffle.component.impl
+package waffle.infrastructure.impl
 
+import org.apache.tika.Tika
 import org.springframework.stereotype.Component
 import waffle.component.ContentTypeComponent
-import java.net.URLConnection
 
 @Component
 class ContentTypeComponentImpl : ContentTypeComponent {
 
     override fun guess(byteArray: ByteArray): String? {
-        return URLConnection.guessContentTypeFromStream(byteArray.inputStream())
+        return Tika().detect(byteArray)
     }
 
 }
