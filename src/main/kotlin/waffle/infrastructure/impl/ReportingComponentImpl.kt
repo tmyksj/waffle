@@ -16,11 +16,6 @@ class ReportingComponentImpl(
 
     @OptIn(ExperimentalPathApi::class)
     override fun compareImages(a: List<ByteArray>, b: List<ByteArray>): ByteArray {
-        val extMap: Map<String, String> = mapOf(
-            "image/jpeg" to "jpg",
-            "image/png" to "png",
-        )
-
         return createTempDirectory().run {
             path("regconfig.json").writeText(
                 """
@@ -39,13 +34,13 @@ class ReportingComponentImpl(
             path(".reg", "expected").createDirectories()
 
             a.forEachIndexed { index, it ->
-                path(".reg", "expected", "${index + 1}.${extMap[contentTypeComponent.guess(it)] ?: ""}").writeBytes(it)
+                path(".reg", "expected", "${index + 1}${contentTypeComponent.guessExtension(it)}").writeBytes(it)
             }
 
             path("actual").createDirectories()
 
             b.forEachIndexed { index, it ->
-                path("actual", "${index + 1}.${extMap[contentTypeComponent.guess(it)] ?: ""}").writeBytes(it)
+                path("actual", "${index + 1}${contentTypeComponent.guessExtension(it)}").writeBytes(it)
             }
 
             ProcessBuilder("reg-suit", "--config", "regconfig.json", "compare")

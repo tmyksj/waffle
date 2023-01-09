@@ -15,15 +15,29 @@ class ContentTypeComponentTests {
 
     @CsvSource(
         textBlock = """
+            /Waffle_of_Japan_001.jpg, .jpg,
+            /Waffle_of_Japan_001.zip, .zip,""",
+    )
+    @ParameterizedTest
+    fun guessExtension_returns_an_extension(name: String, expected: String) {
+        val stream: InputStream = checkNotNull(javaClass.getResourceAsStream(name))
+        val bytes: ByteArray = stream.readAllBytes()
+
+        val actual: String = contentTypeComponent.guessExtension(bytes)
+        Assertions.assertThat(actual).isEqualTo(expected)
+    }
+
+    @CsvSource(
+        textBlock = """
             /Waffle_of_Japan_001.jpg, image/jpeg,
             /Waffle_of_Japan_001.zip, application/zip,""",
     )
     @ParameterizedTest
-    fun guess_returns_a_content_type(name: String, expected: String) {
+    fun guessType_returns_a_content_type(name: String, expected: String) {
         val stream: InputStream = checkNotNull(javaClass.getResourceAsStream(name))
         val bytes: ByteArray = stream.readAllBytes()
 
-        val actual: String? = contentTypeComponent.guess(bytes)
+        val actual: String = contentTypeComponent.guessType(bytes)
         Assertions.assertThat(actual).isEqualTo(expected)
     }
 
