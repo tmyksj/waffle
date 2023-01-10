@@ -107,6 +107,11 @@ p {
     padding: 0.5rem 1rem;
 }
 
+.c_Nav_Link {
+    color: #fff8e1;
+    text-decoration: none;
+}
+
 .c_Status.\+Completed {
     display: inline-block;
     height: 1rem;
