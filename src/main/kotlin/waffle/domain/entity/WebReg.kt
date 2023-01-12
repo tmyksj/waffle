@@ -133,12 +133,12 @@ data class WebReg(
     data class Case(
 
         /**
-         * URL for expected page.
+         * URL for an expected page.
          */
         val expected: URL,
 
         /**
-         * URL for actual page.
+         * URL for an actual page.
          */
         val actual: URL,
 

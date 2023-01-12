@@ -24,13 +24,13 @@ data class CreateForm(
     data class WebRegCase(
 
         /**
-         * URL for expected page.
+         * URL for an expected page.
          */
         @field:Pattern(regexp = "^https?://.+$")
         var expected: String = "",
 
         /**
-         * URL for actual page.
+         * URL for an actual page.
          */
         @field:Pattern(regexp = "^https?://.+$")
         var actual: String = "",

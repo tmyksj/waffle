@@ -18,12 +18,12 @@ data class WebRegCaseJpaEntity(
     val id: Id = Id(),
 
     /**
-     * URL for expected page.
+     * URL for an expected page.
      */
     val expected: String = "",
 
     /**
-     * URL for actual page.
+     * URL for an actual page.
      */
     val actual: String = "",
 
