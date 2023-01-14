@@ -21,9 +21,11 @@ class CreateWebRegCommandImpl(
                     WebReg.Case(
                         expected = WebReg.Composition(
                             resource = it.expected.resource,
+                            delayMs = it.expected.delayMs,
                         ),
                         actual = WebReg.Composition(
                             resource = it.actual.resource,
+                            delayMs = it.actual.delayMs,
                         ),
                     )
                 },

@@ -44,6 +44,11 @@ interface CreateWebRegCommand {
          */
         val resource: URL,
 
+        /**
+         * Waiting time before accessing to a page (milliseconds).
+         */
+        val delayMs: Long,
+
         )
 
     interface Response {

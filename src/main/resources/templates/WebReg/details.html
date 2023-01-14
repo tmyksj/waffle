@@ -37,20 +37,30 @@
     </div>
     <div class="c_Table">
         <table>
+            <colgroup>
+                <col style="width: 30%;">
+                <col style="width: 20%;">
+                <col style="width: 30%;">
+                <col style="width: 20%;">
+            </colgroup>
             <thead>
             <tr>
-                <th style="width: 50%;">Expected URL</th>
-                <th style="width: 50%;">Actual URL</th>
+                <th colspan="2">Expected</th>
+                <th colspan="2">Actual</th>
+            </tr>
+            <tr>
+                <th>URL</th>
+                <th>Delay (ms)</th>
+                <th>URL</th>
+                <th>Delay (ms)</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="case : ${webReg.cases}">
-                <td>
-                    <p th:text="${case.expected.resource}"></p>
-                </td>
-                <td>
-                    <p th:text="${case.actual.resource}"></p>
-                </td>
+                <td th:text="${case.expected.resource}"></td>
+                <td th:text="${case.expected.delayMs}"></td>
+                <td th:text="${case.actual.resource}"></td>
+                <td th:text="${case.actual.delayMs}"></td>
             </tr>
             </tbody>
         </table>

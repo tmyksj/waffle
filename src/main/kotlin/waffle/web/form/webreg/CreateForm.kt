@@ -1,6 +1,8 @@
 package waffle.web.form.webreg
 
 import jakarta.validation.Valid
+import jakarta.validation.constraints.Max
+import jakarta.validation.constraints.Min
 import jakarta.validation.constraints.NotEmpty
 import jakarta.validation.constraints.Pattern
 
@@ -47,6 +49,13 @@ data class CreateForm(
          */
         @field:Pattern(regexp = "^https?://.+$")
         var resource: String = "",
+
+        /**
+         * Waiting time before accessing to a page (milliseconds).
+         */
+        @field:Max(value = 60000)
+        @field:Min(value = 0)
+        var delayMs: Long = 0,
 
         )
 

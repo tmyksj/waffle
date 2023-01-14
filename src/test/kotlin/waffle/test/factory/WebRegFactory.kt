@@ -18,16 +18,7 @@ class WebRegFactory {
      */
     fun build(
         id: UUID = UUID.randomUUID(),
-        cases: List<WebReg.Case> = listOf(
-            WebReg.Case(
-                expected = WebReg.Composition(
-                    resource = URL("http://127.0.0.1:8081"),
-                ),
-                actual = WebReg.Composition(
-                    resource = URL("http://127.0.0.1:8081"),
-                ),
-            ),
-        ),
+        cases: List<WebReg.Case> = listOf(buildCase()),
         result: ByteArray? = null,
         state: WebReg.State = WebReg.State.Ready,
         startedDate: LocalDateTime? = null,
@@ -46,6 +37,32 @@ class WebRegFactory {
             failedDate = failedDate,
             createdDate = createdDate,
             lastModifiedDate = lastModifiedDate,
+        )
+    }
+
+    /**
+     * Returns a new entity.
+     */
+    fun buildCase(
+        expected: WebReg.Composition = buildComposition(),
+        actual: WebReg.Composition = buildComposition(),
+    ): WebReg.Case {
+        return WebReg.Case(
+            expected = expected,
+            actual = actual,
+        )
+    }
+
+    /**
+     * Returns a new entity.
+     */
+    fun buildComposition(
+        resource: URL = URL("http://127.0.0.1:8081"),
+        delayMs: Long = 0,
+    ): WebReg.Composition {
+        return WebReg.Composition(
+            resource = resource,
+            delayMs = delayMs,
         )
     }
 

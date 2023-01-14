@@ -32,9 +32,11 @@ class WebRegRepositoryImpl(
                 WebReg.Case(
                     expected = WebReg.Composition(
                         resource = URL(it.expectedResource),
+                        delayMs = it.expectedDelayMs,
                     ),
                     actual = WebReg.Composition(
                         resource = URL(it.actualResource),
+                        delayMs = it.actualDelayMs,
                     ),
                 )
             },
@@ -69,7 +71,9 @@ class WebRegRepositoryImpl(
                         id = index.toLong(),
                     ),
                     expectedResource = it.expected.resource.toString(),
+                    expectedDelayMs = it.expected.delayMs,
                     actualResource = it.actual.resource.toString(),
+                    actualDelayMs = it.actual.delayMs,
                 )
             }
 

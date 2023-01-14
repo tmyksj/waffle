@@ -154,7 +154,21 @@ data class WebReg(
          */
         val resource: URL,
 
-        )
+        /**
+         * Waiting time before accessing to a page (milliseconds).
+         */
+        val delayMs: Long = 0,
+
+        ) {
+
+        init {
+            // delayMs must be in range from zero to 1 minute.
+            if (delayMs !in 0..60000) {
+                throw IllegalArgumentException()
+            }
+        }
+
+    }
 
     /**
      * WebReg state.

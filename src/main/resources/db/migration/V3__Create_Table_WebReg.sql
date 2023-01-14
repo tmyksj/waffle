@@ -18,7 +18,9 @@ create table wf_web_reg_case
     wf_web_reg_id     varchar(36) not null,
     id                bigint      not null,
     expected_resource text        not null,
+    expected_delay_ms bigint      not null,
     actual_resource   text        not null,
+    actual_delay_ms   bigint      not null,
     primary key (wf_web_reg_id, id)
 ) engine = InnoDB
   default charset utf8mb4;

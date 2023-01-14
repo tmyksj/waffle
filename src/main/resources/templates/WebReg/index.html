@@ -15,10 +15,22 @@
         <div class="c_Table"
              id="form">
             <table>
+                <colgroup>
+                    <col style="width: 30%;">
+                    <col style="width: 20%;">
+                    <col style="width: 30%;">
+                    <col style="width: 20%;">
+                </colgroup>
                 <thead>
                 <tr>
-                    <th style="width: 50%;">Expected URL</th>
-                    <th style="width: 50%;">Actual URL</th>
+                    <th colspan="2">Expected</th>
+                    <th colspan="2">Actual</th>
+                </tr>
+                <tr>
+                    <th>URL</th>
+                    <th>Delay (ms)</th>
+                    <th>URL</th>
+                    <th>Delay (ms)</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -35,6 +47,16 @@
                         <div v-for="err in errors['cases[' + idx + '].expected.resource']">{{ err }}</div>
                     </td>
                     <td>
+                        <input aria-label="Expected Delay (ms)"
+                               class="c_Input"
+                               type="text"
+                               v-model="item.expected.delayMs"
+                               :name="filter(idx, 'cases[' + idx + '].expected.delayMs')"
+                               @focus="rearrange([idx])"
+                               @input="rearrange([idx])">
+                        <div v-for="err in errors['cases[' + idx + '].expected.delayMs']">{{ err }}</div>
+                    </td>
+                    <td>
                         <input aria-label="Actual URL"
                                class="c_Input"
                                type="text"
@@ -44,18 +66,25 @@
                                @input="rearrange([idx])">
                         <div v-for="err in errors['cases[' + idx + '].actual.resource']">{{ err }}</div>
                     </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td class="u_ta-r">
-                        <button class="c_Button"
-                                type="submit"
-                                @click="rearrange([])">Submit
-                        </button>
+                    <td>
+                        <input aria-label="Actual Delay (ms)"
+                               class="c_Input"
+                               type="text"
+                               v-model="item.actual.delayMs"
+                               :name="filter(idx, 'cases[' + idx + '].actual.delayMs')"
+                               @focus="rearrange([idx])"
+                               @input="rearrange([idx])">
+                        <div v-for="err in errors['cases[' + idx + '].actual.delayMs']">{{ err }}</div>
                     </td>
                 </tr>
                 </tbody>
             </table>
+            <div class="u_ta-r">
+                <button @click="rearrange([])"
+                        class="c_Button"
+                        type="submit">Submit
+                </button>
+            </div>
         </div>
         <script th:src="@{/Scripts/vue.global.prod.js}"></script>
         <script th:inline="javascript">
@@ -63,7 +92,9 @@
                 data() {
                     const keys = [
                         "expected.resource",
+                        "expected.delayMs",
                         "actual.resource",
+                        "actual.delayMs",
                     ];
 
                     const form = [[${createForm}]];

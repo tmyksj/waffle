@@ -48,4 +48,21 @@ class WebRegTests {
         }
     }
 
+    @Test
+    fun delayMs_must_be_in_range_from_zero_to_1_minute() {
+        SoftAssertions.assertSoftly {
+            it.assertThatThrownBy { webRegFactory.buildComposition(delayMs = -1) }
+                .isInstanceOf(IllegalArgumentException::class.java)
+
+            it.assertThatCode { webRegFactory.buildComposition(delayMs = 0) }
+                .doesNotThrowAnyException()
+
+            it.assertThatCode { webRegFactory.buildComposition(delayMs = 60000) }
+                .doesNotThrowAnyException()
+
+            it.assertThatThrownBy { webRegFactory.buildComposition(delayMs = 60001) }
+                .isInstanceOf(IllegalArgumentException::class.java)
+        }
+    }
+
 }

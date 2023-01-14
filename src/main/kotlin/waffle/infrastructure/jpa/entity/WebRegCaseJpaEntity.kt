@@ -23,9 +23,19 @@ data class WebRegCaseJpaEntity(
     val expectedResource: String = "",
 
     /**
+     * Waiting time before accessing to an expected page (milliseconds).
+     */
+    val expectedDelayMs: Long = 0,
+
+    /**
      * URL for an actual page.
      */
     val actualResource: String = "",
+
+    /**
+     * Waiting time before accessing to an actual page (milliseconds).
+     */
+    val actualDelayMs: Long = 0,
 
     ) {
 

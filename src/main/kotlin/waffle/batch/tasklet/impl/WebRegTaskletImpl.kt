@@ -43,10 +43,12 @@ class WebRegTaskletImpl(
 
         try {
             val a: List<ByteArray> = entity2.cases.map {
+                Thread.sleep(it.expected.delayMs)
                 browserComponent.captureScreenshot(it.expected.resource)
             }
 
             val b: List<ByteArray> = entity2.cases.map {
+                Thread.sleep(it.actual.delayMs)
                 browserComponent.captureScreenshot(it.actual.resource)
             }
 
