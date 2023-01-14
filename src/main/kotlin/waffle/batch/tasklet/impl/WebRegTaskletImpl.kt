@@ -43,11 +43,11 @@ class WebRegTaskletImpl(
 
         try {
             val a: List<ByteArray> = entity2.cases.map {
-                browserComponent.captureScreenshot(it.expected)
+                browserComponent.captureScreenshot(it.expected.resource)
             }
 
             val b: List<ByteArray> = entity2.cases.map {
-                browserComponent.captureScreenshot(it.actual)
+                browserComponent.captureScreenshot(it.actual.resource)
             }
 
             val result: ByteArray = reportingComponent.compareImages(a, b)

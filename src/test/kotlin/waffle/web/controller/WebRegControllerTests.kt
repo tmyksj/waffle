@@ -1,7 +1,11 @@
 package waffle.web.controller
 
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ParameterContext
 import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.aggregator.AggregateWith
+import org.junit.jupiter.params.aggregator.ArgumentsAccessor
+import org.junit.jupiter.params.aggregator.ArgumentsAggregator
 import org.junit.jupiter.params.provider.CsvSource
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -10,6 +14,8 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultActions
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import org.springframework.util.LinkedMultiValueMap
+import org.springframework.util.MultiValueMap
 import waffle.domain.entity.WebReg
 import waffle.domain.repository.WebRegRepository
 import waffle.test.factory.WebRegFactory
@@ -41,22 +47,16 @@ class WebRegControllerTests {
 
     @CsvSource(
         textBlock = """
-            http://127.0.0.1, ,                 http://127.0.0.1, ,
+            http://127.0.0.1, http://127.0.0.1, ,                 ,
             http://127.0.0.1, http://127.0.0.1, http://127.0.0.1, http://127.0.0.1,""",
     )
     @ParameterizedTest
     fun create_responds_SeeOther_when_params_are_valid(
-        expected0: String?,
-        expected1: String?,
-        actual0: String?,
-        actual1: String?,
+        @AggregateWith(CreateArgumentsAggregator::class) params: MultiValueMap<String, String>,
     ) {
         val resultActions: ResultActions = mockMvc.perform(
             MockMvcRequestBuilders.post("/WebReg")
-                .apply { expected0?.let { param("cases[0].expected", it) } }
-                .apply { expected1?.let { param("cases[1].expected", it) } }
-                .apply { actual0?.let { param("cases[0].actual", it) } }
-                .apply { actual1?.let { param("cases[1].actual", it) } },
+                .params(params),
         )
 
         resultActions.andExpect(MockMvcResultMatchers.status().isSeeOther)
@@ -65,32 +65,26 @@ class WebRegControllerTests {
 
     @CsvSource(
         textBlock = """
-            ,                 ,                 ,                 ,    
-            '',               ,                 '',               ,    
-            http://127.0.0.1, ,                 ,                 ,    
-            ,                 ,                 http://127.0.0.1, ,    
-            http://127.0.0.1, ,                 '',               ,    
-            '',               ,                 http://127.0.0.1, ,    
-            http://127.0.0.1, ,                 INVALID_URL,      ,    
-            INVALID_URL,      ,                 http://127.0.0.1, ,    
-            http://127.0.0.1, http://127.0.0.1, http://127.0.0.1, ,    
-            http://127.0.0.1, ,                 http://127.0.0.1, http://127.0.0.1,
+            ,                 ,                 ,                 ,
+            '',               '',               ,                 ,
+            http://127.0.0.1, ,                 ,                 ,
+            ,                 http://127.0.0.1, ,                 ,
+            http://127.0.0.1, '',               ,                 ,
+            '',               http://127.0.0.1, ,                 ,
+            http://127.0.0.1, INVALID_URL,      ,                 ,
+            INVALID_URL,      http://127.0.0.1, ,                 ,
+            http://127.0.0.1, http://127.0.0.1, http://127.0.0.1, ,
+            http://127.0.0.1, http://127.0.0.1, ,                 http://127.0.0.1,
             http://127.0.0.1, http://127.0.0.1, http://127.0.0.1, '',
-            http://127.0.0.1, '',               http://127.0.0.1, http://127.0.0.1,""",
+            http://127.0.0.1, http://127.0.0.1, '',               http://127.0.0.1,""",
     )
     @ParameterizedTest
     fun create_responds_BadRequest_when_params_are_invalid(
-        expected0: String?,
-        expected1: String?,
-        actual0: String?,
-        actual1: String?,
+        @AggregateWith(CreateArgumentsAggregator::class) params: MultiValueMap<String, String>,
     ) {
         val resultActions: ResultActions = mockMvc.perform(
             MockMvcRequestBuilders.post("/WebReg")
-                .apply { expected0?.let { param("cases[0].expected", it) } }
-                .apply { expected1?.let { param("cases[1].expected", it) } }
-                .apply { actual0?.let { param("cases[0].actual", it) } }
-                .apply { actual1?.let { param("cases[1].actual", it) } },
+                .params(params),
         )
 
         resultActions.andExpect(MockMvcResultMatchers.status().isBadRequest)
@@ -164,6 +158,25 @@ class WebRegControllerTests {
         )
 
         resultActions.andExpect(MockMvcResultMatchers.status().isNotFound)
+    }
+
+    class CreateArgumentsAggregator : ArgumentsAggregator {
+
+        override fun aggregateArguments(accessor: ArgumentsAccessor, context: ParameterContext): Any {
+            return LinkedMultiValueMap(
+                arrayOf(
+                    "cases[0].expected.resource",
+                    "cases[0].actual.resource",
+                    "cases[1].expected.resource",
+                    "cases[1].actual.resource",
+                ).mapIndexed { index, s ->
+                    Pair(s, accessor.getString(index))
+                }.filter {
+                    it.second != null
+                }.groupBy({ it.first }, { it.second }),
+            )
+        }
+
     }
 
 }

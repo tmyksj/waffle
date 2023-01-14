@@ -15,10 +15,10 @@ create table wf_web_reg
 
 create table wf_web_reg_case
 (
-    wf_web_reg_id varchar(36) not null,
-    id            bigint      not null,
-    expected      text        not null,
-    actual        text        not null,
+    wf_web_reg_id     varchar(36) not null,
+    id                bigint      not null,
+    expected_resource text        not null,
+    actual_resource   text        not null,
     primary key (wf_web_reg_id, id)
 ) engine = InnoDB
   default charset utf8mb4;

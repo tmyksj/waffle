@@ -30,8 +30,12 @@ class WebRegRepositoryImpl(
             id = UUID.fromString(jpaEntity.id),
             cases = caseJpaEntities.map {
                 WebReg.Case(
-                    expected = URL(it.expected),
-                    actual = URL(it.actual),
+                    expected = WebReg.Composition(
+                        resource = URL(it.expectedResource),
+                    ),
+                    actual = WebReg.Composition(
+                        resource = URL(it.actualResource),
+                    ),
                 )
             },
             result = jpaEntity.result,
@@ -64,8 +68,8 @@ class WebRegRepositoryImpl(
                         webRegId = entity.id.toString(),
                         id = index.toLong(),
                     ),
-                    expected = it.expected.toString(),
-                    actual = it.actual.toString()
+                    expectedResource = it.expected.resource.toString(),
+                    actualResource = it.actual.resource.toString()
                 )
             }
 

@@ -20,12 +20,12 @@ data class WebRegCaseJpaEntity(
     /**
      * URL for an expected page.
      */
-    val expected: String = "",
+    val expectedResource: String = "",
 
     /**
      * URL for an actual page.
      */
-    val actual: String = "",
+    val actualResource: String = "",
 
     ) {
 

@@ -23,14 +23,26 @@ interface CreateWebRegCommand {
     data class WebRegCase(
 
         /**
-         * URL for an expected page.
+         * Composition for an expected page.
          */
-        val expected: URL,
+        val expected: WebRegComposition,
 
         /**
-         * URL for an actual page.
+         * Composition for an actual page.
          */
-        val actual: URL,
+        val actual: WebRegComposition,
+
+        )
+
+    /**
+     * Composition for a page.
+     */
+    data class WebRegComposition(
+
+        /**
+         * URL for a page.
+         */
+        val resource: URL,
 
         )
 

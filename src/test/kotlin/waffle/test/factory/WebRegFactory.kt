@@ -20,8 +20,12 @@ class WebRegFactory {
         id: UUID = UUID.randomUUID(),
         cases: List<WebReg.Case> = listOf(
             WebReg.Case(
-                expected = URL("http://127.0.0.1:8081"),
-                actual = URL("http://127.0.0.1:8081"),
+                expected = WebReg.Composition(
+                    resource = URL("http://127.0.0.1:8081"),
+                ),
+                actual = WebReg.Composition(
+                    resource = URL("http://127.0.0.1:8081"),
+                ),
             ),
         ),
         result: ByteArray? = null,

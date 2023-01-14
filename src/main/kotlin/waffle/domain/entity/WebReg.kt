@@ -133,14 +133,26 @@ data class WebReg(
     data class Case(
 
         /**
-         * URL for an expected page.
+         * Composition for an expected page.
          */
-        val expected: URL,
+        val expected: Composition,
 
         /**
-         * URL for an actual page.
+         * Composition for an actual page.
          */
-        val actual: URL,
+        val actual: Composition,
+
+        )
+
+    /**
+     * Composition for a page.
+     */
+    data class Composition(
+
+        /**
+         * URL for a page.
+         */
+        val resource: URL,
 
         )
 

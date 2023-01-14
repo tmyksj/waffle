@@ -46,10 +46,10 @@
             <tbody>
             <tr th:each="case : ${webReg.cases}">
                 <td>
-                    <p th:text="${case.expected}"></p>
+                    <p th:text="${case.expected.resource}"></p>
                 </td>
                 <td>
-                    <p th:text="${case.actual}"></p>
+                    <p th:text="${case.actual.resource}"></p>
                 </td>
             </tr>
             </tbody>

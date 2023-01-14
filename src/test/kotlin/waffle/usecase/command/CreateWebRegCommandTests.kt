@@ -23,8 +23,12 @@ class CreateWebRegCommandTests {
         val response: CreateWebRegCommand.Response = createWebRegCommand.execute(
             webRegCases = listOf(
                 CreateWebRegCommand.WebRegCase(
-                    expected = URL("http://127.0.0.1:8081"),
-                    actual = URL("http://127.0.0.1:8081"),
+                    expected = CreateWebRegCommand.WebRegComposition(
+                        resource = URL("http://127.0.0.1:8081"),
+                    ),
+                    actual = CreateWebRegCommand.WebRegComposition(
+                        resource = URL("http://127.0.0.1:8081"),
+                    ),
                 ),
             ),
         )
@@ -38,8 +42,12 @@ class CreateWebRegCommandTests {
             it.assertThat(response.webReg.cases).isEqualTo(
                 listOf(
                     WebReg.Case(
-                        expected = URL("http://127.0.0.1:8081"),
-                        actual = URL("http://127.0.0.1:8081"),
+                        expected = WebReg.Composition(
+                            resource = URL("http://127.0.0.1:8081"),
+                        ),
+                        actual = WebReg.Composition(
+                            resource = URL("http://127.0.0.1:8081"),
+                        ),
                     ),
                 ),
             )

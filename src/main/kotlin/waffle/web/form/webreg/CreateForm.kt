@@ -24,16 +24,29 @@ data class CreateForm(
     data class WebRegCase(
 
         /**
-         * URL for an expected page.
+         * Composition for an expected page.
          */
-        @field:Pattern(regexp = "^https?://.+$")
-        var expected: String = "",
+        @field:Valid
+        val expected: WebRegComposition = WebRegComposition(),
 
         /**
-         * URL for an actual page.
+         * Composition for an actual page.
+         */
+        @field:Valid
+        val actual: WebRegComposition = WebRegComposition(),
+
+        )
+
+    /**
+     * Composition for a page.
+     */
+    data class WebRegComposition(
+
+        /**
+         * URL for a page.
          */
         @field:Pattern(regexp = "^https?://.+$")
-        var actual: String = "",
+        var resource: String = "",
 
         )
 

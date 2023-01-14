@@ -28,21 +28,21 @@
                         <input aria-label="Expected URL"
                                class="c_Input"
                                type="text"
-                               v-model="item.expected"
-                               :name="filter(idx, 'cases[' + idx + '].expected')"
+                               v-model="item.expected.resource"
+                               :name="filter(idx, 'cases[' + idx + '].expected.resource')"
                                @focus="rearrange([idx])"
                                @input="rearrange([idx])">
-                        <div v-for="err in errors['cases[' + idx + '].expected']">{{ err }}</div>
+                        <div v-for="err in errors['cases[' + idx + '].expected.resource']">{{ err }}</div>
                     </td>
                     <td>
                         <input aria-label="Actual URL"
                                class="c_Input"
                                type="text"
-                               v-model="item.actual"
-                               :name="filter(idx, 'cases[' + idx + '].actual')"
+                               v-model="item.actual.resource"
+                               :name="filter(idx, 'cases[' + idx + '].actual.resource')"
                                @focus="rearrange([idx])"
                                @input="rearrange([idx])">
-                        <div v-for="err in errors['cases[' + idx + '].actual']">{{ err }}</div>
+                        <div v-for="err in errors['cases[' + idx + '].actual.resource']">{{ err }}</div>
                     </td>
                 </tr>
                 <tr>
@@ -62,8 +62,8 @@
             Vue.createApp({
                 data() {
                     const keys = [
-                        "expected",
-                        "actual",
+                        "expected.resource",
+                        "actual.resource",
                     ];
 
                     const form = [[${createForm}]];
@@ -89,16 +89,31 @@
                         return idx === 0 || idx < this.form.cases.length - 1 ? value : null;
                     },
 
+                    get(obj, key) {
+                        return key.split(".").reduce((v, k) => v[k], obj);
+                    },
+
                     rearrange(idxes) {
                         this.form.cases = this.form.cases.filter((item, idx) => {
-                            return idxes.includes(idx) || this.keys.some(key => item[key] !== "");
+                            return idxes.includes(idx) || this.keys.some(key => this.get(item, key) !== "");
                         });
 
                         if (this.form.cases.length === 0
-                            || this.keys.some(key => this.form.cases[this.form.cases.length - 1][key] !== "")) {
-                            this.form.cases.push(Object.assign(
-                                { key: Math.random() }, Object.fromEntries(this.keys.map(key => [key, ""]))));
+                            || this.keys.some(key => this.get(this.form.cases.at(-1), key) !== "")) {
+                            const obj = {
+                                key: Math.random(),
+                            };
+
+                            this.keys.forEach((key) => {
+                                this.set(obj, key, "");
+                            });
+
+                            this.form.cases.push(obj);
                         }
+                    },
+
+                    set(obj, key, value) {
+                        key.split(".").slice(0, -1).reduce((v, k) => v[k] ||= {}, obj)[key.split(".").at(-1)] = value;
                     },
                 },
 

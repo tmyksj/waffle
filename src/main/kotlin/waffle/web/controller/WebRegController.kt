@@ -64,8 +64,12 @@ class WebRegController(
         val response: CreateWebRegCommand.Response = createWebRegCommand.execute(
             webRegCases = createForm.cases.map {
                 CreateWebRegCommand.WebRegCase(
-                    expected = URL(it.expected),
-                    actual = URL(it.actual),
+                    expected = CreateWebRegCommand.WebRegComposition(
+                        resource = URL(it.expected.resource),
+                    ),
+                    actual = CreateWebRegCommand.WebRegComposition(
+                        resource = URL(it.actual.resource)
+                    ),
                 )
             },
         )

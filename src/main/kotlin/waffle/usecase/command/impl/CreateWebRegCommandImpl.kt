@@ -19,8 +19,12 @@ class CreateWebRegCommandImpl(
             WebReg(
                 cases = webRegCases.map {
                     WebReg.Case(
-                        expected = it.expected,
-                        actual = it.actual,
+                        expected = WebReg.Composition(
+                            resource = it.expected.resource,
+                        ),
+                        actual = WebReg.Composition(
+                            resource = it.actual.resource,
+                        ),
                     )
                 },
             ),
