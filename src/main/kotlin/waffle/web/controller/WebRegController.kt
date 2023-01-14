@@ -68,7 +68,7 @@ class WebRegController(
                         resource = URL(it.expected.resource),
                     ),
                     actual = CreateWebRegCommand.WebRegComposition(
-                        resource = URL(it.actual.resource)
+                        resource = URL(it.actual.resource),
                     ),
                 )
             },
