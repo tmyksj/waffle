@@ -69,7 +69,7 @@ class WebRegRepositoryImpl(
                         id = index.toLong(),
                     ),
                     expectedResource = it.expected.resource.toString(),
-                    actualResource = it.actual.resource.toString()
+                    actualResource = it.actual.resource.toString(),
                 )
             }
 
