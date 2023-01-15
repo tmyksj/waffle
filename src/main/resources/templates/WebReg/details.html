@@ -8,34 +8,37 @@
 </head>
 <body>
 <th:block>
-    <h1>WebReg</h1>
-    <div class="u_ai_c u_d-f u_jc-sb">
-        <div th:if="${webReg.state.toString()} == 'Ready'">
-            <div class="c_Box">
+    <div class="u_ai-c u_d-f u_jc-sb">
+        <h1>WebReg</h1>
+        <div class="u_ai-c u_d-f u_jc-sb">
+            <div class="u_pr-1"
+                 th:if="${webReg.state.toString()} == 'Ready'">
                 <span class="c_Status +Ready"></span> Ready
             </div>
-        </div>
-        <div th:if="${webReg.state.toString()} == 'Started'">
-            <div class="c_Box">
+            <div class="u_pr-1"
+                 th:if="${webReg.state.toString()} == 'Started'">
                 <span class="c_Status +Started"></span> Started
             </div>
-        </div>
-        <div th:if="${webReg.state.toString()} == 'Completed'">
-            <div class="c_Box">
+            <div class="u_pr-1"
+                 th:if="${webReg.state.toString()} == 'Completed'">
                 <span class="c_Status +Completed"></span> Completed
             </div>
-        </div>
-        <div th:if="${webReg.state.toString()} == 'Failed'">
-            <div class="c_Box">
+            <div class="u_pr-1"
+                 th:if="${webReg.state.toString()} == 'Failed'">
                 <span class="c_Status +Failed"></span> Failed
             </div>
-        </div>
-        <div th:if="${webReg.state.toString()} == 'Completed'">
-            <a class="c_Button"
-               th:href="@{/WebReg/{id}/Result(id=${webReg.id})}">Download</a>
+            <div class="u_pr-1"
+                 th:if="${webReg.state.toString()} == 'Completed'">
+                <a class="c_Button"
+                   th:href="@{/WebReg/{id}/Result(id=${webReg.id})}">Download</a>
+            </div>
+            <div class="u_pr-1"
+                 th:if="${webReg.state.toString()} != 'Completed'">
+                <span class="c_Button +Disabled">Download</span>
+            </div>
         </div>
     </div>
-    <div class="c_Table">
+    <div class="c_Table u_mb-0.4">
         <table>
             <colgroup>
                 <col style="width: 30%;">

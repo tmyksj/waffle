@@ -8,152 +8,242 @@
 </head>
 <body>
 <th:block>
-    <h1>WebReg</h1>
-    <form method="post"
-          th:action="@{/WebReg}"
-          th:object="${createForm}">
-        <div class="c_Table"
-             id="form">
+    <div class="u_ai-c u_d-f u_jc-sb">
+        <h1>WebReg</h1>
+    </div>
+    <form id="form"
+          method="post"
+          th:action="@{/WebReg}">
+        <div class="c_Table u_mb-0.4">
             <table>
                 <colgroup>
-                    <col style="width: 30%;">
-                    <col style="width: 20%;">
-                    <col style="width: 30%;">
-                    <col style="width: 20%;">
+                    <col :key="col.key"
+                         v-bind="col.attrs"
+                         v-for="col in colgroup">
                 </colgroup>
                 <thead>
-                <tr>
-                    <th colspan="2">Expected</th>
-                    <th colspan="2">Actual</th>
-                </tr>
-                <tr>
-                    <th>URL</th>
-                    <th>Delay (ms)</th>
-                    <th>URL</th>
-                    <th>Delay (ms)</th>
+                <tr :key="tr.key"
+                    v-for="tr in thead">
+                    <th :key="th.key"
+                        v-bind="th.attrs"
+                        v-for="th in tr.content">{{ th.text }}
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="(item, idx) in form.cases"
-                    :key="item.key">
-                    <td>
-                        <input aria-label="Expected URL"
+                <tr :key="tr.key"
+                    v-for="tr in tbody">
+                    <td :key="td.key"
+                        v-for="td in tr.content">
+                        <input @focus="update(tr.key)"
+                               @input="update(tr.key)"
                                class="c_Input"
-                               type="text"
-                               v-model="item.expected.resource"
-                               :name="filter(idx, 'cases[' + idx + '].expected.resource')"
-                               @focus="rearrange([idx])"
-                               @input="rearrange([idx])">
-                        <div v-for="err in errors['cases[' + idx + '].expected.resource']">{{ err }}</div>
-                    </td>
-                    <td>
-                        <input aria-label="Expected Delay (ms)"
-                               class="c_Input"
-                               type="text"
-                               v-model="item.expected.delayMs"
-                               :name="filter(idx, 'cases[' + idx + '].expected.delayMs')"
-                               @focus="rearrange([idx])"
-                               @input="rearrange([idx])">
-                        <div v-for="err in errors['cases[' + idx + '].expected.delayMs']">{{ err }}</div>
-                    </td>
-                    <td>
-                        <input aria-label="Actual URL"
-                               class="c_Input"
-                               type="text"
-                               v-model="item.actual.resource"
-                               :name="filter(idx, 'cases[' + idx + '].actual.resource')"
-                               @focus="rearrange([idx])"
-                               @input="rearrange([idx])">
-                        <div v-for="err in errors['cases[' + idx + '].actual.resource']">{{ err }}</div>
-                    </td>
-                    <td>
-                        <input aria-label="Actual Delay (ms)"
-                               class="c_Input"
-                               type="text"
-                               v-model="item.actual.delayMs"
-                               :name="filter(idx, 'cases[' + idx + '].actual.delayMs')"
-                               @focus="rearrange([idx])"
-                               @input="rearrange([idx])">
-                        <div v-for="err in errors['cases[' + idx + '].actual.delayMs']">{{ err }}</div>
+                               v-bind="td.content.attrs"
+                               v-model="td.content.model">
                     </td>
                 </tr>
                 </tbody>
             </table>
-            <div class="u_ta-r">
-                <button @click="rearrange([])"
-                        class="c_Button"
-                        type="submit">Submit
-                </button>
-            </div>
         </div>
-        <script th:src="@{/Scripts/vue.global.prod.js}"></script>
-        <script th:inline="javascript">
-            Vue.createApp({
-                data() {
-                    const keys = [
-                        "expected.resource",
-                        "expected.delayMs",
-                        "actual.resource",
-                        "actual.delayMs",
-                    ];
+        <div class="u_mb-0.4 u_pr-1 u_ta-r">
+            <button @click="update(null)"
+                    class="c_Button"
+                    type="submit">Submit
+            </button>
+        </div>
+    </form>
+    <script th:src="@{/Scripts/vue.global.prod.js}"></script>
+    <script th:inline="javascript">
+        Vue.createApp({
+            data() {
+                const form = [[${createForm}]];
 
-                    const form = [[${createForm}]];
-                    form.cases.forEach((item) => {
-                        item.key = Math.random();
-                    });
+                const colgroup = [
+                    {
+                        attrs: {
+                            style: "width: 30%;",
+                        },
+                        key: Math.random(),
+                    },
+                    {
+                        attrs: {
+                            style: "width: 20%;",
+                        },
+                        key: Math.random(),
+                    },
+                    {
+                        attrs: {
+                            style: "width: 30%;",
+                        },
+                        key: Math.random(),
+                    },
+                    {
+                        attrs: {
+                            style: "width: 20%;",
+                        },
+                        key: Math.random(),
+                    },
+                ];
 
-                    const errors = {};
-                    [# th:each="err : ${#fields.detailedErrors()}"]
-                        errors[ [[${err.fieldName}]] ] ||= [];
-                        errors[ [[${err.fieldName}]] ].push([[${err.message}]]);
-                    [/]
+                const thead = [
+                    {
+                        content: [
+                            {
+                                attrs: {
+                                    colspan: "2",
+                                },
+                                key: Math.random(),
+                                text: "Expected",
+                            },
+                            {
+                                attrs: {
+                                    colspan: "2",
+                                },
+                                key: Math.random(),
+                                text: "Actual",
+                            },
+                        ],
+                        key: Math.random(),
+                    },
+                    {
+                        content: [
+                            {
+                                attrs: {},
+                                key: Math.random(),
+                                text: "URL",
+                            },
+                            {
+                                attrs: {},
+                                key: Math.random(),
+                                text: "Delay (ms)",
+                            },
+                            {
+                                attrs: {},
+                                key: Math.random(),
+                                text: "URL",
+                            },
+                            {
+                                attrs: {},
+                                key: Math.random(),
+                                text: "Delay (ms)",
+                            },
+                        ],
+                        key: Math.random(),
+                    },
+                ];
 
+                const tbody = form.cases.map((item, idx) => {
+                    const flat = (prefix, obj) => {
+                        return Object.keys(obj).flatMap((key) => {
+                            return obj[key] instanceof Object
+                                ? flat(prefix + key + ".", obj[key])
+                                : { k: prefix + key, v: obj[key] }
+                        });
+                    };
+
+                    return this.row(idx, Object.fromEntries(flat("", item).map(obj => [obj.k, obj.v])));
+                });
+
+                return {
+                    colgroup,
+                    thead,
+                    tbody,
+                };
+            },
+
+            methods: {
+                row(idx, model) {
                     return {
-                        keys: keys,
-                        form: form,
-                        errors: errors,
+                        content: [
+                            {
+                                content: {
+                                    attrs: {
+                                        "aria-label": "Expected URL",
+                                        pattern: "https?://.+",
+                                        type: "text",
+                                    },
+                                    model: model["expected.resource"] ?? "",
+                                    name: "cases[" + idx + "].expected.resource",
+                                    required: "required",
+                                },
+                                key: Math.random(),
+                            },
+                            {
+                                content: {
+                                    attrs: {
+                                        "aria-label": "Expected Delay (ms)",
+                                        max: "60000",
+                                        min: "0",
+                                        type: "number",
+                                    },
+                                    model: model["expected.delayMs"] ?? "",
+                                    name: "cases[" + idx + "].expected.delayMs",
+                                    required: "required",
+                                },
+                                key: Math.random(),
+                            },
+                            {
+                                content: {
+                                    attrs: {
+                                        "aria-label": "Actual URL",
+                                        pattern: "https?://.+",
+                                        type: "text",
+                                    },
+                                    model: model["actual.resource"] ?? "",
+                                    name: "cases[" + idx + "].actual.resource",
+                                    required: "required",
+                                },
+                                key: Math.random(),
+                            },
+                            {
+                                content: {
+                                    attrs: {
+                                        "aria-label": "Actual Delay (ms)",
+                                        max: "60000",
+                                        min: "0",
+                                        type: "number",
+                                    },
+                                    model: model["actual.delayMs"] ?? "",
+                                    name: "cases[" + idx + "].actual.delayMs",
+                                    required: "required",
+                                },
+                                key: Math.random(),
+                            },
+                        ],
+                        key: Math.random(),
                     };
                 },
 
-                methods: {
-                    filter(idx, value) {
-                        return idx === 0 || idx < this.form.cases.length - 1 ? value : null;
-                    },
+                update(key) {
+                    this.tbody = this.tbody.filter((tr) => {
+                        return tr.key === key || tr.content.some(td => td.content.model !== "");
+                    });
 
-                    get(obj, key) {
-                        return key.split(".").reduce((v, k) => v[k], obj);
-                    },
+                    if (this.tbody.length === 0 || this.tbody.at(-1).content.some(td => td.content.model !== "")) {
+                        this.tbody.push(this.row(this.tbody.length, {}));
+                    }
 
-                    rearrange(idxes) {
-                        this.form.cases = this.form.cases.filter((item, idx) => {
-                            return idxes.includes(idx) || this.keys.some(key => this.get(item, key) !== "");
+                    this.tbody.forEach((tr, idx) => {
+                        tr.content.forEach((td) => {
+                            td.content.name = td.content.name.replace(/^cases\[\d+]/, "cases[" + idx + "]");
+
+                            if (idx === 0 || idx < this.tbody.length - 1) {
+                                td.content.attrs.name = td.content.name;
+                                td.content.attrs.required = td.content.required;
+                            } else {
+                                td.content.attrs.name = undefined;
+                                td.content.attrs.required = undefined;
+                            }
                         });
-
-                        if (this.form.cases.length === 0
-                            || this.keys.some(key => this.get(this.form.cases.at(-1), key) !== "")) {
-                            const obj = {
-                                key: Math.random(),
-                            };
-
-                            this.keys.forEach((key) => {
-                                this.set(obj, key, "");
-                            });
-
-                            this.form.cases.push(obj);
-                        }
-                    },
-
-                    set(obj, key, value) {
-                        key.split(".").slice(0, -1).reduce((v, k) => v[k] ||= {}, obj)[key.split(".").at(-1)] = value;
-                    },
+                    });
                 },
+            },
 
-                created() {
-                    this.rearrange(this.form.cases.map((_, idx) => idx));
-                },
-            }).mount("#form");
-        </script>
-    </form>
+            created() {
+                this.update(null);
+            },
+        }).mount("#form");
+    </script>
 </th:block>
 </body>
 </html>

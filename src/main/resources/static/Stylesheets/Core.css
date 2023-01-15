@@ -54,10 +54,6 @@ p {
     margin: 0.5rem 0;
 }
 
-.c_Box {
-    padding: 0.3rem 1rem;
-}
-
 .c_Button {
     background: #3e2723;
     border: thin solid #3e2723;
@@ -70,11 +66,18 @@ p {
     font-weight: bold;
     padding: 0.3rem 1rem;
     text-decoration: none;
+    user-select: none;
 }
 
 .c_Button:hover {
     background: #1b0000;
     border: thin solid #1b0000;
+}
+
+.c_Button.\+Disabled {
+    background: #e0e0e0;
+    border: thin solid #e0e0e0;
+    cursor: not-allowed;
 }
 
 .c_Input {
@@ -127,7 +130,7 @@ p {
     height: 0.3rem;
     left: calc(50% - 0.5rem);
     position: absolute;
-    top: calc(50% - 0.35rem);
+    top: calc(50% - 0.3rem);
     transform: rotate(-45deg);
     width: 0.7rem;
 }
@@ -176,7 +179,7 @@ p {
     height: 0.25rem;
     left: calc(50% - 0.125rem);
     position: absolute;
-    top: calc(50% - 0.125rem);
+    top: 50%;
     width: 0.25rem;
 }
 
@@ -188,6 +191,7 @@ p {
     display: inline-block;
     height: 1rem;
     position: relative;
+    top: 0.125rem;
     width: 1rem;
 }
 
@@ -199,7 +203,7 @@ p {
     height: 0.25rem;
     left: calc(50% - 0.125rem);
     position: absolute;
-    top: calc(25% - 0.125rem);
+    top: 0.2rem;
     width: 0.25rem;
 }
 
@@ -208,20 +212,18 @@ p {
 }
 
 .c_Table > table {
-    border-collapse: collapse;
+    border-spacing: 0;
     table-layout: fixed;
     width: 100%;
 }
 
 .c_Table > table td {
-    border: thin solid #fff8e1;
-    padding: 0.3rem 1rem;
+    padding: 0.4rem 1rem;
 }
 
 .c_Table > table th {
-    border: thin solid #fff8e1;
     font-weight: bold;
-    padding: 0.3rem 1rem;
+    padding: 0.4rem 1rem;
     text-align: center;
 }
 
@@ -230,7 +232,7 @@ p {
     display: table-cell;
 }
 
-.u_ai_c {
+.u_ai-c {
     align-items: center;
 }
 
@@ -242,12 +244,12 @@ p {
     justify-content: space-between;
 }
 
-.u_ta-c {
-    text-align: center;
+.u_mb-0\.4 {
+    margin-bottom: 0.4rem;
 }
 
-.u_ta-l {
-    text-align: left;
+.u_pr-1 {
+    padding-right: 1rem;
 }
 
 .u_ta-r {
