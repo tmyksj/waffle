@@ -64,6 +64,7 @@ data class WebReg(
     fun start(): WebReg {
         return copy(
             state = State.Started,
+            startedDate = now(),
             lastModifiedDate = now(),
         )
     }
@@ -77,6 +78,7 @@ data class WebReg(
         return copy(
             result = result,
             state = State.Completed,
+            completedDate = now(),
             lastModifiedDate = now(),
         )
     }
@@ -88,6 +90,7 @@ data class WebReg(
     fun fail(): WebReg {
         return copy(
             state = State.Failed,
+            failedDate = now(),
             lastModifiedDate = now(),
         )
     }
