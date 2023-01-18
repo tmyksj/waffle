@@ -47,9 +47,10 @@ class WebRegControllerTests {
 
     @CsvSource(
         textBlock = """
-            http://127.0.0.1, 0,     http://127.0.0.1, 0,     ,                 ,  ,                 ,
-            http://127.0.0.1, 60000, http://127.0.0.1, 60000, ,                 ,  ,                 ,
-            http://127.0.0.1, 0,     http://127.0.0.1, 0,     http://127.0.0.1, 0, http://127.0.0.1, 0,""",
+            http://127.0.0.1, 100,  0,     http://127.0.0.1, 100,  0,     ,                 ,     ,     ,                 ,     ,
+            http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, 1000,  ,                 ,     ,     ,                 ,     ,
+            http://127.0.0.1, 4000, 60000, http://127.0.0.1, 4000, 60000, ,                 ,     ,     ,                 ,     ,
+            http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, 1000, http://127.0.0.1, 1920, 1000,""",
     )
     @ParameterizedTest
     fun create_responds_SeeOther_when_params_are_valid(
@@ -66,20 +67,26 @@ class WebRegControllerTests {
 
     @CsvSource(
         textBlock = """
-            ,                 ,      ,                 ,      ,                 ,   ,                 ,
-            '',               '',    '',               '',    ,                 ,   ,                 ,
-            http://127.0.0.1, 0,     ,                 ,      ,                 ,   ,                 ,
-            ,                 ,      http://127.0.0.1, 0,     ,                 ,   ,                 ,
-            http://127.0.0.1, 0,     '',               '',    ,                 ,   ,                 ,
-            '',               '',    http://127.0.0.1, 0,     ,                 ,   ,                 ,
-            http://127.0.0.1, 0,     INVALID_URL,      0,     ,                 ,   ,                 ,
-            INVALID_URL,      0,     http://127.0.0.1, 0,     ,                 ,   ,                 ,
-            http://127.0.0.1, -1,    http://127.0.0.1, -1,    ,                 ,   ,                 ,
-            http://127.0.0.1, 60001, http://127.0.0.1, 60001, ,                 ,   ,                 ,
-            http://127.0.0.1, 0,     http://127.0.0.1, 0,     http://127.0.0.1, 0,  ,                 ,
-            http://127.0.0.1, 0,     http://127.0.0.1, 0,     ,                 ,   http://127.0.0.1, 0,
-            http://127.0.0.1, 0,     http://127.0.0.1, 0,     http://127.0.0.1, 0,  '',               '',
-            http://127.0.0.1, 0,     http://127.0.0.1, 0,     '',               '', http://127.0.0.1, 0,""",
+            ,                 ,     ,      ,                 ,     ,      ,                 ,     ,     ,                 ,     ,
+            '',               '',   '',    '',               '',   '',    ,                 ,     ,     ,                 ,     ,
+            http://127.0.0.1, 1920, 1000,  ,                 ,     ,      ,                 ,     ,     ,                 ,     ,
+            http://127.0.0.1, 1920, 1000,  '',               '',   '',    ,                 ,     ,     ,                 ,     ,
+            ,                 ,     ,      http://127.0.0.1, 1920, 1000,  ,                 ,     ,     ,                 ,     ,
+            '',               '',   '',    http://127.0.0.1, 1920, 1000,  ,                 ,     ,     ,                 ,     ,
+            INVALID_URL,      1920, 1000,  http://127.0.0.1, 1920, 1000,  ,                 ,     ,     ,                 ,     ,
+            http://127.0.0.1, 1920, 1000,  INVALID_URL,      1920, 1000,  ,                 ,     ,     ,                 ,     ,
+            http://127.0.0.1, 99,   1000,  http://127.0.0.1, 1920, 1000,  ,                 ,     ,     ,                 ,     ,
+            http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 99,   1000,  ,                 ,     ,     ,                 ,     ,
+            http://127.0.0.1, 4001, 1000,  http://127.0.0.1, 1920, 1000,  ,                 ,     ,     ,                 ,     ,
+            http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 4001, 1000,  ,                 ,     ,     ,                 ,     ,
+            http://127.0.0.1, 1920, -1,    http://127.0.0.1, 1920, 1000,  ,                 ,     ,     ,                 ,     ,
+            http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, -1,    ,                 ,     ,     ,                 ,     ,
+            http://127.0.0.1, 1920, 60001, http://127.0.0.1, 1920, 1000,  ,                 ,     ,     ,                 ,     ,
+            http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, 60001, ,                 ,     ,     ,                 ,     ,
+            http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, 1000, ,                 ,     ,
+            http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, 1000, '',               '',   '',
+            http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, 1000,  ,                 ,     ,     http://127.0.0.1, 1920, 1000,
+            http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, 1000,  '',               '',   '',   http://127.0.0.1, 1920, 1000,""",
     )
     @ParameterizedTest
     fun create_responds_BadRequest_when_params_are_invalid(
@@ -169,12 +176,16 @@ class WebRegControllerTests {
             return LinkedMultiValueMap(
                 arrayOf(
                     "cases[0].expected.resource",
+                    "cases[0].expected.widthPx",
                     "cases[0].expected.delayMs",
                     "cases[0].actual.resource",
+                    "cases[0].actual.widthPx",
                     "cases[0].actual.delayMs",
                     "cases[1].expected.resource",
+                    "cases[1].expected.widthPx",
                     "cases[1].expected.delayMs",
                     "cases[1].actual.resource",
+                    "cases[1].actual.widthPx",
                     "cases[1].actual.delayMs",
                 ).mapIndexed { index, s ->
                     Pair(s, accessor.getString(index))

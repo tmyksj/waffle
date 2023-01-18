@@ -58,10 +58,12 @@ class WebRegFactory {
      */
     fun buildComposition(
         resource: URL = URL("http://127.0.0.1:8081"),
+        widthPx: Long = 1920,
         delayMs: Long = 0,
     ): WebReg.Composition {
         return WebReg.Composition(
             resource = resource,
+            widthPx = widthPx,
             delayMs = delayMs,
         )
     }

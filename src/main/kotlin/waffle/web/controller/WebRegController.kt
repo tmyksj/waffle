@@ -66,10 +66,12 @@ class WebRegController(
                 CreateWebRegCommand.WebRegCase(
                     expected = CreateWebRegCommand.WebRegComposition(
                         resource = URL(it.expected.resource),
+                        widthPx = it.expected.widthPx,
                         delayMs = it.expected.delayMs,
                     ),
                     actual = CreateWebRegCommand.WebRegComposition(
                         resource = URL(it.actual.resource),
+                        widthPx = it.actual.widthPx,
                         delayMs = it.actual.delayMs,
                     ),
                 )

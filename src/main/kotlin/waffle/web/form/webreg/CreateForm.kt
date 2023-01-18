@@ -51,6 +51,13 @@ data class CreateForm(
         var resource: String = "",
 
         /**
+         * Window width for a page (pixels).
+         */
+        @field:Max(value = 4000)
+        @field:Min(value = 100)
+        var widthPx: Long = 1920,
+
+        /**
          * Waiting time before accessing to a page (milliseconds).
          */
         @field:Max(value = 60000)

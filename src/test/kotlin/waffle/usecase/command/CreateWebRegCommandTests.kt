@@ -25,10 +25,12 @@ class CreateWebRegCommandTests {
                 CreateWebRegCommand.WebRegCase(
                     expected = CreateWebRegCommand.WebRegComposition(
                         resource = URL("http://127.0.0.1:8081"),
+                        widthPx = 1920,
                         delayMs = 1000,
                     ),
                     actual = CreateWebRegCommand.WebRegComposition(
                         resource = URL("http://127.0.0.1:8081"),
+                        widthPx = 1920,
                         delayMs = 1000,
                     ),
                 ),
@@ -46,10 +48,12 @@ class CreateWebRegCommandTests {
                     WebReg.Case(
                         expected = WebReg.Composition(
                             resource = URL("http://127.0.0.1:8081"),
+                            widthPx = 1920,
                             delayMs = 1000,
                         ),
                         actual = WebReg.Composition(
                             resource = URL("http://127.0.0.1:8081"),
+                            widthPx = 1920,
                             delayMs = 1000,
                         ),
                     ),

@@ -41,28 +41,34 @@
     <div class="c_Table u_mb-0.4">
         <table>
             <colgroup>
-                <col style="width: 30%;">
-                <col style="width: 20%;">
-                <col style="width: 30%;">
-                <col style="width: 20%;">
+                <col style="width: 25%;">
+                <col style="width: 12.5%;">
+                <col style="width: 12.5%;">
+                <col style="width: 25%;">
+                <col style="width: 12.5%;">
+                <col style="width: 12.5%;">
             </colgroup>
             <thead>
             <tr>
-                <th colspan="2">Expected</th>
-                <th colspan="2">Actual</th>
+                <th colspan="3">Expected</th>
+                <th colspan="3">Actual</th>
             </tr>
             <tr>
                 <th>URL</th>
+                <th>Window Width (px)</th>
                 <th>Delay (ms)</th>
                 <th>URL</th>
+                <th>Window Width (px)</th>
                 <th>Delay (ms)</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="case : ${webReg.cases}">
                 <td th:text="${case.expected.resource}"></td>
+                <td th:text="${case.expected.widthPx}"></td>
                 <td th:text="${case.expected.delayMs}"></td>
                 <td th:text="${case.actual.resource}"></td>
+                <td th:text="${case.actual.widthPx}"></td>
                 <td th:text="${case.actual.delayMs}"></td>
             </tr>
             </tbody>

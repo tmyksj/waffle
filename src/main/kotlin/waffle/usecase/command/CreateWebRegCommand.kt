@@ -45,6 +45,11 @@ interface CreateWebRegCommand {
         val resource: URL,
 
         /**
+         * Window width for a page (pixels).
+         */
+        val widthPx: Long,
+
+        /**
          * Waiting time before accessing to a page (milliseconds).
          */
         val delayMs: Long,

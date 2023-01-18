@@ -61,25 +61,37 @@
                 const colgroup = [
                     {
                         attrs: {
-                            style: "width: 30%;",
+                            style: "width: 25%;",
                         },
                         key: Math.random(),
                     },
                     {
                         attrs: {
-                            style: "width: 20%;",
+                            style: "width: 12.5%;",
                         },
                         key: Math.random(),
                     },
                     {
                         attrs: {
-                            style: "width: 30%;",
+                            style: "width: 12.5%;",
                         },
                         key: Math.random(),
                     },
                     {
                         attrs: {
-                            style: "width: 20%;",
+                            style: "width: 25%;",
+                        },
+                        key: Math.random(),
+                    },
+                    {
+                        attrs: {
+                            style: "width: 12.5%;",
+                        },
+                        key: Math.random(),
+                    },
+                    {
+                        attrs: {
+                            style: "width: 12.5%;",
                         },
                         key: Math.random(),
                     },
@@ -90,14 +102,14 @@
                         content: [
                             {
                                 attrs: {
-                                    colspan: "2",
+                                    colspan: "3",
                                 },
                                 key: Math.random(),
                                 text: "Expected",
                             },
                             {
                                 attrs: {
-                                    colspan: "2",
+                                    colspan: "3",
                                 },
                                 key: Math.random(),
                                 text: "Actual",
@@ -115,12 +127,22 @@
                             {
                                 attrs: {},
                                 key: Math.random(),
+                                text: "Window Width (px)",
+                            },
+                            {
+                                attrs: {},
+                                key: Math.random(),
                                 text: "Delay (ms)",
                             },
                             {
                                 attrs: {},
                                 key: Math.random(),
                                 text: "URL",
+                            },
+                            {
+                                attrs: {},
+                                key: Math.random(),
+                                text: "Window Width (px)",
                             },
                             {
                                 attrs: {},
@@ -171,6 +193,20 @@
                             {
                                 content: {
                                     attrs: {
+                                        "aria-label": "Expected Window Width (px)",
+                                        max: "4000",
+                                        min: "100",
+                                        type: "number",
+                                    },
+                                    model: model["expected.widthPx"] ?? "",
+                                    name: "cases[" + idx + "].expected.widthPx",
+                                    required: "required",
+                                },
+                                key: Math.random(),
+                            },
+                            {
+                                content: {
+                                    attrs: {
                                         "aria-label": "Expected Delay (ms)",
                                         max: "60000",
                                         min: "0",
@@ -191,6 +227,20 @@
                                     },
                                     model: model["actual.resource"] ?? "",
                                     name: "cases[" + idx + "].actual.resource",
+                                    required: "required",
+                                },
+                                key: Math.random(),
+                            },
+                            {
+                                content: {
+                                    attrs: {
+                                        "aria-label": "Actual Window Width (px)",
+                                        max: "4000",
+                                        min: "100",
+                                        type: "number",
+                                    },
+                                    model: model["actual.widthPx"] ?? "",
+                                    name: "cases[" + idx + "].actual.widthPx",
                                     required: "required",
                                 },
                                 key: Math.random(),

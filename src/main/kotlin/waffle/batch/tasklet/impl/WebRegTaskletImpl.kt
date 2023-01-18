@@ -44,12 +44,20 @@ class WebRegTaskletImpl(
         try {
             val a: List<ByteArray> = entity2.cases.map {
                 Thread.sleep(it.expected.delayMs)
-                browserComponent.captureScreenshot(it.expected.resource)
+
+                browserComponent.captureScreenshot(
+                    url = it.expected.resource,
+                    width = it.expected.widthPx.toInt(),
+                )
             }
 
             val b: List<ByteArray> = entity2.cases.map {
                 Thread.sleep(it.actual.delayMs)
-                browserComponent.captureScreenshot(it.actual.resource)
+
+                browserComponent.captureScreenshot(
+                    url = it.actual.resource,
+                    width = it.expected.widthPx.toInt(),
+                )
             }
 
             val result: ByteArray = reportingComponent.compareImages(a, b)

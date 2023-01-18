@@ -23,6 +23,11 @@ data class WebRegCaseJpaEntity(
     val expectedResource: String = "",
 
     /**
+     * Window width for an expected page (pixels).
+     */
+    val expectedWidthPx: Long = 1920,
+
+    /**
      * Waiting time before accessing to an expected page (milliseconds).
      */
     val expectedDelayMs: Long = 0,
@@ -31,6 +36,11 @@ data class WebRegCaseJpaEntity(
      * URL for an actual page.
      */
     val actualResource: String = "",
+
+    /**
+     * Window width for an actual page (pixels).
+     */
+    val actualWidthPx: Long = 1920,
 
     /**
      * Waiting time before accessing to an actual page (milliseconds).

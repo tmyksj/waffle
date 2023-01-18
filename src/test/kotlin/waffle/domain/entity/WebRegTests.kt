@@ -59,6 +59,23 @@ class WebRegTests {
     }
 
     @Test
+    fun widthPx_must_be_in_range_from_100px_to_4000px() {
+        SoftAssertions.assertSoftly {
+            it.assertThatThrownBy { webRegFactory.buildComposition(widthPx = 99) }
+                .isInstanceOf(IllegalArgumentException::class.java)
+
+            it.assertThatCode { webRegFactory.buildComposition(widthPx = 100) }
+                .doesNotThrowAnyException()
+
+            it.assertThatCode { webRegFactory.buildComposition(widthPx = 4000) }
+                .doesNotThrowAnyException()
+
+            it.assertThatThrownBy { webRegFactory.buildComposition(widthPx = 4001) }
+                .isInstanceOf(IllegalArgumentException::class.java)
+        }
+    }
+
+    @Test
     fun delayMs_must_be_in_range_from_zero_to_1_minute() {
         SoftAssertions.assertSoftly {
             it.assertThatThrownBy { webRegFactory.buildComposition(delayMs = -1) }
