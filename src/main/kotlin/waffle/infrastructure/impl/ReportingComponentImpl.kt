@@ -51,7 +51,7 @@ class ReportingComponentImpl(
                     .waitFor()
 
                 ZipOutputStream(FileOutputStream(path(".reg.zip").toFile())).use { zipOutputStream ->
-                    val startIndex: Int = path(".reg").toString().length
+                    val startIndex: Int = path(".reg").toString().length + 1
 
                     path(".reg").walk().forEach {
                         zipOutputStream.putNextEntry(ZipEntry(it.toString().substring(startIndex)))
