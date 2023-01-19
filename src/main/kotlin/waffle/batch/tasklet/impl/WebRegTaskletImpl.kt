@@ -56,7 +56,7 @@ class WebRegTaskletImpl(
 
                 browserComponent.captureScreenshot(
                     url = it.actual.resource,
-                    width = it.expected.widthPx.toInt(),
+                    width = it.actual.widthPx.toInt(),
                 )
             }
 
