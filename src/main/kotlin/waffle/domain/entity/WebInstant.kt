@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 import java.util.*
 
 /**
- * An entity that describes conditions for creating checkpoints of pages.
+ * A set of checkpoints of pages.
  */
 data class WebInstant(
 
@@ -16,7 +16,7 @@ data class WebInstant(
     val id: UUID = UUID.randomUUID(),
 
     /**
-     * Compositions.
+     * Compositions for creating a checkpoint.
      */
     val compositions: List<WebComposition> = listOf(),
 
