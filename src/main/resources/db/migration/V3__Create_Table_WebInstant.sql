@@ -13,8 +13,8 @@ create table wf_web_instant_composition
     wf_web_instant_id varchar(36) not null,
     id                bigint      not null,
     resource          text        not null,
-    widthPx           bigint      not null,
-    delayMs           bigint      not null,
+    width_px          bigint      not null,
+    delay_ms          bigint      not null,
     primary key (wf_web_instant_id, id)
 ) engine = InnoDB
   default charset utf8mb4;
