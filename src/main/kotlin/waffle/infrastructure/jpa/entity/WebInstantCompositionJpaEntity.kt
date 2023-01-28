@@ -5,7 +5,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.io.Serializable
 
 /**
- * Compositions for creating a checkpoint.
+ * Composition for creating a checkpoint.
  */
 @Entity(name = "wf_web_instant_composition")
 @EntityListeners(AuditingEntityListener::class)
