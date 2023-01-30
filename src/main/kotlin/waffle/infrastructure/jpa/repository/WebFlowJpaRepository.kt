@@ -3,11 +3,11 @@ package waffle.infrastructure.jpa.repository
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
-import waffle.infrastructure.jpa.entity.WebInstantJpaEntity
+import waffle.infrastructure.jpa.entity.WebFlowJpaEntity
 
 /**
- * Repository for WebInstantJpaEntity.
+ * Repository for WebFlowJpaEntity.
  */
 @Repository
 @Transactional
-interface WebInstantJpaRepository : JpaRepository<WebInstantJpaEntity, String>
+interface WebFlowJpaRepository : JpaRepository<WebFlowJpaEntity, String>

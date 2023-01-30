@@ -7,9 +7,9 @@ import java.io.Serializable
 /**
  * Composition for creating a checkpoint.
  */
-@Entity(name = "wf_web_instant_composition")
+@Entity(name = "wf_web_flow_composition")
 @EntityListeners(AuditingEntityListener::class)
-data class WebInstantCompositionJpaEntity(
+data class WebFlowCompositionJpaEntity(
 
     /**
      * ID.
@@ -37,8 +37,8 @@ data class WebInstantCompositionJpaEntity(
     @Embeddable
     data class Id(
 
-        @field:Column(name = "wf_web_instant_id")
-        val webInstantId: String = "",
+        @field:Column(name = "wf_web_flow_id")
+        val webFlowId: String = "",
 
         val id: Long = 0,
 

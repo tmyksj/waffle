@@ -6,9 +6,9 @@ import java.time.LocalDateTime
 import java.util.*
 
 /**
- * A set of checkpoints of pages.
+ * Instants of pages.
  */
-data class WebInstant(
+data class WebFlow(
 
     /**
      * ID.

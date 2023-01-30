@@ -9,11 +9,11 @@ import waffle.domain.time.now
 import java.time.LocalDateTime
 
 /**
- * A set of checkpoints of pages.
+ * Instants of pages.
  */
-@Entity(name = "wf_web_instant")
+@Entity(name = "wf_web_flow")
 @EntityListeners(AuditingEntityListener::class)
-data class WebInstantJpaEntity(
+data class WebFlowJpaEntity(
 
     /**
      * ID.
