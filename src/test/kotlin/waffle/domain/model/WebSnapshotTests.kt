@@ -4,27 +4,27 @@ import org.assertj.core.api.SoftAssertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import waffle.test.factory.WebScreenshotFactory
+import waffle.test.factory.WebSnapshotFactory
 
 @SpringBootTest
-class WebScreenshotTests {
+class WebSnapshotTests {
 
     @Autowired
-    private lateinit var webScreenshotFactory: WebScreenshotFactory
+    private lateinit var webSnapshotFactory: WebSnapshotFactory
 
     @Test
     fun widthPx_must_be_in_range_from_100px_to_4000px() {
         SoftAssertions.assertSoftly {
-            it.assertThatThrownBy { webScreenshotFactory.build(widthPx = 99) }
+            it.assertThatThrownBy { webSnapshotFactory.build(widthPx = 99) }
                 .isInstanceOf(IllegalArgumentException::class.java)
 
-            it.assertThatCode { webScreenshotFactory.build(widthPx = 100) }
+            it.assertThatCode { webSnapshotFactory.build(widthPx = 100) }
                 .doesNotThrowAnyException()
 
-            it.assertThatCode { webScreenshotFactory.build(widthPx = 4000) }
+            it.assertThatCode { webSnapshotFactory.build(widthPx = 4000) }
                 .doesNotThrowAnyException()
 
-            it.assertThatThrownBy { webScreenshotFactory.build(widthPx = 4001) }
+            it.assertThatThrownBy { webSnapshotFactory.build(widthPx = 4001) }
                 .isInstanceOf(IllegalArgumentException::class.java)
         }
     }

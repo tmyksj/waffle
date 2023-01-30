@@ -1,14 +1,14 @@
 package waffle.test.factory
 
 import org.springframework.boot.test.context.TestComponent
-import waffle.domain.model.WebScreenshot
+import waffle.domain.model.WebSnapshot
 import java.net.URL
 
 /**
- * Component for building a WebScreenshot model.
+ * Component for building a WebSnapshot model.
  */
 @TestComponent
-class WebScreenshotFactory {
+class WebSnapshotFactory {
 
     /**
      * Returns a new model.
@@ -16,12 +16,12 @@ class WebScreenshotFactory {
     fun build(
         resource: URL = URL("http://127.0.0.1:8081"),
         widthPx: Long = 1920,
-        binary: ByteArray = checkNotNull(javaClass.getResourceAsStream("/Waffle_of_Japan_001.jpg")).readAllBytes(),
-    ): WebScreenshot {
-        return WebScreenshot(
+        screenshot: ByteArray = checkNotNull(javaClass.getResourceAsStream("/Waffle_of_Japan_001.jpg")).readAllBytes(),
+    ): WebSnapshot {
+        return WebSnapshot(
             resource = resource,
             widthPx = widthPx,
-            binary = binary,
+            screenshot = screenshot,
         )
     }
 

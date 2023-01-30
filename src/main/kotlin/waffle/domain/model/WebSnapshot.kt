@@ -3,9 +3,9 @@ package waffle.domain.model
 import java.net.URL
 
 /**
- * Screenshot of a page.
+ * Snapshot of a page.
  */
-data class WebScreenshot(
+data class WebSnapshot(
 
     /**
      * URL for a page.
@@ -18,9 +18,9 @@ data class WebScreenshot(
     val widthPx: Long = 1920,
 
     /**
-     * Screenshot.
+     * Screenshot of a page.
      */
-    val binary: ByteArray = ByteArray(0),
+    val screenshot: ByteArray = ByteArray(0),
 
     ) {
 
@@ -35,11 +35,11 @@ data class WebScreenshot(
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as WebScreenshot
+        other as WebSnapshot
 
         if (resource != other.resource) return false
         if (widthPx != other.widthPx) return false
-        if (!binary.contentEquals(other.binary)) return false
+        if (!screenshot.contentEquals(other.screenshot)) return false
 
         return true
     }
@@ -47,7 +47,7 @@ data class WebScreenshot(
     override fun hashCode(): Int {
         var result = resource.hashCode()
         result = 31 * result + widthPx.hashCode()
-        result = 31 * result + binary.contentHashCode()
+        result = 31 * result + screenshot.contentHashCode()
         return result
     }
 
