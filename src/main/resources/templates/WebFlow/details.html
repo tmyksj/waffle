@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en"
+      th:replace="~{default :: layout(~{:: meta}, ~{:: title}, ~{:: 'th:block'})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>WebFlow - Waffle</title>
+</head>
+<body>
+<th:block>
+    <div class="u_ai-c u_d-f u_jc-sb">
+        <h1>WebFlow</h1>
+    </div>
+    <div class="c_Table u_mb-0.4">
+        <table>
+            <colgroup>
+                <col style="width: 50%;">
+                <col style="width: 25%;">
+                <col style="width: 25%;">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>URL</th>
+                <th>Window Width (px)</th>
+                <th>Delay (ms)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="composition : ${webFlow.compositions}">
+                <td th:text="${composition.resource}"></td>
+                <td th:text="${composition.widthPx}"></td>
+                <td th:text="${composition.delayMs}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</th:block>
+</body>
+</html>
