@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.servlet.ModelAndView
-import waffle.domain.model.WebComposition
 import waffle.usecase.command.CreateWebFlowCommand
 import waffle.usecase.query.FindWebFlowQuery
 import waffle.web.form.webflow.CreateForm
@@ -57,8 +56,8 @@ class WebFlowController(
         }
 
         val response: CreateWebFlowCommand.Response = createWebFlowCommand.execute(
-            compositions = createForm.compositions.map {
-                WebComposition(
+            webFlowCompositions = createForm.compositions.map {
+                CreateWebFlowCommand.WebFlowComposition(
                     resource = URL(it.resource),
                     widthPx = it.widthPx,
                     delayMs = it.delayMs,

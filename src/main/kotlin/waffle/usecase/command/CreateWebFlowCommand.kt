@@ -1,7 +1,7 @@
 package waffle.usecase.command
 
 import waffle.domain.entity.WebFlow
-import waffle.domain.model.WebComposition
+import java.net.URL
 
 /**
  * Creates a WebFlow entity.
@@ -10,12 +10,34 @@ interface CreateWebFlowCommand {
 
     /**
      * Executes a command with a given arguments.
-     * @param compositions
+     * @param webFlowCompositions
      * @return
      */
     fun execute(
-        compositions: List<WebComposition>,
+        webFlowCompositions: List<WebFlowComposition>,
     ): Response
+
+    /**
+     * Composition for a page.
+     */
+    data class WebFlowComposition(
+
+        /**
+         * URL for a page.
+         */
+        val resource: URL,
+
+        /**
+         * Window width for a page (pixels).
+         */
+        val widthPx: Long,
+
+        /**
+         * Waiting time before accessing to a page (milliseconds).
+         */
+        val delayMs: Long,
+
+        )
 
     interface Response {
 
