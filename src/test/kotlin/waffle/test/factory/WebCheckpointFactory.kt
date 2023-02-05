@@ -30,7 +30,7 @@ class WebCheckpointFactory {
      */
     fun build(
         id: UUID = UUID.randomUUID(),
-        flow: WebFlow = webFlowFactory.build(),
+        flow: WebFlow = webFlowRepository.save(webFlowFactory.build()),
         snapshots: List<WebSnapshot> = listOf(webSnapshotFactory.build()),
         state: WebCheckpoint.State = WebCheckpoint.State.Ready,
         startedDate: LocalDateTime? = null,
@@ -39,8 +39,6 @@ class WebCheckpointFactory {
         createdDate: LocalDateTime = now(),
         lastModifiedDate: LocalDateTime = createdDate,
     ): WebCheckpoint {
-        webFlowRepository.save(flow)
-
         return WebCheckpoint(
             id = id,
             flow = flow,
@@ -68,8 +66,6 @@ class WebCheckpointFactory {
         createdDate: LocalDateTime = entity.createdDate,
         lastModifiedDate: LocalDateTime = now(),
     ): WebCheckpoint {
-        webFlowRepository.save(flow)
-
         return entity.copy(
             flow = flow,
             snapshots = snapshots,
