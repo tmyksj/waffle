@@ -30,7 +30,7 @@ data class WebCheckpointSnapshotJpaEntity(
     /**
      * Screenshot of a page.
      */
-    val screenshot: ByteArray? = null,
+    val screenshot: ByteArray = ByteArray(0),
 
     ) {
 
@@ -43,10 +43,7 @@ data class WebCheckpointSnapshotJpaEntity(
         if (id != other.id) return false
         if (resource != other.resource) return false
         if (widthPx != other.widthPx) return false
-        if (screenshot != null) {
-            if (other.screenshot == null) return false
-            if (!screenshot.contentEquals(other.screenshot)) return false
-        } else if (other.screenshot != null) return false
+        if (!screenshot.contentEquals(other.screenshot)) return false
 
         return true
     }
@@ -55,7 +52,7 @@ data class WebCheckpointSnapshotJpaEntity(
         var result = id.hashCode()
         result = 31 * result + resource.hashCode()
         result = 31 * result + widthPx.hashCode()
-        result = 31 * result + (screenshot?.contentHashCode() ?: 0)
+        result = 31 * result + screenshot.contentHashCode()
         return result
     }
 
