@@ -1,12 +1,20 @@
 package waffle.domain.repository
 
 import waffle.domain.entity.WebCheckpoint
+import waffle.domain.entity.WebFlow
 import java.util.*
 
 /**
  * Repository for WebCheckpoint.
  */
 interface WebCheckpointRepository {
+
+    /**
+     * Retrieves entities by its flow.
+     * @param flow
+     * @return the entities with the given flow.
+     */
+    fun findAllByFlow(flow: WebFlow): List<WebCheckpoint>
 
     /**
      * Retrieves an entity by its id.

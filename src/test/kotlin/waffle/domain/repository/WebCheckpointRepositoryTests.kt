@@ -42,4 +42,15 @@ class WebCheckpointRepositoryTests {
         // is not supported.
     }
 
+    @Test
+    fun findAllByFlow_returns_entities_with_the_given_flow() {
+        // Init
+        val entity1: WebCheckpoint = webCheckpointFactory.build()
+        val entity2: WebCheckpoint = webCheckpointRepository.save(entity1)
+
+        // Read
+        val entities: List<WebCheckpoint> = webCheckpointRepository.findAllByFlow(entity2.flow)
+        Assertions.assertThat(entities).isEqualTo(listOf(entity2))
+    }
+
 }

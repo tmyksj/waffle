@@ -4,6 +4,7 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 import waffle.domain.entity.WebCheckpoint
+import waffle.domain.entity.WebFlow
 import waffle.domain.model.WebSnapshot
 import waffle.domain.repository.WebCheckpointRepository
 import waffle.domain.repository.WebFlowRepository
@@ -21,6 +22,45 @@ class WebCheckpointRepositoryImpl(
     private val webCheckpointJpaRepository: WebCheckpointJpaRepository,
     private val webCheckpointSnapshotJpaRepository: WebCheckpointSnapshotJpaRepository,
 ) : WebCheckpointRepository {
+
+    override fun findAllByFlow(flow: WebFlow): List<WebCheckpoint> {
+        val jpaEntities: List<WebCheckpointJpaEntity> =
+            webCheckpointJpaRepository.findAllByWebFlowId(listOf(flow.id.toString()))
+
+        val flowEntity: WebFlow =
+            webFlowRepository.findById(flow.id) ?: return listOf()
+
+        val snapshotJpaEntities: List<WebCheckpointSnapshotJpaEntity> =
+            webCheckpointSnapshotJpaRepository.findAllByWebCheckpointId(jpaEntities.map { it.id })
+
+        val snapshots: Map<String, List<WebSnapshot>> =
+            snapshotJpaEntities.groupBy(
+                {
+                    it.id.webCheckpointId
+                },
+                {
+                    WebSnapshot(
+                        resource = URL(it.resource),
+                        widthPx = it.widthPx,
+                        screenshot = it.screenshot,
+                    )
+                },
+            )
+
+        return jpaEntities.map {
+            WebCheckpoint(
+                id = UUID.fromString(it.id),
+                flow = flowEntity,
+                snapshots = snapshots[it.id] ?: listOf(),
+                state = WebCheckpoint.State.values()[it.state.toInt()],
+                startedDate = it.startedDate,
+                completedDate = it.completedDate,
+                failedDate = it.failedDate,
+                createdDate = it.createdDate,
+                lastModifiedDate = it.lastModifiedDate,
+            )
+        }
+    }
 
     override fun findById(id: UUID): WebCheckpoint? {
         val jpaEntity: WebCheckpointJpaEntity =
