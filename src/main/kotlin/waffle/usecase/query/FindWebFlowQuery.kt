@@ -1,5 +1,6 @@
 package waffle.usecase.query
 
+import waffle.domain.entity.WebCheckpoint
 import waffle.domain.entity.WebFlow
 import java.util.*
 
@@ -25,6 +26,11 @@ interface FindWebFlowQuery {
              * WebFlow.
              */
             val webFlow: WebFlow,
+
+            /**
+             * List of WebCheckpoint.
+             */
+            val checkpoints: List<WebCheckpoint>,
 
             ) : Response
 

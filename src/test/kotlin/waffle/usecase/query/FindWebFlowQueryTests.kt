@@ -5,8 +5,11 @@ import org.assertj.core.api.SoftAssertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import waffle.domain.entity.WebCheckpoint
 import waffle.domain.entity.WebFlow
+import waffle.domain.repository.WebCheckpointRepository
 import waffle.domain.repository.WebFlowRepository
+import waffle.test.factory.WebCheckpointFactory
 import waffle.test.factory.WebFlowFactory
 import java.util.*
 
@@ -14,7 +17,13 @@ import java.util.*
 class FindWebFlowQueryTests {
 
     @Autowired
+    private lateinit var webCheckpointRepository: WebCheckpointRepository
+
+    @Autowired
     private lateinit var webFlowRepository: WebFlowRepository
+
+    @Autowired
+    private lateinit var webCheckpointFactory: WebCheckpointFactory
 
     @Autowired
     private lateinit var webFlowFactory: WebFlowFactory
@@ -25,6 +34,8 @@ class FindWebFlowQueryTests {
     @Test
     fun execute_returns_Ok_when_the_WebFlow_exists() {
         val entity: WebFlow = webFlowRepository.save(webFlowFactory.build())
+        val checkpoints: List<WebCheckpoint> =
+            listOf(webCheckpointRepository.save(webCheckpointFactory.build(flow = entity)))
 
         val response: FindWebFlowQuery.Response = findWebFlowQuery.execute(
             id = entity.id,
@@ -35,6 +46,7 @@ class FindWebFlowQueryTests {
 
         SoftAssertions.assertSoftly {
             it.assertThat(response.webFlow).isEqualTo(entity)
+            it.assertThat(response.checkpoints).isEqualTo(checkpoints)
         }
     }
 

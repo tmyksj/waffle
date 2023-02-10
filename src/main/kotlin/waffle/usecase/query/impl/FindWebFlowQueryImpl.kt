@@ -2,7 +2,9 @@ package waffle.usecase.query.impl
 
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
+import waffle.domain.entity.WebCheckpoint
 import waffle.domain.entity.WebFlow
+import waffle.domain.repository.WebCheckpointRepository
 import waffle.domain.repository.WebFlowRepository
 import waffle.usecase.query.FindWebFlowQuery
 import java.util.*
@@ -10,6 +12,7 @@ import java.util.*
 @Component
 @Transactional
 class FindWebFlowQueryImpl(
+    private val webCheckpointRepository: WebCheckpointRepository,
     private val webFlowRepository: WebFlowRepository,
 ) : FindWebFlowQuery {
 
@@ -21,8 +24,11 @@ class FindWebFlowQueryImpl(
                 isNotFound = true,
             )
 
+        val checkpoints: List<WebCheckpoint> = webCheckpointRepository.findAllByFlow(entity)
+
         return FindWebFlowQuery.Response.Ok(
             webFlow = entity,
+            checkpoints = checkpoints,
         )
     }
 
