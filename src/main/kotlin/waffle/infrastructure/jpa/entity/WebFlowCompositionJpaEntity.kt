@@ -40,7 +40,7 @@ data class WebFlowCompositionJpaEntity(
         @field:Column(name = "wf_web_flow_id")
         val webFlowId: String = "",
 
-        val id: Long = 0,
+        val idx: Long = 0,
 
         ) : Serializable
 

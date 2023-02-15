@@ -11,10 +11,10 @@ create table wf_web_flow
 create table wf_web_flow_composition
 (
     wf_web_flow_id varchar(36) not null,
-    id             bigint      not null,
+    idx            bigint      not null,
     resource       text        not null,
     width_px       bigint      not null,
     delay_ms       bigint      not null,
-    primary key (wf_web_flow_id, id)
+    primary key (wf_web_flow_id, idx)
 ) engine = InnoDB
   default charset utf8mb4;

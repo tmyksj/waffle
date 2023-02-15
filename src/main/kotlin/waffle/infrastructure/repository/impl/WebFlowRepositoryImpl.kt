@@ -54,7 +54,7 @@ class WebFlowRepositoryImpl(
                 WebFlowCompositionJpaEntity(
                     id = WebFlowCompositionJpaEntity.Id(
                         webFlowId = entity.id.toString(),
-                        id = index.toLong(),
+                        idx = index.toLong(),
                     ),
                     resource = it.resource.toString(),
                     widthPx = it.widthPx,
