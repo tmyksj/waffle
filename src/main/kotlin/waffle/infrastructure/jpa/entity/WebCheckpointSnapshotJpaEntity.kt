@@ -62,7 +62,7 @@ data class WebCheckpointSnapshotJpaEntity(
         @field:Column(name = "wf_web_checkpoint_id")
         val webCheckpointId: String = "",
 
-        val id: Long = 0,
+        val idx: Long = 0,
 
         ) : Serializable
 

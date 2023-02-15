@@ -108,7 +108,7 @@ class WebCheckpointRepositoryImpl(
                 WebCheckpointSnapshotJpaEntity(
                     id = WebCheckpointSnapshotJpaEntity.Id(
                         webCheckpointId = entity.id.toString(),
-                        id = index.toLong(),
+                        idx = index.toLong(),
                     ),
                     resource = it.resource.toString(),
                     widthPx = it.widthPx,
