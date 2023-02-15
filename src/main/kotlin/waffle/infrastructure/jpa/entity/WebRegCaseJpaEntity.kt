@@ -55,7 +55,7 @@ data class WebRegCaseJpaEntity(
         @field:Column(name = "wf_web_reg_id")
         val webRegId: String = "",
 
-        val id: Long = 0,
+        val idx: Long = 0,
 
         ) : Serializable
 

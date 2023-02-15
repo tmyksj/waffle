@@ -70,7 +70,7 @@ class WebRegRepositoryImpl(
                 WebRegCaseJpaEntity(
                     id = WebRegCaseJpaEntity.Id(
                         webRegId = entity.id.toString(),
-                        id = index.toLong(),
+                        idx = index.toLong(),
                     ),
                     expectedResource = it.expected.resource.toString(),
                     expectedWidthPx = it.expected.widthPx,
