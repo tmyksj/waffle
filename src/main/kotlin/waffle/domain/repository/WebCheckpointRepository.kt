@@ -11,6 +11,7 @@ interface WebCheckpointRepository {
 
     /**
      * Retrieves entities by its flow.
+     *
      * @param flow
      * @return the entities with the given flow.
      */
@@ -18,6 +19,7 @@ interface WebCheckpointRepository {
 
     /**
      * Retrieves an entity by its id.
+     *
      * @param id
      * @return the entity with the given id or null if none found.
      */
@@ -25,6 +27,7 @@ interface WebCheckpointRepository {
 
     /**
      * Saves a given entity.
+     *
      * @param entity
      * @return the saved entity.
      */

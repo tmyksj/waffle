@@ -59,6 +59,7 @@ data class WebReg(
 
     /**
      * The transition to the state "Started".
+     *
      * @return
      */
     fun start(): WebReg {
@@ -71,6 +72,7 @@ data class WebReg(
 
     /**
      * The transition to the state "Completed" with a given result.
+     *
      * @param result
      * @return
      */
@@ -85,6 +87,7 @@ data class WebReg(
 
     /**
      * The transition to the state "Failed".
+     *
      * @return
      */
     fun fail(): WebReg {

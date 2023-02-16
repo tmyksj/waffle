@@ -15,6 +15,7 @@ interface WebCheckpointJpaRepository : JpaRepository<WebCheckpointJpaEntity, Str
 
     /**
      * Returns all instances with the given web flow IDs.
+     *
      * @param webFlowIds
      * @return
      */

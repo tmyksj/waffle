@@ -16,6 +16,7 @@ interface WebRegCaseJpaRepository : JpaRepository<WebRegCaseJpaEntity, WebRegCas
 
     /**
      * Deletes all instances with the given IDs.
+     *
      * @param webRegIds
      * @return
      */
@@ -25,6 +26,7 @@ interface WebRegCaseJpaRepository : JpaRepository<WebRegCaseJpaEntity, WebRegCas
 
     /**
      * Returns all instances with the given IDs.
+     *
      * @param webRegIds
      * @return
      */

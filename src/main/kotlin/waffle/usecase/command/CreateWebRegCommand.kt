@@ -10,6 +10,7 @@ interface CreateWebRegCommand {
 
     /**
      * Executes a command with a given arguments.
+     *
      * @param webRegCases
      * @return
      */

@@ -10,6 +10,7 @@ interface CreateWebFlowCommand {
 
     /**
      * Executes a command with a given arguments.
+     *
      * @param webFlowCompositions
      * @return
      */

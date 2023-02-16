@@ -10,6 +10,7 @@ interface WebRegLauncher {
     /**
      * Runs a given regression test.
      * The test will be persisted in each step.
+     *
      * @param webReg
      */
     fun run(

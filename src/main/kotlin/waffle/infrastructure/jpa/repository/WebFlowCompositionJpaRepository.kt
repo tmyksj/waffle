@@ -16,6 +16,7 @@ interface WebFlowCompositionJpaRepository : JpaRepository<WebFlowCompositionJpaE
 
     /**
      * Deletes all instances with the given IDs.
+     *
      * @param webFlowIds
      * @return
      */
@@ -25,6 +26,7 @@ interface WebFlowCompositionJpaRepository : JpaRepository<WebFlowCompositionJpaE
 
     /**
      * Returns all instances with the given IDs.
+     *
      * @param webFlowIds
      * @return
      */

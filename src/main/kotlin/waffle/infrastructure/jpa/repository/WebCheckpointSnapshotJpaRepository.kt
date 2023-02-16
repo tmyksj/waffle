@@ -17,6 +17,7 @@ interface WebCheckpointSnapshotJpaRepository :
 
     /**
      * Deletes all instances with the given IDs.
+     *
      * @param webCheckpointIds
      * @return
      */
@@ -26,6 +27,7 @@ interface WebCheckpointSnapshotJpaRepository :
 
     /**
      * Returns all instances with the given IDs.
+     *
      * @param webCheckpointIds
      * @return
      */

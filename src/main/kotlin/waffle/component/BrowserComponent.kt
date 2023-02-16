@@ -23,6 +23,7 @@ interface BrowserComponent {
 
     /**
      * Captures a screenshot as raw bytes.
+     *
      * @param url
      * @param width
      * @param height
