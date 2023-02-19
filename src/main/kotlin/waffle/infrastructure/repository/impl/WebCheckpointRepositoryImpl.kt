@@ -8,6 +8,7 @@ import waffle.domain.entity.WebFlow
 import waffle.domain.model.WebSnapshot
 import waffle.domain.repository.WebCheckpointRepository
 import waffle.domain.repository.WebFlowRepository
+import waffle.domain.type.Blob
 import waffle.infrastructure.jpa.entity.WebCheckpointJpaEntity
 import waffle.infrastructure.jpa.entity.WebCheckpointSnapshotJpaEntity
 import waffle.infrastructure.jpa.repository.WebCheckpointJpaRepository
@@ -42,7 +43,7 @@ class WebCheckpointRepositoryImpl(
                     WebSnapshot(
                         resource = URL(it.resource),
                         widthPx = it.widthPx,
-                        screenshot = it.screenshot,
+                        screenshot = Blob { it.screenshot },
                     )
                 },
             )
@@ -78,7 +79,7 @@ class WebCheckpointRepositoryImpl(
                 WebSnapshot(
                     resource = URL(it.resource),
                     widthPx = it.widthPx,
-                    screenshot = it.screenshot,
+                    screenshot = Blob { it.screenshot },
                 )
             },
             state = WebCheckpoint.State.values()[jpaEntity.state.toInt()],
@@ -112,7 +113,7 @@ class WebCheckpointRepositoryImpl(
                     ),
                     resource = it.resource.toString(),
                     widthPx = it.widthPx,
-                    screenshot = it.screenshot,
+                    screenshot = it.screenshot.byteArray,
                 )
             }
 

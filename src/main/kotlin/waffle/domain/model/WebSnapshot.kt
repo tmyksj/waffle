@@ -1,5 +1,6 @@
 package waffle.domain.model
 
+import waffle.domain.type.Blob
 import java.net.URL
 
 /**
@@ -20,7 +21,7 @@ data class WebSnapshot(
     /**
      * Screenshot of a page.
      */
-    val screenshot: ByteArray = ByteArray(0),
+    val screenshot: Blob = Blob(),
 
     ) {
 
@@ -29,26 +30,6 @@ data class WebSnapshot(
         if (widthPx !in 100..4000) {
             throw IllegalArgumentException()
         }
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as WebSnapshot
-
-        if (resource != other.resource) return false
-        if (widthPx != other.widthPx) return false
-        if (!screenshot.contentEquals(other.screenshot)) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = resource.hashCode()
-        result = 31 * result + widthPx.hashCode()
-        result = 31 * result + screenshot.contentHashCode()
-        return result
     }
 
 }
