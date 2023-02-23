@@ -4,7 +4,7 @@ import waffle.domain.entity.WebReg
 import java.util.*
 
 /**
- * Repository for WebReg.
+ * Repository for [WebReg].
  */
 interface WebRegRepository {
 

@@ -4,7 +4,7 @@ import waffle.domain.entity.WebCheckpoint
 import java.util.*
 
 /**
- * Creates a WebCheckpoint entity.
+ * Creates a [WebCheckpoint] entity.
  */
 interface CreateWebCheckpointCommand {
 

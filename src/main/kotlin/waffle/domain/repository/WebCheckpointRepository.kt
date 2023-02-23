@@ -5,7 +5,7 @@ import waffle.domain.entity.WebFlow
 import java.util.*
 
 /**
- * Repository for WebCheckpoint.
+ * Repository for [WebCheckpoint].
  */
 interface WebCheckpointRepository {
 

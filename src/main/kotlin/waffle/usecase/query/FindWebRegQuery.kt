@@ -4,7 +4,7 @@ import waffle.domain.entity.WebReg
 import java.util.*
 
 /**
- * Finds a WebReg.
+ * Finds a [WebReg].
  */
 interface FindWebRegQuery {
 

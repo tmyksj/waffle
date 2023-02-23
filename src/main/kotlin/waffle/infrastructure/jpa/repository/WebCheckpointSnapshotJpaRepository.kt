@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional
 import waffle.infrastructure.jpa.entity.WebCheckpointSnapshotJpaEntity
 
 /**
- * Repository for WebCheckpointSnapshotJpaEntity.
+ * Repository for [WebCheckpointSnapshotJpaEntity].
  */
 @Repository
 @Transactional

@@ -1,9 +1,10 @@
 package waffle.web.form.webreg
 
+import waffle.web.controller.WebRegController
 import java.util.*
 
 /**
- * Form for #details.
+ * Form for [WebRegController.details].
  */
 data class DetailsForm(
 

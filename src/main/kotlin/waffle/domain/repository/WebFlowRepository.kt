@@ -4,7 +4,7 @@ import waffle.domain.entity.WebFlow
 import java.util.*
 
 /**
- * Repository for WebFlow.
+ * Repository for [WebFlow].
  */
 interface WebFlowRepository {
 

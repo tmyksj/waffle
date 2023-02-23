@@ -4,7 +4,7 @@ import waffle.domain.entity.WebReg
 import java.net.URL
 
 /**
- * Creates a WebReg entity.
+ * Creates a [WebReg] entity.
  */
 interface CreateWebRegCommand {
 

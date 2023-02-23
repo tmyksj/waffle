@@ -4,7 +4,7 @@ import waffle.domain.entity.WebFlow
 import java.net.URL
 
 /**
- * Creates a WebFlow entity.
+ * Creates a [WebFlow] entity.
  */
 interface CreateWebFlowCommand {
 

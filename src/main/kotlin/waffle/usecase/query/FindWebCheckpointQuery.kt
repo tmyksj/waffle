@@ -4,7 +4,7 @@ import waffle.domain.entity.WebCheckpoint
 import java.util.*
 
 /**
- * Finds a WebCheckpoint.
+ * Finds a [WebCheckpoint].
  */
 interface FindWebCheckpointQuery {
 

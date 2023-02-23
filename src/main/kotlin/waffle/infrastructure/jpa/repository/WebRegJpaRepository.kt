@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional
 import waffle.infrastructure.jpa.entity.WebRegJpaEntity
 
 /**
- * Repository for WebRegJpaEntity.
+ * Repository for [WebRegJpaEntity].
  */
 @Repository
 @Transactional

@@ -5,7 +5,7 @@ import waffle.domain.entity.WebFlow
 import java.util.*
 
 /**
- * Finds a WebFlow.
+ * Finds a [WebFlow].
  */
 interface FindWebFlowQuery {
 
