@@ -1,11 +1,11 @@
-package waffle.infrastructure.impl
+package waffle.infrastructure.component.impl
 
 import org.openqa.selenium.Dimension
 import org.openqa.selenium.OutputType
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeOptions
 import org.springframework.stereotype.Component
-import waffle.component.BrowserComponent
+import waffle.core.component.BrowserComponent
 import java.io.Closeable
 import java.net.URL
 

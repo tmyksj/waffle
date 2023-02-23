@@ -1,8 +1,8 @@
-package waffle.infrastructure.impl
+package waffle.infrastructure.component.impl
 
 import org.springframework.stereotype.Component
-import waffle.component.ContentTypeComponent
-import waffle.component.ReportingComponent
+import waffle.core.component.ContentTypeComponent
+import waffle.core.component.ReportingComponent
 import java.io.Closeable
 import java.io.FileOutputStream
 import java.nio.file.Path

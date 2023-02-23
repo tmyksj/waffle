@@ -1,4 +1,4 @@
-package waffle.component
+package waffle.core.component
 
 /**
  * Content type component.

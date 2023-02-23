@@ -9,8 +9,8 @@ import org.springframework.transaction.PlatformTransactionManager
 import org.springframework.transaction.TransactionDefinition
 import org.springframework.transaction.support.TransactionTemplate
 import waffle.batch.tasklet.WebRegTasklet
-import waffle.component.BrowserComponent
-import waffle.component.ReportingComponent
+import waffle.core.component.BrowserComponent
+import waffle.core.component.ReportingComponent
 import waffle.domain.entity.WebReg
 import waffle.domain.repository.WebRegRepository
 import java.util.*

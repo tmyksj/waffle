@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.servlet.ModelAndView
 import waffle.batch.launcher.WebRegLauncher
-import waffle.component.ContentTypeComponent
+import waffle.core.component.ContentTypeComponent
 import waffle.usecase.command.CreateWebRegCommand
 import waffle.usecase.query.FindWebRegQuery
 import waffle.web.form.webreg.CreateForm

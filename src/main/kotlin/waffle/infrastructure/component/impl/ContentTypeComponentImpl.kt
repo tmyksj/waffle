@@ -1,9 +1,9 @@
-package waffle.infrastructure.impl
+package waffle.infrastructure.component.impl
 
 import org.apache.tika.Tika
 import org.apache.tika.mime.MimeTypes
 import org.springframework.stereotype.Component
-import waffle.component.ContentTypeComponent
+import waffle.core.component.ContentTypeComponent
 
 @Component
 class ContentTypeComponentImpl : ContentTypeComponent {
