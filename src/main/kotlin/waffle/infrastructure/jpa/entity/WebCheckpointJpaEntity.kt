@@ -2,7 +2,7 @@ package waffle.infrastructure.jpa.entity
 
 import jakarta.persistence.*
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
-import waffle.domain.time.now
+import waffle.core.time.now
 import java.time.LocalDateTime
 
 /**

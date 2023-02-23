@@ -4,7 +4,7 @@ import org.assertj.core.api.SoftAssertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import waffle.domain.time.now
+import waffle.core.time.now
 import waffle.test.factory.WebRegFactory
 import java.time.LocalDateTime
 

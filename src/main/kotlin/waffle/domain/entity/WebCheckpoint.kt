@@ -1,7 +1,7 @@
 package waffle.domain.entity
 
+import waffle.core.time.now
 import waffle.domain.model.WebSnapshot
-import waffle.domain.time.now
 import java.time.LocalDateTime
 import java.util.*
 

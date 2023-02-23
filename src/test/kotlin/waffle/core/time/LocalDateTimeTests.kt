@@ -1,4 +1,4 @@
-package waffle.domain.time
+package waffle.core.time
 
 import org.assertj.core.api.SoftAssertions
 import org.junit.jupiter.api.Test

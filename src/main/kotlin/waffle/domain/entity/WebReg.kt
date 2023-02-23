@@ -1,6 +1,6 @@
 package waffle.domain.entity
 
-import waffle.domain.time.now
+import waffle.core.time.now
 import java.net.URL
 import java.time.LocalDateTime
 import java.util.*

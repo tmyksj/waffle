@@ -1,4 +1,4 @@
-package waffle.domain.time
+package waffle.core.time
 
 import java.time.LocalDateTime
 

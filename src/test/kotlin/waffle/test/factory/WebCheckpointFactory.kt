@@ -2,11 +2,11 @@ package waffle.test.factory
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.TestComponent
+import waffle.core.time.now
 import waffle.domain.entity.WebCheckpoint
 import waffle.domain.entity.WebFlow
 import waffle.domain.model.WebSnapshot
 import waffle.domain.repository.WebFlowRepository
-import waffle.domain.time.now
 import java.time.LocalDateTime
 import java.util.*
 

@@ -1,8 +1,8 @@
 package waffle.test.factory
 
 import org.springframework.boot.test.context.TestComponent
+import waffle.core.time.now
 import waffle.domain.entity.WebReg
-import waffle.domain.time.now
 import java.net.URL
 import java.time.LocalDateTime
 import java.util.*

@@ -5,7 +5,7 @@ import jakarta.persistence.EntityListeners
 import jakarta.persistence.Id
 import jakarta.persistence.Version
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
-import waffle.domain.time.now
+import waffle.core.time.now
 import java.time.LocalDateTime
 
 /**
