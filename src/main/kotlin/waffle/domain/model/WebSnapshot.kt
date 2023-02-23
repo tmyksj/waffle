@@ -1,6 +1,6 @@
 package waffle.domain.model
 
-import waffle.domain.type.Blob
+import waffle.core.type.Blob
 import java.net.URL
 
 /**

@@ -3,12 +3,12 @@ package waffle.infrastructure.repository.impl
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
+import waffle.core.type.Blob
 import waffle.domain.entity.WebCheckpoint
 import waffle.domain.entity.WebFlow
 import waffle.domain.model.WebSnapshot
 import waffle.domain.repository.WebCheckpointRepository
 import waffle.domain.repository.WebFlowRepository
-import waffle.domain.type.Blob
 import waffle.infrastructure.jpa.entity.WebCheckpointJpaEntity
 import waffle.infrastructure.jpa.entity.WebCheckpointSnapshotJpaEntity
 import waffle.infrastructure.jpa.repository.WebCheckpointJpaRepository

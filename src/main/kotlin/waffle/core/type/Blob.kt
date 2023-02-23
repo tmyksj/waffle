@@ -1,4 +1,4 @@
-package waffle.domain.type
+package waffle.core.type
 
 import java.io.InputStream
 

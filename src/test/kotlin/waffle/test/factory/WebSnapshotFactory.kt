@@ -1,8 +1,8 @@
 package waffle.test.factory
 
 import org.springframework.boot.test.context.TestComponent
+import waffle.core.type.Blob
 import waffle.domain.model.WebSnapshot
-import waffle.domain.type.Blob
 import java.net.URL
 
 /**

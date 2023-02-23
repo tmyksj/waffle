@@ -1,4 +1,4 @@
-package waffle.domain.type
+package waffle.core.type
 
 import org.assertj.core.api.SoftAssertions
 import org.junit.jupiter.api.Test
