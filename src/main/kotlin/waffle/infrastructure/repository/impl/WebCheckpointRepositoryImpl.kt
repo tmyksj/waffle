@@ -43,7 +43,7 @@ class WebCheckpointRepositoryImpl(
                     WebSnapshot(
                         resource = URL(it.resource),
                         widthPx = it.widthPx,
-                        screenshot = Blob { it.screenshot },
+                        screenshot = Blob { it.screenshot.inputStream() },
                     )
                 },
             )
@@ -79,7 +79,7 @@ class WebCheckpointRepositoryImpl(
                 WebSnapshot(
                     resource = URL(it.resource),
                     widthPx = it.widthPx,
-                    screenshot = Blob { it.screenshot },
+                    screenshot = Blob { it.screenshot.inputStream() },
                 )
             },
             state = WebCheckpoint.State.values()[jpaEntity.state.toInt()],

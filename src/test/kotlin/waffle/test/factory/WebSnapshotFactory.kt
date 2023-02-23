@@ -18,7 +18,7 @@ class WebSnapshotFactory {
         resource: URL = URL("http://127.0.0.1:8081"),
         widthPx: Long = 1920,
         screenshot: Blob = Blob {
-            checkNotNull(javaClass.getResourceAsStream("/Waffle_of_Japan_001.jpg")).readAllBytes()
+            checkNotNull(javaClass.getResourceAsStream("/Waffle_of_Japan_001.jpg"))
         },
     ): WebSnapshot {
         return WebSnapshot(
