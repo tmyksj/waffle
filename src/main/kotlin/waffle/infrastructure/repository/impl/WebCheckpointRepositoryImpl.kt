@@ -3,6 +3,7 @@ package waffle.infrastructure.repository.impl
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
+import waffle.core.storage.BlobStorage
 import waffle.core.type.Blob
 import waffle.domain.entity.WebCheckpoint
 import waffle.domain.entity.WebFlow
@@ -19,6 +20,7 @@ import java.util.*
 @Repository
 @Transactional
 class WebCheckpointRepositoryImpl(
+    private val blobStorage: BlobStorage,
     private val webFlowRepository: WebFlowRepository,
     private val webCheckpointJpaRepository: WebCheckpointJpaRepository,
     private val webCheckpointSnapshotJpaRepository: WebCheckpointSnapshotJpaRepository,
@@ -34,6 +36,9 @@ class WebCheckpointRepositoryImpl(
         val snapshotJpaEntities: List<WebCheckpointSnapshotJpaEntity> =
             webCheckpointSnapshotJpaRepository.findAllByWebCheckpointId(jpaEntities.map { it.id })
 
+        val screenshots: Map<UUID, Blob> =
+            blobStorage.findAllById(snapshotJpaEntities.map { UUID.fromString(it.screenshot) })
+
         val snapshots: Map<String, List<WebSnapshot>> =
             snapshotJpaEntities.groupBy(
                 {
@@ -43,7 +48,7 @@ class WebCheckpointRepositoryImpl(
                     WebSnapshot(
                         resource = URL(it.resource),
                         widthPx = it.widthPx,
-                        screenshot = Blob { it.screenshot.inputStream() },
+                        screenshot = checkNotNull(screenshots[UUID.fromString(it.screenshot)]),
                     )
                 },
             )
@@ -70,6 +75,9 @@ class WebCheckpointRepositoryImpl(
         val snapshotJpaEntities: List<WebCheckpointSnapshotJpaEntity> =
             webCheckpointSnapshotJpaRepository.findAllByWebCheckpointId(listOf(jpaEntity.id))
 
+        val screenshots: Map<UUID, Blob> =
+            blobStorage.findAllById(snapshotJpaEntities.map { UUID.fromString(it.screenshot) })
+
         return WebCheckpoint(
             id = UUID.fromString(jpaEntity.id),
             flow = checkNotNull(
@@ -79,7 +87,7 @@ class WebCheckpointRepositoryImpl(
                 WebSnapshot(
                     resource = URL(it.resource),
                     widthPx = it.widthPx,
-                    screenshot = Blob { it.screenshot.inputStream() },
+                    screenshot = checkNotNull(screenshots[UUID.fromString(it.screenshot)]),
                 )
             },
             state = WebCheckpoint.State.values()[jpaEntity.state.toInt()],
@@ -113,7 +121,7 @@ class WebCheckpointRepositoryImpl(
                     ),
                     resource = it.resource.toString(),
                     widthPx = it.widthPx,
-                    screenshot = it.screenshot.byteArray,
+                    screenshot = blobStorage.save(it.screenshot).toString(),
                 )
             }
 

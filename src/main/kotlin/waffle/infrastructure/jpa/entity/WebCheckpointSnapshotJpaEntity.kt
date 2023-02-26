@@ -30,31 +30,9 @@ data class WebCheckpointSnapshotJpaEntity(
     /**
      * Screenshot of a page.
      */
-    val screenshot: ByteArray = ByteArray(0),
+    val screenshot: String = "",
 
     ) {
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as WebCheckpointSnapshotJpaEntity
-
-        if (id != other.id) return false
-        if (resource != other.resource) return false
-        if (widthPx != other.widthPx) return false
-        if (!screenshot.contentEquals(other.screenshot)) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = id.hashCode()
-        result = 31 * result + resource.hashCode()
-        result = 31 * result + widthPx.hashCode()
-        result = 31 * result + screenshot.contentHashCode()
-        return result
-    }
 
     @Embeddable
     data class Id(

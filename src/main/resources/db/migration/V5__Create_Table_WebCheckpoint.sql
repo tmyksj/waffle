@@ -19,7 +19,7 @@ create table wf_web_checkpoint_snapshot
     idx                  bigint      not null,
     resource             text        not null,
     width_px             bigint      not null,
-    screenshot           longblob    not null,
+    screenshot           varchar(36) not null,
     primary key (wf_web_checkpoint_id, idx)
 ) engine = InnoDB
   default charset utf8mb4;
