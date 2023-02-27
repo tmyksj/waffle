@@ -58,6 +58,47 @@ data class WebCheckpoint(
     ) {
 
     /**
+     * The transition to the state "Started".
+     *
+     * @return
+     */
+    fun start(): WebCheckpoint {
+        return copy(
+            state = State.Started,
+            startedDate = now(),
+            lastModifiedDate = now(),
+        )
+    }
+
+    /**
+     * The transition to the state "Completed" with a given snapshots.
+     *
+     * @param snapshots
+     * @return
+     */
+    fun complete(snapshots: List<WebSnapshot>): WebCheckpoint {
+        return copy(
+            snapshots = snapshots,
+            state = State.Completed,
+            completedDate = now(),
+            lastModifiedDate = now(),
+        )
+    }
+
+    /**
+     * The transition to the state "Failed".
+     *
+     * @return
+     */
+    fun fail(): WebCheckpoint {
+        return copy(
+            state = State.Failed,
+            failedDate = now(),
+            lastModifiedDate = now(),
+        )
+    }
+
+    /**
      * WebCheckpoint state.
      */
     enum class State {
