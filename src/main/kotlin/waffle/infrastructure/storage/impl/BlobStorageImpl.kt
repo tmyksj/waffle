@@ -18,6 +18,7 @@ class BlobStorageImpl(
 ) : BlobStorage {
 
     override fun deleteById(id: UUID) {
+        blobValueJpaRepository.deleteById(id.toString())
         blobJpaRepository.deleteById(id.toString())
     }
 
