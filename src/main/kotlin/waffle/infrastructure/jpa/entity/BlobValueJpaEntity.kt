@@ -11,7 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener
  */
 @Entity(name = "wf_blob_value")
 @EntityListeners(AuditingEntityListener::class)
-class BlobValueJpaEntity(
+data class BlobValueJpaEntity(
 
     /**
      * ID.
@@ -25,4 +25,24 @@ class BlobValueJpaEntity(
      */
     val value: ByteArray = ByteArray(0),
 
-    )
+    ) {
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as BlobValueJpaEntity
+
+        if (blobId != other.blobId) return false
+        if (!value.contentEquals(other.value)) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = blobId.hashCode()
+        result = 31 * result + value.contentHashCode()
+        return result
+    }
+
+}

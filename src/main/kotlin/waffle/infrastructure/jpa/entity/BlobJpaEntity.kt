@@ -13,7 +13,7 @@ import java.time.LocalDateTime
  */
 @Entity(name = "wf_blob")
 @EntityListeners(AuditingEntityListener::class)
-class BlobJpaEntity(
+data class BlobJpaEntity(
 
     /**
      * ID.
