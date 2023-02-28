@@ -49,7 +49,7 @@ class BlobStorageImpl(
 
         blobValueJpaRepository.save(
             BlobValueJpaEntity(
-                id = id.toString(),
+                blobId = id.toString(),
                 value = blob.byteArray,
             ),
         )

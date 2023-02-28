@@ -10,9 +10,9 @@ create table wf_blob
 
 create table wf_blob_value
 (
-    id    varchar(36) not null,
-    value longblob    not null,
-    primary key (id),
-    foreign key (id) references wf_blob (id) on delete cascade on update cascade
+    wf_blob_id varchar(36) not null,
+    value      longblob    not null,
+    primary key (wf_blob_id),
+    foreign key (wf_blob_id) references wf_blob (id) on delete cascade on update cascade
 ) engine = InnoDB
   default charset utf8mb4;

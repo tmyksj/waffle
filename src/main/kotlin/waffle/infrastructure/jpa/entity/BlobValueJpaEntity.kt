@@ -1,5 +1,6 @@
 package waffle.infrastructure.jpa.entity
 
+import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EntityListeners
 import jakarta.persistence.Id
@@ -15,8 +16,9 @@ class BlobValueJpaEntity(
     /**
      * ID.
      */
+    @field:Column(name = "wf_blob_id")
     @field:Id
-    val id: String = "",
+    val blobId: String = "",
 
     /**
      * Bytes.
