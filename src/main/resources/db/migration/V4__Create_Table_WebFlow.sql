@@ -15,6 +15,7 @@ create table wf_web_flow_composition
     resource       text        not null,
     width_px       bigint      not null,
     delay_ms       bigint      not null,
-    primary key (wf_web_flow_id, idx)
+    primary key (wf_web_flow_id, idx),
+    foreign key (wf_web_flow_id) references wf_web_flow (id) on delete cascade on update cascade
 ) engine = InnoDB
   default charset utf8mb4;
