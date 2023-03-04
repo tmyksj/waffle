@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.util.MultiValueMap
+import waffle.core.type.Blob
 import waffle.domain.entity.WebReg
 import waffle.domain.repository.WebRegRepository
 import waffle.test.factory.WebRegFactory
@@ -131,7 +132,7 @@ class WebRegControllerTests {
 
     @Test
     fun result_responds_Ok_when_the_WebReg_and_its_result_exist() {
-        val result: ByteArray = ByteArrayOutputStream().apply { use { ZipOutputStream(it) } }.toByteArray()
+        val result = Blob { ByteArrayOutputStream().apply { use { ZipOutputStream(it) } }.toByteArray().inputStream() }
         val entity: WebReg = webRegRepository.save(webRegFactory.build(result = result))
 
         val resultActions: ResultActions = mockMvc.perform(

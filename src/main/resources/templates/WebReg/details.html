@@ -63,13 +63,28 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="case : ${webReg.cases}">
-                <td th:text="${case.expected.resource}"></td>
-                <td th:text="${case.expected.widthPx}"></td>
-                <td th:text="${case.expected.delayMs}"></td>
-                <td th:text="${case.actual.resource}"></td>
-                <td th:text="${case.actual.widthPx}"></td>
-                <td th:text="${case.actual.delayMs}"></td>
+            <tr th:each="i : ${#numbers.sequence(0, T(java.lang.Math).max(
+                    webReg.checkpointA.flow.compositions.size(), webReg.checkpointB.flow.compositions.size()) - 1)}">
+                <th:block th:if="${i < webReg.checkpointA.flow.compositions.size()}">
+                    <td th:text="${webReg.checkpointA.flow.compositions[i].resource}"></td>
+                    <td th:text="${webReg.checkpointA.flow.compositions[i].widthPx}"></td>
+                    <td th:text="${webReg.checkpointA.flow.compositions[i].delayMs}"></td>
+                </th:block>
+                <th:block th:if="${i >= webReg.checkpointA.flow.compositions.size()}">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </th:block>
+                <th:block th:if="${i < webReg.checkpointB.flow.compositions.size()}">
+                    <td th:text="${webReg.checkpointB.flow.compositions[i].resource}"></td>
+                    <td th:text="${webReg.checkpointB.flow.compositions[i].widthPx}"></td>
+                    <td th:text="${webReg.checkpointB.flow.compositions[i].delayMs}"></td>
+                </th:block>
+                <th:block th:if="${i >= webReg.checkpointB.flow.compositions.size()}">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </th:block>
             </tr>
             </tbody>
         </table>

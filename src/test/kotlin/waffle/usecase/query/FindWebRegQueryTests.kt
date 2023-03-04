@@ -5,6 +5,7 @@ import org.assertj.core.api.SoftAssertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import waffle.core.type.Blob
 import waffle.domain.entity.WebReg
 import waffle.domain.repository.WebRegRepository
 import waffle.test.factory.WebRegFactory
@@ -26,7 +27,7 @@ class FindWebRegQueryTests {
 
     @Test
     fun execute_returns_Ok_when_the_WebReg_exists() {
-        val result: ByteArray = ByteArrayOutputStream().apply { use { ZipOutputStream(it) } }.toByteArray()
+        val result = Blob { ByteArrayOutputStream().apply { use { ZipOutputStream(it) } }.toByteArray().inputStream() }
         val entity: WebReg = webRegRepository.save(webRegFactory.build(result = result))
 
         val response: FindWebRegQuery.Response = findWebRegQuery.execute(

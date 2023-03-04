@@ -11,7 +11,11 @@ import org.springframework.transaction.support.TransactionTemplate
 import waffle.batch.tasklet.WebRegTasklet
 import waffle.core.component.BrowserComponent
 import waffle.core.component.ReportingComponent
+import waffle.core.type.Blob
+import waffle.domain.entity.WebCheckpoint
 import waffle.domain.entity.WebReg
+import waffle.domain.model.WebSnapshot
+import waffle.domain.repository.WebCheckpointRepository
 import waffle.domain.repository.WebRegRepository
 import java.util.*
 
@@ -20,6 +24,7 @@ class WebRegTaskletImpl(
     private val platformTransactionManager: PlatformTransactionManager,
     private val browserComponent: BrowserComponent,
     private val reportingComponent: ReportingComponent,
+    private val webCheckpointRepository: WebCheckpointRepository,
     private val webRegRepository: WebRegRepository,
 ) : WebRegTasklet {
 
@@ -41,37 +46,69 @@ class WebRegTaskletImpl(
             webRegRepository.save(entity1.start())
         }.let { checkNotNull(it) }
 
+        execute(transactionTemplate, entity2.checkpointA)
+        execute(transactionTemplate, entity2.checkpointB)
+
+        val entity3: WebReg = transactionTemplate.execute {
+            webRegRepository.findById(id)
+        }.let { checkNotNull(it) }
+
+        execute(transactionTemplate, entity3)
+
+        return RepeatStatus.FINISHED
+    }
+
+    private fun execute(transactionTemplate: TransactionTemplate, entity1: WebCheckpoint) {
         try {
-            val a: List<ByteArray> = entity2.cases.map {
-                Thread.sleep(it.expected.delayMs)
+            if (entity1.state == WebCheckpoint.State.Ready) {
+                val entity2: WebCheckpoint = transactionTemplate.execute {
+                    webCheckpointRepository.save(entity1.start())
+                }.let { checkNotNull(it) }
 
-                browserComponent.captureScreenshot(
-                    url = it.expected.resource,
-                    width = it.expected.widthPx.toInt(),
-                )
-            }
+                val snapshots: List<WebSnapshot> = entity2.flow.compositions.map {
+                    Thread.sleep(it.delayMs)
 
-            val b: List<ByteArray> = entity2.cases.map {
-                Thread.sleep(it.actual.delayMs)
+                    WebSnapshot(
+                        resource = it.resource,
+                        widthPx = it.widthPx,
+                        screenshot = Blob {
+                            browserComponent.captureScreenshot(
+                                url = it.resource,
+                                width = it.widthPx.toInt(),
+                            ).inputStream()
+                        },
+                    )
+                }
 
-                browserComponent.captureScreenshot(
-                    url = it.actual.resource,
-                    width = it.actual.widthPx.toInt(),
-                )
-            }
-
-            val result: ByteArray = reportingComponent.compareImages(a, b)
-
-            transactionTemplate.execute {
-                webRegRepository.save(entity2.complete(result))
+                transactionTemplate.execute {
+                    webCheckpointRepository.save(entity2.complete(snapshots))
+                }
             }
         } catch (e: Exception) {
             transactionTemplate.execute {
-                webRegRepository.save(entity2.fail())
+                webCheckpointRepository.save(entity1.fail())
             }
         }
+    }
 
-        return RepeatStatus.FINISHED
+    private fun execute(transactionTemplate: TransactionTemplate, entity1: WebReg) {
+        try {
+            check(entity1.checkpointA.state == WebCheckpoint.State.Completed)
+            check(entity1.checkpointB.state == WebCheckpoint.State.Completed)
+
+            val result: ByteArray = reportingComponent.compareImages(
+                entity1.checkpointA.snapshots.map { it.screenshot.byteArray },
+                entity1.checkpointB.snapshots.map { it.screenshot.byteArray },
+            )
+
+            transactionTemplate.execute {
+                webRegRepository.save(entity1.complete(Blob { result.inputStream() }))
+            }
+        } catch (e: Exception) {
+            transactionTemplate.execute {
+                webRegRepository.save(entity1.fail())
+            }
+        }
     }
 
 }

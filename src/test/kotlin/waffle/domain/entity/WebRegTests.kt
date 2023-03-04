@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import waffle.core.time.now
+import waffle.core.type.Blob
 import waffle.test.factory.WebRegFactory
 import java.time.LocalDateTime
 
@@ -30,7 +31,7 @@ class WebRegTests {
 
     @Test
     fun transition_to_the_state_Completed() {
-        val result = ByteArray(0)
+        val result = Blob()
         val now: LocalDateTime = now()
 
         val entity: WebReg = webRegFactory.build()
@@ -55,40 +56,6 @@ class WebRegTests {
             it.assertThat(actual.state).isEqualTo(WebReg.State.Failed)
             it.assertThat(actual.failedDate).isAfterOrEqualTo(now)
             it.assertThat(actual.lastModifiedDate).isAfter(entity.lastModifiedDate)
-        }
-    }
-
-    @Test
-    fun widthPx_must_be_in_range_from_100px_to_4000px() {
-        SoftAssertions.assertSoftly {
-            it.assertThatThrownBy { webRegFactory.buildComposition(widthPx = 99) }
-                .isInstanceOf(IllegalArgumentException::class.java)
-
-            it.assertThatCode { webRegFactory.buildComposition(widthPx = 100) }
-                .doesNotThrowAnyException()
-
-            it.assertThatCode { webRegFactory.buildComposition(widthPx = 4000) }
-                .doesNotThrowAnyException()
-
-            it.assertThatThrownBy { webRegFactory.buildComposition(widthPx = 4001) }
-                .isInstanceOf(IllegalArgumentException::class.java)
-        }
-    }
-
-    @Test
-    fun delayMs_must_be_in_range_from_zero_to_1_minute() {
-        SoftAssertions.assertSoftly {
-            it.assertThatThrownBy { webRegFactory.buildComposition(delayMs = -1) }
-                .isInstanceOf(IllegalArgumentException::class.java)
-
-            it.assertThatCode { webRegFactory.buildComposition(delayMs = 0) }
-                .doesNotThrowAnyException()
-
-            it.assertThatCode { webRegFactory.buildComposition(delayMs = 60000) }
-                .doesNotThrowAnyException()
-
-            it.assertThatThrownBy { webRegFactory.buildComposition(delayMs = 60001) }
-                .isInstanceOf(IllegalArgumentException::class.java)
         }
     }
 

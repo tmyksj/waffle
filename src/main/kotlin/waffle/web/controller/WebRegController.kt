@@ -143,7 +143,7 @@ class WebRegController(
         )
 
         if (response is FindWebRegQuery.Response.Ok) {
-            val result: ByteArray = response.webReg.result
+            val result: ByteArray = response.webReg.result?.byteArray
                 ?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
 
             val type: String = contentTypeComponent.guessType(result)

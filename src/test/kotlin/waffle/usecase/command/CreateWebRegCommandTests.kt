@@ -5,7 +5,10 @@ import org.assertj.core.api.SoftAssertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import waffle.domain.entity.WebCheckpoint
 import waffle.domain.entity.WebReg
+import waffle.domain.model.WebComposition
+import waffle.domain.model.WebSnapshot
 import waffle.domain.repository.WebRegRepository
 import java.net.URL
 
@@ -43,22 +46,36 @@ class CreateWebRegCommandTests {
         SoftAssertions.assertSoftly {
             it.assertThat(response.webReg).isEqualTo(webRegRepository.findById(response.webReg.id))
 
-            it.assertThat(response.webReg.cases).isEqualTo(
+            it.assertThat(response.webReg.checkpointA.flow.compositions).isEqualTo(
                 listOf(
-                    WebReg.Case(
-                        expected = WebReg.Composition(
-                            resource = URL("http://127.0.0.1:8081"),
-                            widthPx = 1920,
-                            delayMs = 1000,
-                        ),
-                        actual = WebReg.Composition(
-                            resource = URL("http://127.0.0.1:8081"),
-                            widthPx = 1920,
-                            delayMs = 1000,
-                        ),
+                    WebComposition(
+                        resource = URL("http://127.0.0.1:8081"),
+                        widthPx = 1920,
+                        delayMs = 1000,
                     ),
                 ),
             )
+            it.assertThat(response.webReg.checkpointA.snapshots).isEqualTo(listOf<WebSnapshot>())
+            it.assertThat(response.webReg.checkpointA.state).isEqualTo(WebCheckpoint.State.Ready)
+            it.assertThat(response.webReg.checkpointA.startedDate).isNull()
+            it.assertThat(response.webReg.checkpointA.completedDate).isNull()
+            it.assertThat(response.webReg.checkpointA.failedDate).isNull()
+
+            it.assertThat(response.webReg.checkpointB.flow.compositions).isEqualTo(
+                listOf(
+                    WebComposition(
+                        resource = URL("http://127.0.0.1:8081"),
+                        widthPx = 1920,
+                        delayMs = 1000,
+                    ),
+                ),
+            )
+            it.assertThat(response.webReg.checkpointB.snapshots).isEqualTo(listOf<WebSnapshot>())
+            it.assertThat(response.webReg.checkpointB.state).isEqualTo(WebCheckpoint.State.Ready)
+            it.assertThat(response.webReg.checkpointB.startedDate).isNull()
+            it.assertThat(response.webReg.checkpointB.completedDate).isNull()
+            it.assertThat(response.webReg.checkpointB.failedDate).isNull()
+
             it.assertThat(response.webReg.result).isNull()
             it.assertThat(response.webReg.state).isEqualTo(WebReg.State.Ready)
             it.assertThat(response.webReg.startedDate).isNull()
