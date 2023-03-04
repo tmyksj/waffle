@@ -1,8 +1,8 @@
-package waffle.infrastructure.component.impl
+package waffle.infrastructure.service.impl
 
-import org.springframework.stereotype.Component
+import org.springframework.stereotype.Service
 import waffle.core.component.ContentTypeComponent
-import waffle.core.component.ReportingComponent
+import waffle.domain.service.ReportingService
 import java.io.Closeable
 import java.io.FileOutputStream
 import java.nio.file.Path
@@ -10,10 +10,10 @@ import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 import kotlin.io.path.*
 
-@Component
-class ReportingComponentImpl(
+@Service
+class ReportingServiceImpl(
     private val contentTypeComponent: ContentTypeComponent,
-) : ReportingComponent {
+) : ReportingService {
 
     @OptIn(ExperimentalPathApi::class)
     override fun compareImages(a: List<ByteArray>, b: List<ByteArray>): ByteArray {

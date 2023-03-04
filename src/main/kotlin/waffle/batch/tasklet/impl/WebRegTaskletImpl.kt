@@ -10,22 +10,22 @@ import org.springframework.transaction.TransactionDefinition
 import org.springframework.transaction.support.TransactionTemplate
 import waffle.batch.tasklet.WebRegTasklet
 import waffle.core.component.BrowserComponent
-import waffle.core.component.ReportingComponent
 import waffle.core.type.Blob
 import waffle.domain.entity.WebCheckpoint
 import waffle.domain.entity.WebReg
 import waffle.domain.model.WebSnapshot
 import waffle.domain.repository.WebCheckpointRepository
 import waffle.domain.repository.WebRegRepository
+import waffle.domain.service.ReportingService
 import java.util.*
 
 @Component
 class WebRegTaskletImpl(
     private val platformTransactionManager: PlatformTransactionManager,
     private val browserComponent: BrowserComponent,
-    private val reportingComponent: ReportingComponent,
     private val webCheckpointRepository: WebCheckpointRepository,
     private val webRegRepository: WebRegRepository,
+    private val reportingService: ReportingService,
 ) : WebRegTasklet {
 
     override fun execute(contribution: StepContribution, chunkContext: ChunkContext): RepeatStatus {
@@ -96,7 +96,7 @@ class WebRegTaskletImpl(
             check(entity1.checkpointA.state == WebCheckpoint.State.Completed)
             check(entity1.checkpointB.state == WebCheckpoint.State.Completed)
 
-            val result: ByteArray = reportingComponent.compareImages(
+            val result: ByteArray = reportingService.compareImages(
                 entity1.checkpointA.snapshots.map { it.screenshot.byteArray },
                 entity1.checkpointB.snapshots.map { it.screenshot.byteArray },
             )

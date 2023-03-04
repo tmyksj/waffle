@@ -1,4 +1,4 @@
-package waffle.core.component
+package waffle.domain.service
 
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
@@ -7,17 +7,17 @@ import org.springframework.boot.test.context.SpringBootTest
 import java.io.InputStream
 
 @SpringBootTest
-class ReportingComponentTests {
+class ReportingServiceTests {
 
     @Autowired
-    private lateinit var reportingComponent: ReportingComponent
+    private lateinit var reportingService: ReportingService
 
     @Test
     fun compareImages_returns_bytes() {
         val stream: InputStream = checkNotNull(javaClass.getResourceAsStream("/Waffle_of_Japan_001.jpg"))
         val bytes: ByteArray = stream.readAllBytes()
 
-        val actual: ByteArray = reportingComponent.compareImages(listOf(bytes), listOf(bytes))
+        val actual: ByteArray = reportingService.compareImages(listOf(bytes), listOf(bytes))
         Assertions.assertThat(actual.size).isNotZero
     }
 

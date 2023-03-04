@@ -1,9 +1,9 @@
-package waffle.core.component
+package waffle.domain.service
 
 /**
- * Reporting component.
+ * Reporting service.
  */
-interface ReportingComponent {
+interface ReportingService {
 
     /**
      * Compares images and creates a report compressed by zip.
