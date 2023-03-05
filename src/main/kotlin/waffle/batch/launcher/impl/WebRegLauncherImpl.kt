@@ -6,7 +6,6 @@ import org.springframework.batch.core.launch.JobLauncher
 import org.springframework.stereotype.Component
 import waffle.batch.job.WebRegJob
 import waffle.batch.launcher.WebRegLauncher
-import waffle.batch.tasklet.WebRegTasklet
 import waffle.domain.entity.WebReg
 
 @Component
@@ -22,7 +21,7 @@ class WebRegLauncherImpl(
             webRegJob,
             JobParameters(
                 mapOf(
-                    WebRegTasklet.Keys.Id.toString() to JobParameter(webReg.id.toString(), String::class.java),
+                    WebRegJob.Keys.Id.toString() to JobParameter(webReg.id.toString(), String::class.java),
                 ),
             ),
         )
