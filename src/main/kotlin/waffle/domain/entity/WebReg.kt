@@ -65,6 +65,38 @@ data class WebReg(
     ) {
 
     /**
+     * Whether this is ready.
+     */
+    val isReady: Boolean
+        get() {
+            return state == State.Ready
+        }
+
+    /**
+     * Whether this is started.
+     */
+    val isStarted: Boolean
+        get() {
+            return state == State.Started
+        }
+
+    /**
+     * Whether this is completed.
+     */
+    val isCompleted: Boolean
+        get() {
+            return state == State.Completed
+        }
+
+    /**
+     * Whether this is failed.
+     */
+    val isFailed: Boolean
+        get() {
+            return state == State.Failed
+        }
+
+    /**
      * The transition to the state "Started".
      *
      * @return
