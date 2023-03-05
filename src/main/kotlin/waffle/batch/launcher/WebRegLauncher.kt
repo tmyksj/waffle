@@ -1,15 +1,15 @@
 package waffle.batch.launcher
 
+import waffle.batch.job.WebRegJob
 import waffle.domain.entity.WebReg
 
 /**
- * Launcher for web regression tests.
+ * Launcher for [WebRegJob].
  */
 interface WebRegLauncher {
 
     /**
-     * Runs a given regression test.
-     * The test will be persisted in each step.
+     * Runs a job with given arguments.
      *
      * @param webReg
      */
