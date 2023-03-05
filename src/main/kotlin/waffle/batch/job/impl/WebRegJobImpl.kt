@@ -102,7 +102,7 @@ class WebRegJobImpl(
 
         private fun execute(transactionTemplate: TransactionTemplate, entity1: WebCheckpoint) {
             try {
-                if (entity1.state == WebCheckpoint.State.Ready) {
+                if (entity1.isReady) {
                     val entity2: WebCheckpoint = transactionTemplate.execute {
                         webCheckpointRepository.save(entity1.start())
                     }.let { checkNotNull(it) }
@@ -135,8 +135,8 @@ class WebRegJobImpl(
 
         private fun execute(transactionTemplate: TransactionTemplate, entity1: WebReg) {
             try {
-                check(entity1.checkpointA.state == WebCheckpoint.State.Completed)
-                check(entity1.checkpointB.state == WebCheckpoint.State.Completed)
+                check(entity1.checkpointA.isCompleted)
+                check(entity1.checkpointB.isCompleted)
 
                 val result: ByteArray = reportingService.compareImages(
                     entity1.checkpointA.snapshots.map { it.screenshot.byteArray },
