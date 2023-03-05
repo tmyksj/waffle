@@ -71,7 +71,7 @@ data class WebCheckpoint(
     }
 
     /**
-     * The transition to the state "Completed" with a given snapshots.
+     * The transition to the state "Completed" with given snapshots.
      *
      * @param snapshots
      * @return

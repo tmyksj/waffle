@@ -9,7 +9,7 @@ import java.util.*
 interface CreateWebCheckpointCommand {
 
     /**
-     * Executes a command with a given arguments.
+     * Executes a command with given arguments.
      *
      * @param flowId
      * @return

@@ -9,7 +9,7 @@ import java.util.*
 interface FindWebCheckpointQuery {
 
     /**
-     * Executes a query with a given arguments.
+     * Executes a query with given arguments.
      *
      * @param id
      * @return

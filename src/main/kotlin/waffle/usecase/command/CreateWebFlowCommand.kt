@@ -9,7 +9,7 @@ import java.net.URL
 interface CreateWebFlowCommand {
 
     /**
-     * Executes a command with a given arguments.
+     * Executes a command with given arguments.
      *
      * @param webFlowCompositions
      * @return
