@@ -12,28 +12,28 @@
         <h1>WebReg</h1>
         <div class="u_ai-c u_d-f u_jc-sb">
             <div class="u_pr-1"
-                 th:if="${webReg.state.toString()} == 'Ready'">
+                 th:if="${webReg.isReady()}">
                 <span class="c_Status +Ready"></span> Ready
             </div>
             <div class="u_pr-1"
-                 th:if="${webReg.state.toString()} == 'Started'">
+                 th:if="${webReg.isStarted()}">
                 <span class="c_Status +Started"></span> Started
             </div>
             <div class="u_pr-1"
-                 th:if="${webReg.state.toString()} == 'Completed'">
+                 th:if="${webReg.isCompleted()}">
                 <span class="c_Status +Completed"></span> Completed
             </div>
             <div class="u_pr-1"
-                 th:if="${webReg.state.toString()} == 'Failed'">
+                 th:if="${webReg.isFailed()}">
                 <span class="c_Status +Failed"></span> Failed
             </div>
             <div class="u_pr-1"
-                 th:if="${webReg.state.toString()} == 'Completed'">
+                 th:if="${webReg.isCompleted()}">
                 <a class="c_Button"
                    th:href="@{/WebReg/{id}/Result(id=${webReg.id})}">Download</a>
             </div>
             <div class="u_pr-1"
-                 th:if="${webReg.state.toString()} != 'Completed'">
+                 th:unless="${webReg.isCompleted()}">
                 <span class="c_Button +Disabled">Download</span>
             </div>
         </div>
