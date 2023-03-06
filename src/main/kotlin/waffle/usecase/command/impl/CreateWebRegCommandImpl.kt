@@ -20,7 +20,8 @@ class CreateWebRegCommandImpl(
 ) : CreateWebRegCommand {
 
     override fun execute(
-        webRegCases: List<CreateWebRegCommand.WebRegCase>,
+        checkpointA: List<CreateWebRegCommand.WebComposition>,
+        checkpointB: List<CreateWebRegCommand.WebComposition>,
     ): CreateWebRegCommand.Response {
         val entity: WebReg = webRegRepository.save(
             WebReg(
@@ -28,11 +29,11 @@ class CreateWebRegCommandImpl(
                     WebCheckpoint(
                         flow = webFlowRepository.save(
                             WebFlow(
-                                compositions = webRegCases.map {
+                                compositions = checkpointA.map {
                                     WebComposition(
-                                        resource = it.expected.resource,
-                                        widthPx = it.expected.widthPx,
-                                        delayMs = it.expected.delayMs,
+                                        resource = it.resource,
+                                        widthPx = it.widthPx,
+                                        delayMs = it.delayMs,
                                     )
                                 },
                             ),
@@ -43,11 +44,11 @@ class CreateWebRegCommandImpl(
                     WebCheckpoint(
                         flow = webFlowRepository.save(
                             WebFlow(
-                                compositions = webRegCases.map {
+                                compositions = checkpointB.map {
                                     WebComposition(
-                                        resource = it.actual.resource,
-                                        widthPx = it.actual.widthPx,
-                                        delayMs = it.actual.delayMs,
+                                        resource = it.resource,
+                                        widthPx = it.widthPx,
+                                        delayMs = it.delayMs,
                                     )
                                 },
                             ),

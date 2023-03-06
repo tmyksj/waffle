@@ -11,34 +11,19 @@ interface CreateWebRegCommand {
     /**
      * Executes a command with given arguments.
      *
-     * @param webRegCases
+     * @param checkpointA
+     * @param checkpointB
      * @return
      */
     fun execute(
-        webRegCases: List<WebRegCase>,
+        checkpointA: List<WebComposition>,
+        checkpointB: List<WebComposition>,
     ): Response
-
-    /**
-     * Test case.
-     */
-    data class WebRegCase(
-
-        /**
-         * Composition for an expected page.
-         */
-        val expected: WebRegComposition,
-
-        /**
-         * Composition for an actual page.
-         */
-        val actual: WebRegComposition,
-
-        )
 
     /**
      * Composition for a page.
      */
-    data class WebRegComposition(
+    data class WebComposition(
 
         /**
          * URL for a page.

@@ -24,18 +24,18 @@ class CreateWebRegCommandTests {
     @Test
     fun execute_returns_Ok() {
         val response: CreateWebRegCommand.Response = createWebRegCommand.execute(
-            webRegCases = listOf(
-                CreateWebRegCommand.WebRegCase(
-                    expected = CreateWebRegCommand.WebRegComposition(
-                        resource = URL("http://127.0.0.1:8081"),
-                        widthPx = 1920,
-                        delayMs = 1000,
-                    ),
-                    actual = CreateWebRegCommand.WebRegComposition(
-                        resource = URL("http://127.0.0.1:8081"),
-                        widthPx = 1920,
-                        delayMs = 1000,
-                    ),
+            checkpointA = listOf(
+                CreateWebRegCommand.WebComposition(
+                    resource = URL("http://127.0.0.1:8081"),
+                    widthPx = 1920,
+                    delayMs = 1000,
+                ),
+            ),
+            checkpointB = listOf(
+                CreateWebRegCommand.WebComposition(
+                    resource = URL("http://127.0.0.1:8081"),
+                    widthPx = 1920,
+                    delayMs = 1000,
                 ),
             ),
         )
