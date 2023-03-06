@@ -31,7 +31,7 @@ class WebRegRepositoryImpl(
             checkpointB = checkNotNull(
                 webCheckpointRepository.findById(UUID.fromString(jpaEntity.webCheckpointIdB)),
             ),
-            result = jpaEntity.result?.let {
+            output = jpaEntity.output?.let {
                 blobStorage.findById(UUID.fromString(it))
             },
             state = WebReg.State.values()[jpaEntity.state.toInt()],
@@ -49,7 +49,7 @@ class WebRegRepositoryImpl(
                 id = entity.id.toString(),
                 webCheckpointIdA = entity.checkpointA.id.toString(),
                 webCheckpointIdB = entity.checkpointB.id.toString(),
-                result = entity.result?.let {
+                output = entity.output?.let {
                     blobStorage.save(it).toString()
                 },
                 state = WebReg.State.values().indexOf(entity.state).toLong(),

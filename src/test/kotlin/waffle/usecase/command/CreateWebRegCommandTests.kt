@@ -76,7 +76,7 @@ class CreateWebRegCommandTests {
             it.assertThat(response.webReg.checkpointB.completedDate).isNull()
             it.assertThat(response.webReg.checkpointB.failedDate).isNull()
 
-            it.assertThat(response.webReg.result).isNull()
+            it.assertThat(response.webReg.output).isNull()
             it.assertThat(response.webReg.state).isEqualTo(WebReg.State.Ready)
             it.assertThat(response.webReg.startedDate).isNull()
             it.assertThat(response.webReg.completedDate).isNull()

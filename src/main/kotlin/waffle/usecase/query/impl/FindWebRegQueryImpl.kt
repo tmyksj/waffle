@@ -21,8 +21,8 @@ class FindWebRegQueryImpl(
                 isNotFound = true,
             )
 
-        // Load the result in this transaction.
-        entity.result?.byteArray
+        // Load the output in this transaction.
+        entity.output?.byteArray
 
         return FindWebRegQuery.Response.Ok(
             webReg = entity,

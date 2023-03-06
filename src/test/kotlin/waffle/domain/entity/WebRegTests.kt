@@ -59,14 +59,14 @@ class WebRegTests {
 
     @Test
     fun transition_to_the_state_Completed() {
-        val result = Blob()
+        val output = Blob()
         val now: LocalDateTime = now()
 
         val entity: WebReg = webRegFactory.build()
-        val actual: WebReg = entity.complete(result)
+        val actual: WebReg = entity.complete(output)
 
         SoftAssertions.assertSoftly {
-            it.assertThat(actual.result).isEqualTo(result)
+            it.assertThat(actual.output).isEqualTo(output)
             it.assertThat(actual.state).isEqualTo(WebReg.State.Completed)
             it.assertThat(actual.completedDate).isAfterOrEqualTo(now)
             it.assertThat(actual.lastModifiedDate).isAfter(entity.lastModifiedDate)

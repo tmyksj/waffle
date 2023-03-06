@@ -4,9 +4,9 @@ import waffle.web.controller.WebRegController
 import java.util.*
 
 /**
- * Form for [WebRegController.result].
+ * Form for [WebRegController.output].
  */
-data class ResultForm(
+data class OutputForm(
 
     /**
      * WebReg ID.

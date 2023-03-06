@@ -27,8 +27,8 @@ class FindWebRegQueryTests {
 
     @Test
     fun execute_returns_Ok_when_the_WebReg_exists() {
-        val result = Blob { ByteArrayOutputStream().apply { use { ZipOutputStream(it) } }.toByteArray().inputStream() }
-        val entity: WebReg = webRegRepository.save(webRegFactory.build(result = result))
+        val output = Blob { ByteArrayOutputStream().apply { use { ZipOutputStream(it) } }.toByteArray().inputStream() }
+        val entity: WebReg = webRegRepository.save(webRegFactory.build(output = output))
 
         val response: FindWebRegQuery.Response = findWebRegQuery.execute(
             id = entity.id,

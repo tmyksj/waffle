@@ -15,7 +15,7 @@ import waffle.usecase.command.CreateWebRegCommand
 import waffle.usecase.query.FindWebRegQuery
 import waffle.web.form.webreg.CreateForm
 import waffle.web.form.webreg.DetailsForm
-import waffle.web.form.webreg.ResultForm
+import waffle.web.form.webreg.OutputForm
 import java.net.URL
 
 /**
@@ -125,13 +125,13 @@ class WebRegController(
     }
 
     /**
-     * GET: /WebReg/{id}/Result
+     * GET: /WebReg/{id}/Output
      *
-     * Responds a result by its id or responds HTTP status 404 if none found.
+     * Responds an output by its id or responds HTTP status 404 if none found.
      */
-    @RequestMapping(method = [RequestMethod.GET], path = ["/WebReg/{id}/Result"])
-    fun result(
-        @Validated resultForm: ResultForm,
+    @RequestMapping(method = [RequestMethod.GET], path = ["/WebReg/{id}/Output"])
+    fun output(
+        @Validated outputForm: OutputForm,
         bindingResult: BindingResult,
     ): Any {
         if (bindingResult.hasErrors()) {
@@ -139,20 +139,20 @@ class WebRegController(
         }
 
         val response: FindWebRegQuery.Response = findWebRegQuery.execute(
-            id = resultForm.id,
+            id = outputForm.id,
         )
 
         if (response is FindWebRegQuery.Response.Ok) {
-            val result: ByteArray = response.webReg.result?.byteArray
+            val output: ByteArray = response.webReg.output?.byteArray
                 ?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
 
-            val type: String = contentTypeComponent.guessType(result)
-            val extension: String = contentTypeComponent.guessExtension(result)
+            val type: String = contentTypeComponent.guessType(output)
+            val extension: String = contentTypeComponent.guessExtension(output)
 
             return ResponseEntity.ok()
                 .header("Content-Type", type)
                 .header("Content-Disposition", "attachment; filename=\"${response.webReg.id}${extension}\"")
-                .body(result)
+                .body(output)
         } else {
             throw ResponseStatusException(HttpStatus.NOT_FOUND)
         }

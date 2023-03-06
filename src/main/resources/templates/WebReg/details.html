@@ -30,7 +30,7 @@
             <div class="u_pr-1"
                  th:if="${webReg.isCompleted()}">
                 <a class="c_Button"
-                   th:href="@{/WebReg/{id}/Result(id=${webReg.id})}">Download</a>
+                   th:href="@{/WebReg/{id}/Output(id=${webReg.id})}">Download</a>
             </div>
             <div class="u_pr-1"
                  th:unless="${webReg.isCompleted()}">

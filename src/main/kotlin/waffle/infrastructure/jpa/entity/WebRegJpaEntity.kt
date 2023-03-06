@@ -32,9 +32,9 @@ data class WebRegJpaEntity(
     val webCheckpointIdB: String = "",
 
     /**
-     * Test result.
+     * Output.
      */
-    val result: String? = null,
+    val output: String? = null,
 
     /**
      * State.

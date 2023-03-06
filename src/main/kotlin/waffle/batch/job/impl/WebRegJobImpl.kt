@@ -138,13 +138,13 @@ class WebRegJobImpl(
                 check(entity1.checkpointA.isCompleted)
                 check(entity1.checkpointB.isCompleted)
 
-                val result: ByteArray = reportingService.compareImages(
+                val output: ByteArray = reportingService.compareImages(
                     entity1.checkpointA.snapshots.map { it.screenshot.byteArray },
                     entity1.checkpointB.snapshots.map { it.screenshot.byteArray },
                 )
 
                 transactionTemplate.execute {
-                    webRegRepository.save(entity1.complete(Blob { result.inputStream() }))
+                    webRegRepository.save(entity1.complete(Blob { output.inputStream() }))
                 }
             } catch (e: Exception) {
                 transactionTemplate.execute {

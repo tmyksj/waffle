@@ -28,9 +28,9 @@ data class WebReg(
     val checkpointB: WebCheckpoint,
 
     /**
-     * Test result.
+     * Output.
      */
-    val result: Blob? = null,
+    val output: Blob? = null,
 
     /**
      * State.
@@ -110,14 +110,14 @@ data class WebReg(
     }
 
     /**
-     * The transition to the state "Completed" with a given result.
+     * The transition to the state "Completed" with a given output.
      *
-     * @param result
+     * @param output
      * @return
      */
-    fun complete(result: Blob): WebReg {
+    fun complete(output: Blob): WebReg {
         return copy(
-            result = result,
+            output = output,
             state = State.Completed,
             completedDate = now(),
             lastModifiedDate = now(),

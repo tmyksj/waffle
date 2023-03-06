@@ -3,7 +3,7 @@ create table wf_web_reg
     id                     varchar(36) not null,
     wf_web_checkpoint_id_a varchar(36) not null,
     wf_web_checkpoint_id_b varchar(36) not null,
-    result                 varchar(36),
+    output                 varchar(36),
     state                  bigint      not null,
     started_date           datetime(6)          default 0,
     completed_date         datetime(6)          default 0,
