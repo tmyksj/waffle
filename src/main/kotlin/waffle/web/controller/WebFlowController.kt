@@ -56,8 +56,8 @@ class WebFlowController(
         }
 
         val response: CreateWebFlowCommand.Response = createWebFlowCommand.execute(
-            webFlowCompositions = createForm.compositions.map {
-                CreateWebFlowCommand.WebFlowComposition(
+            compositions = createForm.compositions.map {
+                CreateWebFlowCommand.WebComposition(
                     resource = URL(it.resource),
                     widthPx = it.widthPx,
                     delayMs = it.delayMs,

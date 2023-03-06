@@ -11,17 +11,17 @@ interface CreateWebFlowCommand {
     /**
      * Executes a command with given arguments.
      *
-     * @param webFlowCompositions
+     * @param compositions
      * @return
      */
     fun execute(
-        webFlowCompositions: List<WebFlowComposition>,
+        compositions: List<WebComposition>,
     ): Response
 
     /**
      * Composition for a page.
      */
-    data class WebFlowComposition(
+    data class WebComposition(
 
         /**
          * URL for a page.

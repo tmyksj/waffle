@@ -21,8 +21,8 @@ class CreateWebFlowCommandTests {
     @Test
     fun execute_returns_Ok() {
         val response: CreateWebFlowCommand.Response = createWebFlowCommand.execute(
-            webFlowCompositions = listOf(
-                CreateWebFlowCommand.WebFlowComposition(
+            compositions = listOf(
+                CreateWebFlowCommand.WebComposition(
                     resource = URL("http://127.0.0.1:8081"),
                     widthPx = 1920,
                     delayMs = 1000,

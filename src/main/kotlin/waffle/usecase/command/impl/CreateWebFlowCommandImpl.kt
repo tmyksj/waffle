@@ -14,11 +14,11 @@ class CreateWebFlowCommandImpl(
 ) : CreateWebFlowCommand {
 
     override fun execute(
-        webFlowCompositions: List<CreateWebFlowCommand.WebFlowComposition>,
+        compositions: List<CreateWebFlowCommand.WebComposition>,
     ): CreateWebFlowCommand.Response {
         val entity: WebFlow = webFlowRepository.save(
             WebFlow(
-                compositions = webFlowCompositions.map {
+                compositions = compositions.map {
                     WebComposition(
                         resource = it.resource,
                         widthPx = it.widthPx,
