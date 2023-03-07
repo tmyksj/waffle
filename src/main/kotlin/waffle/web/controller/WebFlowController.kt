@@ -26,15 +26,15 @@ class WebFlowController(
     /**
      * GET: /WebFlow
      *
-     * Renders an index page.
+     * Renders a create form page.
      */
     @RequestMapping(method = [RequestMethod.GET], path = ["/WebFlow"])
-    fun index(
+    fun createForm(
         createForm: CreateForm,
     ): Any {
         return ModelAndView().apply {
             status = HttpStatus.OK
-            viewName = "WebFlow/index"
+            viewName = "WebFlow/createForm"
         }
     }
 
@@ -51,7 +51,7 @@ class WebFlowController(
         if (bindingResult.hasErrors()) {
             return ModelAndView().apply {
                 status = HttpStatus.BAD_REQUEST
-                viewName = "WebFlow/index"
+                viewName = "WebFlow/createForm"
             }
         }
 
@@ -73,7 +73,7 @@ class WebFlowController(
         } else {
             ModelAndView().apply {
                 status = HttpStatus.BAD_REQUEST
-                viewName = "WebFlow/index"
+                viewName = "WebFlow/createForm"
             }
         }
     }

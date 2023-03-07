@@ -35,7 +35,7 @@ class WebFlowControllerTests {
     private lateinit var webFlowFactory: WebFlowFactory
 
     @Test
-    fun index_responds_Ok() {
+    fun createForm_responds_Ok() {
         val resultActions: ResultActions = mockMvc.perform(
             MockMvcRequestBuilders.get("/WebFlow"),
         )

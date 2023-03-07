@@ -17,14 +17,14 @@ data class CreateForm(
      */
     @field:NotEmpty
     @field:Valid
-    val compositions: List<WebFlowComposition> = mutableListOf(),
+    val compositions: List<WebComposition> = mutableListOf(),
 
     ) {
 
     /**
      * Composition for a page.
      */
-    data class WebFlowComposition(
+    data class WebComposition(
 
         /**
          * URL for a page.
