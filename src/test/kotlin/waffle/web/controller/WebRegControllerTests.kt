@@ -38,7 +38,7 @@ class WebRegControllerTests {
     private lateinit var webRegFactory: WebRegFactory
 
     @Test
-    fun index_responds_Ok() {
+    fun createForm_responds_Ok() {
         val resultActions: ResultActions = mockMvc.perform(
             MockMvcRequestBuilders.get("/WebReg"),
         )
@@ -48,10 +48,12 @@ class WebRegControllerTests {
 
     @CsvSource(
         textBlock = """
-            http://127.0.0.1, 100,  0,     http://127.0.0.1, 100,  0,     ,                 ,     ,     ,                 ,     ,
-            http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, 1000,  ,                 ,     ,     ,                 ,     ,
-            http://127.0.0.1, 4000, 60000, http://127.0.0.1, 4000, 60000, ,                 ,     ,     ,                 ,     ,
-            http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, 1000, http://127.0.0.1, 1920, 1000,""",
+            http://127.0.0.1, 100,  0,     ,                 ,     ,     http://127.0.0.1, 100,  0,     ,                 ,     ,
+            http://127.0.0.1, 1920, 1000,  ,                 ,     ,     http://127.0.0.1, 1920, 1000,  ,                 ,     ,
+            http://127.0.0.1, 4000, 60000, ,                 ,     ,     http://127.0.0.1, 4000, 60000, ,                 ,     ,
+            http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, 1000, http://127.0.0.1, 1920, 1000,  ,                 ,     ,
+            http://127.0.0.1, 1920, 1000,  ,                 ,     ,     http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, 1000,
+            http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, 1000, http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, 1000,""",
     )
     @ParameterizedTest
     fun create_responds_SeeOther_when_params_are_valid(
@@ -68,26 +70,24 @@ class WebRegControllerTests {
 
     @CsvSource(
         textBlock = """
-            ,                 ,     ,      ,                 ,     ,      ,                 ,     ,     ,                 ,     ,
-            '',               '',   '',    '',               '',   '',    ,                 ,     ,     ,                 ,     ,
-            http://127.0.0.1, 1920, 1000,  ,                 ,     ,      ,                 ,     ,     ,                 ,     ,
-            http://127.0.0.1, 1920, 1000,  '',               '',   '',    ,                 ,     ,     ,                 ,     ,
-            ,                 ,     ,      http://127.0.0.1, 1920, 1000,  ,                 ,     ,     ,                 ,     ,
-            '',               '',   '',    http://127.0.0.1, 1920, 1000,  ,                 ,     ,     ,                 ,     ,
-            INVALID_URL,      1920, 1000,  http://127.0.0.1, 1920, 1000,  ,                 ,     ,     ,                 ,     ,
-            http://127.0.0.1, 1920, 1000,  INVALID_URL,      1920, 1000,  ,                 ,     ,     ,                 ,     ,
-            http://127.0.0.1, 99,   1000,  http://127.0.0.1, 1920, 1000,  ,                 ,     ,     ,                 ,     ,
-            http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 99,   1000,  ,                 ,     ,     ,                 ,     ,
-            http://127.0.0.1, 4001, 1000,  http://127.0.0.1, 1920, 1000,  ,                 ,     ,     ,                 ,     ,
-            http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 4001, 1000,  ,                 ,     ,     ,                 ,     ,
-            http://127.0.0.1, 1920, -1,    http://127.0.0.1, 1920, 1000,  ,                 ,     ,     ,                 ,     ,
-            http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, -1,    ,                 ,     ,     ,                 ,     ,
-            http://127.0.0.1, 1920, 60001, http://127.0.0.1, 1920, 1000,  ,                 ,     ,     ,                 ,     ,
-            http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, 60001, ,                 ,     ,     ,                 ,     ,
-            http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, 1000, ,                 ,     ,
-            http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, 1000, '',               '',   '',
-            http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, 1000,  ,                 ,     ,     http://127.0.0.1, 1920, 1000,
-            http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, 1000,  '',               '',   '',   http://127.0.0.1, 1920, 1000,""",
+            ,                 ,     ,      ,                 ,     ,     ,                 ,     ,      ,                 ,     ,
+            '',               '',   '',    ,                 ,     ,     '',               '',   '',    ,                 ,     ,
+            http://127.0.0.1, 1920, 1000,  ,                 ,     ,     ,                 ,     ,      ,                 ,     ,
+            http://127.0.0.1, 1920, 1000,  ,                 ,     ,     '',               '',   '',    ,                 ,     ,
+            ,                 ,     ,      ,                 ,     ,     http://127.0.0.1, 1920, 1000,  ,                 ,     ,
+            '',               '',   '',    ,                 ,     ,     http://127.0.0.1, 1920, 1000,  ,                 ,     ,
+            INVALID_URL,      1920, 1000,  ,                 ,     ,     http://127.0.0.1, 1920, 1000,  ,                 ,     ,
+            http://127.0.0.1, 1920, 1000,  ,                 ,     ,     INVALID_URL,      1920, 1000,  ,                 ,     ,
+            http://127.0.0.1, 99,   1000,  ,                 ,     ,     http://127.0.0.1, 1920, 1000,  ,                 ,     ,
+            http://127.0.0.1, 1920, 1000,  ,                 ,     ,     http://127.0.0.1, 99,   1000,  ,                 ,     ,
+            http://127.0.0.1, 4001, 1000,  ,                 ,     ,     http://127.0.0.1, 1920, 1000,  ,                 ,     ,
+            http://127.0.0.1, 1920, 1000,  ,                 ,     ,     http://127.0.0.1, 4001, 1000,  ,                 ,     ,
+            http://127.0.0.1, 1920, -1,    ,                 ,     ,     http://127.0.0.1, 1920, 1000,  ,                 ,     ,
+            http://127.0.0.1, 1920, 1000,  ,                 ,     ,     http://127.0.0.1, 1920, -1,    ,                 ,     ,
+            http://127.0.0.1, 1920, 60001, ,                 ,     ,     http://127.0.0.1, 1920, 1000,  ,                 ,     ,
+            http://127.0.0.1, 1920, 1000,  ,                 ,     ,     http://127.0.0.1, 1920, 60001, ,                 ,     ,
+            http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, 1000, http://127.0.0.1, 1920, 1000,  '',               '',   '',
+            http://127.0.0.1, 1920, 1000,  '',               '',   '',   http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, 1000,""",
     )
     @ParameterizedTest
     fun create_responds_BadRequest_when_params_are_invalid(
@@ -176,18 +176,18 @@ class WebRegControllerTests {
         override fun aggregateArguments(accessor: ArgumentsAccessor, context: ParameterContext): Any {
             return LinkedMultiValueMap(
                 arrayOf(
-                    "cases[0].expected.resource",
-                    "cases[0].expected.widthPx",
-                    "cases[0].expected.delayMs",
-                    "cases[0].actual.resource",
-                    "cases[0].actual.widthPx",
-                    "cases[0].actual.delayMs",
-                    "cases[1].expected.resource",
-                    "cases[1].expected.widthPx",
-                    "cases[1].expected.delayMs",
-                    "cases[1].actual.resource",
-                    "cases[1].actual.widthPx",
-                    "cases[1].actual.delayMs",
+                    "checkpointA[0].resource",
+                    "checkpointA[0].widthPx",
+                    "checkpointA[0].delayMs",
+                    "checkpointA[1].resource",
+                    "checkpointA[1].widthPx",
+                    "checkpointA[1].delayMs",
+                    "checkpointB[0].resource",
+                    "checkpointB[0].widthPx",
+                    "checkpointB[0].delayMs",
+                    "checkpointB[1].resource",
+                    "checkpointB[1].widthPx",
+                    "checkpointB[1].delayMs",
                 ).mapIndexed { index, s ->
                     Pair(s, accessor.getString(index))
                 }.filter {

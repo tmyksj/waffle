@@ -154,7 +154,12 @@
                     },
                 ];
 
-                const tbody = form.cases.map((item, idx) => {
+                const tbody = new Array(
+                    Math.max(
+                        form.checkpointA.length,
+                        form.checkpointB.length,
+                    ),
+                ).fill(null).map((_, idx) => {
                     const flat = (prefix, obj) => {
                         return Object.keys(obj).flatMap((key) => {
                             return obj[key] instanceof Object
@@ -163,7 +168,10 @@
                         });
                     };
 
-                    return this.row(idx, Object.fromEntries(flat("", item).map(obj => [obj.k, obj.v])));
+                    return this.row(idx, Object.fromEntries([
+                        ...flat("checkpointA.", form.checkpointA[idx] ?? {}).map(obj => [obj.k, obj.v]),
+                        ...flat("checkpointB.", form.checkpointB[idx] ?? {}).map(obj => [obj.k, obj.v]),
+                    ]));
                 });
 
                 return {
@@ -184,8 +192,8 @@
                                         pattern: "https?://.+",
                                         type: "text",
                                     },
-                                    model: model["expected.resource"] ?? "",
-                                    name: "cases[" + idx + "].expected.resource",
+                                    model: model["checkpointA.resource"] ?? "",
+                                    name: "checkpointA[" + idx + "].resource",
                                     required: "required",
                                 },
                                 key: Math.random(),
@@ -198,8 +206,8 @@
                                         min: "100",
                                         type: "number",
                                     },
-                                    model: model["expected.widthPx"] ?? "",
-                                    name: "cases[" + idx + "].expected.widthPx",
+                                    model: model["checkpointA.widthPx"] ?? "",
+                                    name: "checkpointA[" + idx + "].widthPx",
                                     required: "required",
                                 },
                                 key: Math.random(),
@@ -212,8 +220,8 @@
                                         min: "0",
                                         type: "number",
                                     },
-                                    model: model["expected.delayMs"] ?? "",
-                                    name: "cases[" + idx + "].expected.delayMs",
+                                    model: model["checkpointA.delayMs"] ?? "",
+                                    name: "checkpointA[" + idx + "].delayMs",
                                     required: "required",
                                 },
                                 key: Math.random(),
@@ -225,8 +233,8 @@
                                         pattern: "https?://.+",
                                         type: "text",
                                     },
-                                    model: model["actual.resource"] ?? "",
-                                    name: "cases[" + idx + "].actual.resource",
+                                    model: model["checkpointB.resource"] ?? "",
+                                    name: "checkpointB[" + idx + "].resource",
                                     required: "required",
                                 },
                                 key: Math.random(),
@@ -239,8 +247,8 @@
                                         min: "100",
                                         type: "number",
                                     },
-                                    model: model["actual.widthPx"] ?? "",
-                                    name: "cases[" + idx + "].actual.widthPx",
+                                    model: model["checkpointB.widthPx"] ?? "",
+                                    name: "checkpointB[" + idx + "].widthPx",
                                     required: "required",
                                 },
                                 key: Math.random(),
@@ -253,8 +261,8 @@
                                         min: "0",
                                         type: "number",
                                     },
-                                    model: model["actual.delayMs"] ?? "",
-                                    name: "cases[" + idx + "].actual.delayMs",
+                                    model: model["checkpointB.delayMs"] ?? "",
+                                    name: "checkpointB[" + idx + "].delayMs",
                                     required: "required",
                                 },
                                 key: Math.random(),
@@ -275,7 +283,8 @@
 
                     this.tbody.forEach((tr, idx) => {
                         tr.content.forEach((td) => {
-                            td.content.name = td.content.name.replace(/^cases\[\d+]/, "cases[" + idx + "]");
+                            td.content.name = td.content.name
+                                .replace(/^checkpoint(\w)\[\d+]/, "checkpoint$1[" + idx + "]");
 
                             if (idx === 0 || idx < this.tbody.length - 1) {
                                 td.content.attrs.name = td.content.name;

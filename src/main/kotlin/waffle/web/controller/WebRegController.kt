@@ -32,15 +32,15 @@ class WebRegController(
     /**
      * GET: /WebReg
      *
-     * Renders an index page.
+     * Renders a create form page.
      */
     @RequestMapping(method = [RequestMethod.GET], path = ["/WebReg"])
-    fun index(
+    fun createForm(
         createForm: CreateForm,
     ): Any {
         return ModelAndView().apply {
             status = HttpStatus.OK
-            viewName = "WebReg/index"
+            viewName = "WebReg/createForm"
         }
     }
 
@@ -57,23 +57,23 @@ class WebRegController(
         if (bindingResult.hasErrors()) {
             return ModelAndView().apply {
                 status = HttpStatus.BAD_REQUEST
-                viewName = "WebReg/index"
+                viewName = "WebReg/createForm"
             }
         }
 
         val response: CreateWebRegCommand.Response = createWebRegCommand.execute(
-            checkpointA = createForm.cases.map {
+            checkpointA = createForm.checkpointA.map {
                 CreateWebRegCommand.WebComposition(
-                    resource = URL(it.expected.resource),
-                    widthPx = it.expected.widthPx,
-                    delayMs = it.expected.delayMs,
+                    resource = URL(it.resource),
+                    widthPx = it.widthPx,
+                    delayMs = it.delayMs,
                 )
             },
-            checkpointB = createForm.cases.map {
+            checkpointB = createForm.checkpointB.map {
                 CreateWebRegCommand.WebComposition(
-                    resource = URL(it.actual.resource),
-                    widthPx = it.actual.widthPx,
-                    delayMs = it.actual.delayMs,
+                    resource = URL(it.resource),
+                    widthPx = it.widthPx,
+                    delayMs = it.delayMs,
                 )
             },
         )
@@ -89,7 +89,7 @@ class WebRegController(
         } else {
             ModelAndView().apply {
                 status = HttpStatus.BAD_REQUEST
-                viewName = "WebReg/index"
+                viewName = "WebReg/createForm"
             }
         }
     }

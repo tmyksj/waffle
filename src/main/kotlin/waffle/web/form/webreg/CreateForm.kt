@@ -13,37 +13,25 @@ import waffle.web.controller.WebRegController
 data class CreateForm(
 
     /**
-     * Test cases.
+     * WebCheckpoint A.
      */
     @field:NotEmpty
     @field:Valid
-    val cases: List<WebRegCase> = mutableListOf(),
+    val checkpointA: List<WebComposition> = mutableListOf(),
+
+    /**
+     * WebCheckpoint B.
+     */
+    @field:NotEmpty
+    @field:Valid
+    val checkpointB: List<WebComposition> = mutableListOf(),
 
     ) {
 
     /**
-     * Test case.
-     */
-    data class WebRegCase(
-
-        /**
-         * Composition for an expected page.
-         */
-        @field:Valid
-        val expected: WebRegComposition = WebRegComposition(),
-
-        /**
-         * Composition for an actual page.
-         */
-        @field:Valid
-        val actual: WebRegComposition = WebRegComposition(),
-
-        )
-
-    /**
      * Composition for a page.
      */
-    data class WebRegComposition(
+    data class WebComposition(
 
         /**
          * URL for a page.
