@@ -8,37 +8,34 @@
 </head>
 <body>
 <th:block>
-    <div class="u_ai-c u_d-f u_jc-sb">
+    <div class="u_ai-c u_d-f u_jc-sb u_mt-2.0">
         <h1>WebReg</h1>
-        <div class="u_ai-c u_d-f u_jc-sb">
-            <div class="u_pr-1"
-                 th:if="${webReg.isReady()}">
-                <span class="c_Status +Ready"></span> Ready
-            </div>
-            <div class="u_pr-1"
-                 th:if="${webReg.isStarted()}">
-                <span class="c_Status +Started"></span> Started
-            </div>
-            <div class="u_pr-1"
-                 th:if="${webReg.isCompleted()}">
-                <span class="c_Status +Completed"></span> Completed
-            </div>
-            <div class="u_pr-1"
-                 th:if="${webReg.isFailed()}">
-                <span class="c_Status +Failed"></span> Failed
-            </div>
-            <div class="u_pr-1"
-                 th:if="${webReg.isCompleted()}">
-                <a class="c_Button"
-                   th:href="@{/WebReg/{id}/Output(id=${webReg.id})}">Download</a>
-            </div>
-            <div class="u_pr-1"
-                 th:unless="${webReg.isCompleted()}">
-                <span class="c_Button +Disabled">Download</span>
-            </div>
+        <div class="u_ai-c u_d-f">
+            <span class="c_icon +dot u_mr-0.6"
+                  th:if="${webReg.isReady()}"></span>
+            <span class="u_mr-1.0"
+                  th:if="${webReg.isReady()}">Ready</span>
+            <span class="c_icon +progress u_mr-0.6"
+                  th:if="${webReg.isStarted()}"></span>
+            <span class="u_mr-1.0"
+                  th:if="${webReg.isStarted()}">Started</span>
+            <span class="c_icon +check u_mr-0.6"
+                  th:if="${webReg.isCompleted()}"></span>
+            <span class="u_mr-1.0"
+                  th:if="${webReg.isCompleted()}">Completed</span>
+            <span class="c_icon +x u_mr-0.6"
+                  th:if="${webReg.isFailed()}"></span>
+            <span class="u_mr-1.0"
+                  th:if="${webReg.isFailed()}">Failed</span>
+            <a class="c_button u_mr-1.0"
+               th:href="@{/WebReg/{id}/Output(id=${webReg.id})}"
+               th:if="${webReg.isCompleted()}">Download</a>
+            <span aria-disabled="true"
+                  class="c_button u_mr-1.0"
+                  th:unless="${webReg.isCompleted()}">Download</span>
         </div>
     </div>
-    <div class="c_Table u_mb-0.4">
+    <div class="c_table u_mt-1.6">
         <table>
             <colgroup>
                 <col style="width: 25%;">
