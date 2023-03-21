@@ -206,7 +206,7 @@ p {
 }
 
 .c_nav {
-    background: var(--theme_color2);
+    background: linear-gradient(to bottom right, var(--theme_color2), var(--theme_color1));
     color: var(--theme_color3);
 }
 
