@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.servlet.ModelAndView
+import waffle.batch.launcher.WebCheckpointLauncher
 import waffle.usecase.command.CreateWebCheckpointCommand
 import waffle.usecase.query.FindWebCheckpointQuery
 import waffle.web.form.webcheckpoint.CreateForm
@@ -18,6 +19,7 @@ import waffle.web.form.webcheckpoint.DetailsForm
  */
 @Controller
 class WebCheckpointController(
+    private val webCheckpointLauncher: WebCheckpointLauncher,
     private val createWebCheckpointCommand: CreateWebCheckpointCommand,
     private val findWebCheckpointQuery: FindWebCheckpointQuery,
 ) {
@@ -59,6 +61,9 @@ class WebCheckpointController(
         )
 
         return if (response is CreateWebCheckpointCommand.Response.Ok) {
+            // Run a creation after creating WebCheckpoint.
+            webCheckpointLauncher.run(response.webCheckpoint)
+
             ModelAndView().apply {
                 status = HttpStatus.SEE_OTHER
                 viewName = "redirect:/WebCheckpoint/${response.webCheckpoint.id}"
