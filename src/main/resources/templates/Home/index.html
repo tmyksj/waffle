@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en"
+      th:replace="~{default :: layout(~{:: meta}, ~{:: title}, ~{:: 'th:block'})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home - Waffle</title>
+</head>
+<body>
+<th:block>
+    <div class="c_home">
+        <a class="c_home_anchor"
+           th:href="@{/WebFlow}">WebFlow</a>
+        <a class="c_home_anchor"
+           th:href="@{/WebCheckpoint}">WebCheckpoint</a>
+        <a class="c_home_anchor"
+           th:href="@{/WebReg}">WebReg</a>
+    </div>
+</th:block>
+</body>
+</html>

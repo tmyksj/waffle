@@ -17,13 +17,12 @@ class HomeControllerTests {
     private lateinit var mockMvc: MockMvc
 
     @Test
-    fun index_responds_SeeOther() {
+    fun index_responds_Ok() {
         val resultActions: ResultActions = mockMvc.perform(
             MockMvcRequestBuilders.get("/Home"),
         )
 
-        resultActions.andExpect(MockMvcResultMatchers.status().isSeeOther)
-            .andExpect(MockMvcResultMatchers.redirectedUrl("/WebReg"))
+        resultActions.andExpect(MockMvcResultMatchers.status().isOk)
     }
 
 }
