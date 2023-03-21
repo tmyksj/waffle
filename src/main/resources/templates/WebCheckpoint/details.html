@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en"
+      th:replace="~{default :: layout(~{:: meta}, ~{:: title}, ~{:: 'th:block'})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>WebCheckpoint - Waffle</title>
+</head>
+<body>
+<th:block>
+    <div class="u_ai-c u_d-f u_jc-sb u_mt-2.0">
+        <h1>WebCheckpoint</h1>
+    </div>
+    <div class="c_table u_mt-1.6">
+        <table>
+            <colgroup>
+                <col style="width: 100%;">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>WebFlow</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td th:text="${webCheckpoint.flow.id}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</th:block>
+</body>
+</html>

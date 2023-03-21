@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en"
+      th:replace="~{default :: layout(~{:: meta}, ~{:: title}, ~{:: 'th:block'})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>WebCheckpoint - Waffle</title>
+</head>
+<body>
+<th:block>
+    <div class="u_ai-c u_d-f u_jc-sb u_mt-2.0">
+        <h1>WebCheckpoint</h1>
+    </div>
+    <form class="u_mt-1.6"
+          id="form"
+          method="post"
+          th:action="@{/WebCheckpoint}">
+        <div class="c_table">
+            <table>
+                <colgroup>
+                    <col style="width: 100%;">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>WebFlow</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <input aria-label="WebFlow ID"
+                               class="c_input"
+                               name="flowId"
+                               required="required"
+                               type="text">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="u_pb-0.4 u_pr-1.0 u_pt-0.4 u_ta-r">
+            <button class="c_button"
+                    type="submit">Submit
+            </button>
+        </div>
+    </form>
+</th:block>
+</body>
+</html>
