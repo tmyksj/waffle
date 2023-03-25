@@ -32,7 +32,7 @@ interface FindWebRegQuery {
         data class Error(
 
             /**
-             * True if WebReg is not found.
+             * true if WebReg is not found.
              */
             val isNotFound: Boolean = false,
 
