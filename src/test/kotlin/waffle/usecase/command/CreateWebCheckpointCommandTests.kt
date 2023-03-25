@@ -33,7 +33,7 @@ class CreateWebCheckpointCommandTests {
         val flow: WebFlow = webFlowRepository.save(webFlowFactory.build())
 
         val response: CreateWebCheckpointCommand.Response = createWebCheckpointCommand.execute(
-            flowId = flow.id,
+            flow = flow.id,
         )
 
         Assertions.assertThat(response).isInstanceOf(CreateWebCheckpointCommand.Response.Ok::class.java)
@@ -54,7 +54,7 @@ class CreateWebCheckpointCommandTests {
     @Test
     fun execute_returns_Error_when_the_WebFlow_doesnt_exist() {
         val response: CreateWebCheckpointCommand.Response = createWebCheckpointCommand.execute(
-            flowId = UUID.randomUUID(),
+            flow = UUID.randomUUID(),
         )
 
         Assertions.assertThat(response).isInstanceOf(CreateWebCheckpointCommand.Response.Error::class.java)

@@ -57,7 +57,7 @@ class WebCheckpointController(
         }
 
         val response: CreateWebCheckpointCommand.Response = createWebCheckpointCommand.execute(
-            flowId = createForm.flowId,
+            flow = createForm.flowId,
         )
 
         return if (response is CreateWebCheckpointCommand.Response.Ok) {

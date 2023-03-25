@@ -11,11 +11,11 @@ interface CreateWebCheckpointCommand {
     /**
      * Executes a command with given arguments.
      *
-     * @param flowId
+     * @param flow
      * @return
      */
     fun execute(
-        flowId: UUID,
+        flow: UUID,
     ): Response
 
     interface Response {

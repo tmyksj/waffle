@@ -3,7 +3,6 @@ package waffle.usecase.command.impl
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import waffle.domain.entity.WebCheckpoint
-import waffle.domain.entity.WebFlow
 import waffle.domain.repository.WebCheckpointRepository
 import waffle.domain.repository.WebFlowRepository
 import waffle.usecase.command.CreateWebCheckpointCommand
@@ -17,16 +16,14 @@ class CreateWebCheckpointCommandImpl(
 ) : CreateWebCheckpointCommand {
 
     override fun execute(
-        flowId: UUID,
+        flow: UUID,
     ): CreateWebCheckpointCommand.Response {
-        val flow: WebFlow = webFlowRepository.findById(flowId)
-            ?: return CreateWebCheckpointCommand.Response.Error(
-                isNotFound = true,
-            )
-
         val entity: WebCheckpoint = webCheckpointRepository.save(
             WebCheckpoint(
-                flow = flow,
+                flow = webFlowRepository.findById(flow)
+                    ?: return CreateWebCheckpointCommand.Response.Error(
+                        isNotFound = true,
+                    ),
             ),
         )
 
