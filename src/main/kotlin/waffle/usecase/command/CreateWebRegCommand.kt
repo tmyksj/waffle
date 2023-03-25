@@ -2,11 +2,24 @@ package waffle.usecase.command
 
 import waffle.domain.entity.WebReg
 import java.net.URL
+import java.util.*
 
 /**
  * Creates a [WebReg] entity.
  */
 interface CreateWebRegCommand {
+
+    /**
+     * Executes a command with given arguments.
+     *
+     * @param checkpointA
+     * @param checkpointB
+     * @return
+     */
+    fun execute(
+        checkpointA: UUID,
+        checkpointB: UUID,
+    ): Response
 
     /**
      * Executes a command with given arguments.
@@ -50,6 +63,20 @@ interface CreateWebRegCommand {
              * WebReg.
              */
             val webReg: WebReg,
+
+            ) : Response
+
+        data class Error(
+
+            /**
+             * true if the WebCheckpoint A is not found.
+             */
+            val isNotFoundCheckpointA: Boolean = false,
+
+            /**
+             * true if the WebCheckpoint B is not found.
+             */
+            val isNotFoundCheckpointB: Boolean = false,
 
             ) : Response
 

@@ -10,6 +10,7 @@ import waffle.domain.repository.WebCheckpointRepository
 import waffle.domain.repository.WebFlowRepository
 import waffle.domain.repository.WebRegRepository
 import waffle.usecase.command.CreateWebRegCommand
+import java.util.*
 
 @Component
 @Transactional
@@ -18,6 +19,32 @@ class CreateWebRegCommandImpl(
     private val webFlowRepository: WebFlowRepository,
     private val webRegRepository: WebRegRepository,
 ) : CreateWebRegCommand {
+
+    override fun execute(
+        checkpointA: UUID,
+        checkpointB: UUID,
+    ): CreateWebRegCommand.Response {
+        val checkpointAEntity: WebCheckpoint? = webCheckpointRepository.findById(checkpointA)
+        val checkpointBEntity: WebCheckpoint? = webCheckpointRepository.findById(checkpointB)
+
+        if (checkpointAEntity == null || checkpointBEntity == null) {
+            return CreateWebRegCommand.Response.Error(
+                isNotFoundCheckpointA = checkpointAEntity == null,
+                isNotFoundCheckpointB = checkpointBEntity == null,
+            )
+        }
+
+        val entity: WebReg = webRegRepository.save(
+            WebReg(
+                checkpointA = checkpointAEntity,
+                checkpointB = checkpointBEntity,
+            )
+        )
+
+        return CreateWebRegCommand.Response.Ok(
+            webReg = entity,
+        )
+    }
 
     override fun execute(
         checkpointA: List<CreateWebRegCommand.WebComposition>,
