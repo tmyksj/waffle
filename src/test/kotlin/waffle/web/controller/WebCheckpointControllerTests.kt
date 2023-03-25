@@ -47,7 +47,7 @@ class WebCheckpointControllerTests {
     fun create_responds_SeeOther_when_params_are_valid() {
         val resultActions: ResultActions = mockMvc.perform(
             MockMvcRequestBuilders.post("/WebCheckpoint")
-                .param("flowId", webFlowRepository.save(webFlowFactory.build()).id.toString()),
+                .param("flow", webFlowRepository.save(webFlowFactory.build()).id.toString()),
         )
 
         resultActions.andExpect(MockMvcResultMatchers.status().isSeeOther)
@@ -58,7 +58,7 @@ class WebCheckpointControllerTests {
     fun create_responds_BadRequest_when_params_are_invalid() {
         val resultActions: ResultActions = mockMvc.perform(
             MockMvcRequestBuilders.post("/WebCheckpoint")
-                .param("flowId", "INVALID_ID"),
+                .param("flow", "INVALID_ID"),
         )
 
         resultActions.andExpect(MockMvcResultMatchers.status().isBadRequest)

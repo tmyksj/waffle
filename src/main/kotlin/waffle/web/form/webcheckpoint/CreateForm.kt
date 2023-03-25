@@ -9,8 +9,8 @@ import java.util.*
 data class CreateForm(
 
     /**
-     * WebFlow ID.
+     * WebFlow.
      */
-    val flowId: UUID = UUID.randomUUID(),
+    val flow: UUID = UUID.randomUUID(),
 
     )
