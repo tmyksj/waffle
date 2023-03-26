@@ -10,6 +10,7 @@ import org.junit.jupiter.params.provider.CsvSource
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultActions
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
@@ -56,6 +57,7 @@ class WebFlowControllerTests {
     ) {
         val resultActions: ResultActions = mockMvc.perform(
             MockMvcRequestBuilders.post("/WebFlow")
+                .with(SecurityMockMvcRequestPostProcessors.csrf())
                 .params(params),
         )
 
@@ -85,6 +87,7 @@ class WebFlowControllerTests {
     ) {
         val resultActions: ResultActions = mockMvc.perform(
             MockMvcRequestBuilders.post("/WebFlow")
+                .with(SecurityMockMvcRequestPostProcessors.csrf())
                 .params(params),
         )
 

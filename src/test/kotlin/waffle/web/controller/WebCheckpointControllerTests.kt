@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultActions
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
@@ -47,6 +48,7 @@ class WebCheckpointControllerTests {
     fun create_responds_SeeOther_when_params_are_valid() {
         val resultActions: ResultActions = mockMvc.perform(
             MockMvcRequestBuilders.post("/WebCheckpoint")
+                .with(SecurityMockMvcRequestPostProcessors.csrf())
                 .param("flow", webFlowRepository.save(webFlowFactory.build()).id.toString()),
         )
 
@@ -58,6 +60,7 @@ class WebCheckpointControllerTests {
     fun create_responds_BadRequest_when_params_are_invalid() {
         val resultActions: ResultActions = mockMvc.perform(
             MockMvcRequestBuilders.post("/WebCheckpoint")
+                .with(SecurityMockMvcRequestPostProcessors.csrf())
                 .param("flow", "INVALID_ID"),
         )
 
