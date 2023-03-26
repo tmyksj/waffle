@@ -16,6 +16,7 @@ import waffle.usecase.query.FindWebRegQuery
 import waffle.web.form.webreg.CreateForm
 import waffle.web.form.webreg.DetailsForm
 import waffle.web.form.webreg.OutputForm
+import waffle.web.form.webreg.QuickstartForm
 import java.net.URL
 
 /**
@@ -62,14 +63,67 @@ class WebRegController(
         }
 
         val response: CreateWebRegCommand.Response = createWebRegCommand.execute(
-            checkpointA = createForm.checkpointA.map {
+            checkpointA = createForm.checkpointA,
+            checkpointB = createForm.checkpointB,
+        )
+
+        return if (response is CreateWebRegCommand.Response.Ok) {
+            // Run a regression test after creating WebReg.
+            webRegLauncher.run(response.webReg)
+
+            ModelAndView().apply {
+                status = HttpStatus.SEE_OTHER
+                viewName = "redirect:/WebReg/${response.webReg.id}"
+            }
+        } else {
+            ModelAndView().apply {
+                status = HttpStatus.BAD_REQUEST
+                viewName = "WebReg/createForm"
+            }
+        }
+    }
+
+    /**
+     * GET: /WebReg/Quickstart
+     *
+     * Renders a quickstart form page.
+     */
+    @RequestMapping(method = [RequestMethod.GET], path = ["/WebReg/Quickstart"])
+    fun quickstartForm(
+        quickstartForm: QuickstartForm,
+    ): Any {
+        return ModelAndView().apply {
+            status = HttpStatus.OK
+            viewName = "WebReg/quickstartForm"
+        }
+    }
+
+    /**
+     * POST: /WebReg/Quickstart
+     *
+     * Creates an entity.
+     */
+    @RequestMapping(method = [RequestMethod.POST], path = ["/WebReg/Quickstart"])
+    fun quickstart(
+        @Validated quickstartForm: QuickstartForm,
+        bindingResult: BindingResult,
+    ): Any {
+        if (bindingResult.hasErrors()) {
+            return ModelAndView().apply {
+                status = HttpStatus.BAD_REQUEST
+                viewName = "WebReg/quickstartForm"
+            }
+        }
+
+        val response: CreateWebRegCommand.Response = createWebRegCommand.execute(
+            checkpointA = quickstartForm.checkpointA.map {
                 CreateWebRegCommand.WebComposition(
                     resource = URL(it.resource),
                     widthPx = it.widthPx,
                     delayMs = it.delayMs,
                 )
             },
-            checkpointB = createForm.checkpointB.map {
+            checkpointB = quickstartForm.checkpointB.map {
                 CreateWebRegCommand.WebComposition(
                     resource = URL(it.resource),
                     widthPx = it.widthPx,
@@ -89,7 +143,7 @@ class WebRegController(
         } else {
             ModelAndView().apply {
                 status = HttpStatus.BAD_REQUEST
-                viewName = "WebReg/createForm"
+                viewName = "WebReg/quickstartForm"
             }
         }
     }

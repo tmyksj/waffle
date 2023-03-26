@@ -18,7 +18,9 @@ import org.springframework.util.LinkedMultiValueMap
 import org.springframework.util.MultiValueMap
 import waffle.core.type.Blob
 import waffle.domain.entity.WebReg
+import waffle.domain.repository.WebCheckpointRepository
 import waffle.domain.repository.WebRegRepository
+import waffle.test.factory.WebCheckpointFactory
 import waffle.test.factory.WebRegFactory
 import java.io.ByteArrayOutputStream
 import java.util.*
@@ -32,7 +34,13 @@ class WebRegControllerTests {
     private lateinit var mockMvc: MockMvc
 
     @Autowired
+    private lateinit var webCheckpointRepository: WebCheckpointRepository
+
+    @Autowired
     private lateinit var webRegRepository: WebRegRepository
+
+    @Autowired
+    private lateinit var webCheckpointFactory: WebCheckpointFactory
 
     @Autowired
     private lateinit var webRegFactory: WebRegFactory
@@ -48,6 +56,71 @@ class WebRegControllerTests {
 
     @CsvSource(
         textBlock = """
+            [ID], [ID],""",
+    )
+    @ParameterizedTest
+    fun create_responds_SeeOther_when_params_are_valid(
+        @AggregateWith(CreateArgumentsAggregator::class) params: MultiValueMap<String, String>,
+    ) {
+        if (params.getFirst("checkpointA") == "[ID]") {
+            params.set("checkpointA", webCheckpointRepository.save(webCheckpointFactory.build()).id.toString())
+        }
+
+        if (params.getFirst("checkpointB") == "[ID]") {
+            params.set("checkpointB", webCheckpointRepository.save(webCheckpointFactory.build()).id.toString())
+        }
+
+        val resultActions: ResultActions = mockMvc.perform(
+            MockMvcRequestBuilders.post("/WebReg")
+                .params(params),
+        )
+
+        resultActions.andExpect(MockMvcResultMatchers.status().isSeeOther)
+            .andExpect(MockMvcResultMatchers.redirectedUrlPattern("/WebReg/*"))
+    }
+
+    @CsvSource(
+        textBlock = """
+            ,           ,
+            '',         '',
+            [ID],       ,
+            [ID],       '',
+            ,           [ID],
+            '',         [ID],
+            INVALID_ID, [ID],
+            [ID],       INVALID_ID,""",
+    )
+    @ParameterizedTest
+    fun create_responds_BadRequest_when_params_are_invalid(
+        @AggregateWith(CreateArgumentsAggregator::class) params: MultiValueMap<String, String>,
+    ) {
+        if (params.getFirst("checkpointA") == "[ID]") {
+            params.set("checkpointA", webCheckpointRepository.save(webCheckpointFactory.build()).id.toString())
+        }
+
+        if (params.getFirst("checkpointB") == "[ID]") {
+            params.set("checkpointB", webCheckpointRepository.save(webCheckpointFactory.build()).id.toString())
+        }
+
+        val resultActions: ResultActions = mockMvc.perform(
+            MockMvcRequestBuilders.post("/WebReg")
+                .params(params),
+        )
+
+        resultActions.andExpect(MockMvcResultMatchers.status().isBadRequest)
+    }
+
+    @Test
+    fun quickstartForm_responds_Ok() {
+        val resultActions: ResultActions = mockMvc.perform(
+            MockMvcRequestBuilders.get("/WebReg/Quickstart"),
+        )
+
+        resultActions.andExpect(MockMvcResultMatchers.status().isOk)
+    }
+
+    @CsvSource(
+        textBlock = """
             http://127.0.0.1, 100,  0,     ,                 ,     ,     http://127.0.0.1, 100,  0,     ,                 ,     ,
             http://127.0.0.1, 1920, 1000,  ,                 ,     ,     http://127.0.0.1, 1920, 1000,  ,                 ,     ,
             http://127.0.0.1, 4000, 60000, ,                 ,     ,     http://127.0.0.1, 4000, 60000, ,                 ,     ,
@@ -56,11 +129,11 @@ class WebRegControllerTests {
             http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, 1000, http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, 1000,""",
     )
     @ParameterizedTest
-    fun create_responds_SeeOther_when_params_are_valid(
-        @AggregateWith(CreateArgumentsAggregator::class) params: MultiValueMap<String, String>,
+    fun quickstart_responds_SeeOther_when_params_are_valid(
+        @AggregateWith(QuickstartArgumentsAggregator::class) params: MultiValueMap<String, String>,
     ) {
         val resultActions: ResultActions = mockMvc.perform(
-            MockMvcRequestBuilders.post("/WebReg")
+            MockMvcRequestBuilders.post("/WebReg/Quickstart")
                 .params(params),
         )
 
@@ -90,11 +163,11 @@ class WebRegControllerTests {
             http://127.0.0.1, 1920, 1000,  '',               '',   '',   http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, 1000,""",
     )
     @ParameterizedTest
-    fun create_responds_BadRequest_when_params_are_invalid(
-        @AggregateWith(CreateArgumentsAggregator::class) params: MultiValueMap<String, String>,
+    fun quickstart_responds_BadRequest_when_params_are_invalid(
+        @AggregateWith(QuickstartArgumentsAggregator::class) params: MultiValueMap<String, String>,
     ) {
         val resultActions: ResultActions = mockMvc.perform(
-            MockMvcRequestBuilders.post("/WebReg")
+            MockMvcRequestBuilders.post("/WebReg/Quickstart")
                 .params(params),
         )
 
@@ -172,6 +245,23 @@ class WebRegControllerTests {
     }
 
     class CreateArgumentsAggregator : ArgumentsAggregator {
+
+        override fun aggregateArguments(accessor: ArgumentsAccessor, context: ParameterContext): Any {
+            return LinkedMultiValueMap(
+                arrayOf(
+                    "checkpointA",
+                    "checkpointB",
+                ).mapIndexed { index, s ->
+                    Pair(s, accessor.getString(index))
+                }.filter {
+                    it.second != null
+                }.groupBy({ it.first }, { it.second }),
+            )
+        }
+
+    }
+
+    class QuickstartArgumentsAggregator : ArgumentsAggregator {
 
         override fun aggregateArguments(accessor: ArgumentsAccessor, context: ParameterContext): Any {
             return LinkedMultiValueMap(

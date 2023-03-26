@@ -18,292 +18,41 @@
         <div class="c_table">
             <table>
                 <colgroup>
-                    <col :key="col.key"
-                         v-bind="col.attrs"
-                         v-for="col in colgroup">
+                    <col style="width: 50%;">
+                    <col style="width: 50%;">
                 </colgroup>
                 <thead>
-                <tr :key="tr.key"
-                    v-for="tr in thead">
-                    <th :key="th.key"
-                        v-bind="th.attrs"
-                        v-for="th in tr.content">{{ th.text }}
-                    </th>
+                <tr>
+                    <th>Expected Checkpoint</th>
+                    <th>Actual Checkpoint</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr :key="tr.key"
-                    v-for="tr in tbody">
-                    <td :key="td.key"
-                        v-for="td in tr.content">
-                        <input @focus="update(tr.key)"
-                               @input="update(tr.key)"
+                <tr>
+                    <td>
+                        <input aria-label="Expected Checkpoint"
                                class="c_input"
-                               v-bind="td.content.attrs"
-                               v-model="td.content.model">
+                               name="checkpointA"
+                               required="required"
+                               type="text">
+                    </td>
+                    <td>
+                        <input aria-label="Actual Checkpoint"
+                               class="c_input"
+                               name="checkpointB"
+                               required="required"
+                               type="text">
                     </td>
                 </tr>
                 </tbody>
             </table>
         </div>
         <div class="u_pb-0.4 u_pr-1.0 u_pt-0.4 u_ta-r">
-            <button @click="update(null)"
-                    class="c_button"
+            <button class="c_button"
                     type="submit">Submit
             </button>
         </div>
     </form>
-    <script th:src="@{/Scripts/vue.global.prod.js}"></script>
-    <script th:inline="javascript">
-        Vue.createApp({
-            data() {
-                const form = [[${createForm}]];
-
-                const colgroup = [
-                    {
-                        attrs: {
-                            style: "width: 25%;",
-                        },
-                        key: Math.random(),
-                    },
-                    {
-                        attrs: {
-                            style: "width: 12.5%;",
-                        },
-                        key: Math.random(),
-                    },
-                    {
-                        attrs: {
-                            style: "width: 12.5%;",
-                        },
-                        key: Math.random(),
-                    },
-                    {
-                        attrs: {
-                            style: "width: 25%;",
-                        },
-                        key: Math.random(),
-                    },
-                    {
-                        attrs: {
-                            style: "width: 12.5%;",
-                        },
-                        key: Math.random(),
-                    },
-                    {
-                        attrs: {
-                            style: "width: 12.5%;",
-                        },
-                        key: Math.random(),
-                    },
-                ];
-
-                const thead = [
-                    {
-                        content: [
-                            {
-                                attrs: {
-                                    colspan: "3",
-                                },
-                                key: Math.random(),
-                                text: "Expected",
-                            },
-                            {
-                                attrs: {
-                                    colspan: "3",
-                                },
-                                key: Math.random(),
-                                text: "Actual",
-                            },
-                        ],
-                        key: Math.random(),
-                    },
-                    {
-                        content: [
-                            {
-                                attrs: {},
-                                key: Math.random(),
-                                text: "URL",
-                            },
-                            {
-                                attrs: {},
-                                key: Math.random(),
-                                text: "Window Width (px)",
-                            },
-                            {
-                                attrs: {},
-                                key: Math.random(),
-                                text: "Delay (ms)",
-                            },
-                            {
-                                attrs: {},
-                                key: Math.random(),
-                                text: "URL",
-                            },
-                            {
-                                attrs: {},
-                                key: Math.random(),
-                                text: "Window Width (px)",
-                            },
-                            {
-                                attrs: {},
-                                key: Math.random(),
-                                text: "Delay (ms)",
-                            },
-                        ],
-                        key: Math.random(),
-                    },
-                ];
-
-                const tbody = new Array(
-                    Math.max(
-                        form.checkpointA.length,
-                        form.checkpointB.length,
-                    ),
-                ).fill(null).map((_, idx) => {
-                    const flat = (prefix, obj) => {
-                        return Object.keys(obj).flatMap((key) => {
-                            return obj[key] instanceof Object
-                                ? flat(prefix + key + ".", obj[key])
-                                : { k: prefix + key, v: obj[key] }
-                        });
-                    };
-
-                    return this.row(idx, Object.fromEntries([
-                        ...flat("checkpointA.", form.checkpointA[idx] ?? {}).map(obj => [obj.k, obj.v]),
-                        ...flat("checkpointB.", form.checkpointB[idx] ?? {}).map(obj => [obj.k, obj.v]),
-                    ]));
-                });
-
-                return {
-                    colgroup,
-                    thead,
-                    tbody,
-                };
-            },
-
-            methods: {
-                row(idx, model) {
-                    return {
-                        content: [
-                            {
-                                content: {
-                                    attrs: {
-                                        "aria-label": "Expected URL",
-                                        pattern: "https?://.+",
-                                        type: "text",
-                                    },
-                                    model: model["checkpointA.resource"] ?? "",
-                                    name: "checkpointA[" + idx + "].resource",
-                                    required: "required",
-                                },
-                                key: Math.random(),
-                            },
-                            {
-                                content: {
-                                    attrs: {
-                                        "aria-label": "Expected Window Width (px)",
-                                        max: "4000",
-                                        min: "100",
-                                        type: "number",
-                                    },
-                                    model: model["checkpointA.widthPx"] ?? "",
-                                    name: "checkpointA[" + idx + "].widthPx",
-                                    required: "required",
-                                },
-                                key: Math.random(),
-                            },
-                            {
-                                content: {
-                                    attrs: {
-                                        "aria-label": "Expected Delay (ms)",
-                                        max: "60000",
-                                        min: "0",
-                                        type: "number",
-                                    },
-                                    model: model["checkpointA.delayMs"] ?? "",
-                                    name: "checkpointA[" + idx + "].delayMs",
-                                    required: "required",
-                                },
-                                key: Math.random(),
-                            },
-                            {
-                                content: {
-                                    attrs: {
-                                        "aria-label": "Actual URL",
-                                        pattern: "https?://.+",
-                                        type: "text",
-                                    },
-                                    model: model["checkpointB.resource"] ?? "",
-                                    name: "checkpointB[" + idx + "].resource",
-                                    required: "required",
-                                },
-                                key: Math.random(),
-                            },
-                            {
-                                content: {
-                                    attrs: {
-                                        "aria-label": "Actual Window Width (px)",
-                                        max: "4000",
-                                        min: "100",
-                                        type: "number",
-                                    },
-                                    model: model["checkpointB.widthPx"] ?? "",
-                                    name: "checkpointB[" + idx + "].widthPx",
-                                    required: "required",
-                                },
-                                key: Math.random(),
-                            },
-                            {
-                                content: {
-                                    attrs: {
-                                        "aria-label": "Actual Delay (ms)",
-                                        max: "60000",
-                                        min: "0",
-                                        type: "number",
-                                    },
-                                    model: model["checkpointB.delayMs"] ?? "",
-                                    name: "checkpointB[" + idx + "].delayMs",
-                                    required: "required",
-                                },
-                                key: Math.random(),
-                            },
-                        ],
-                        key: Math.random(),
-                    };
-                },
-
-                update(key) {
-                    this.tbody = this.tbody.filter((tr) => {
-                        return tr.key === key || tr.content.some(td => td.content.model !== "");
-                    });
-
-                    if (this.tbody.length === 0 || this.tbody.at(-1).content.some(td => td.content.model !== "")) {
-                        this.tbody.push(this.row(this.tbody.length, {}));
-                    }
-
-                    this.tbody.forEach((tr, idx) => {
-                        tr.content.forEach((td) => {
-                            td.content.name = td.content.name
-                                .replace(/^checkpoint(\w)\[\d+]/, "checkpoint$1[" + idx + "]");
-
-                            if (idx === 0 || idx < this.tbody.length - 1) {
-                                td.content.attrs.name = td.content.name;
-                                td.content.attrs.required = td.content.required;
-                            } else {
-                                td.content.attrs.name = undefined;
-                                td.content.attrs.required = undefined;
-                            }
-                        });
-                    });
-                },
-            },
-
-            created() {
-                this.update(null);
-            },
-        }).mount("#form");
-    </script>
 </th:block>
 </body>
 </html>
