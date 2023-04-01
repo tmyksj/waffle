@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import waffle.domain.entity.WebCheckpoint
+import waffle.domain.entity.WebFlow
 import waffle.test.factory.WebCheckpointFactory
+import waffle.test.factory.WebFlowFactory
 import java.util.*
 
 @SpringBootTest
@@ -15,7 +17,13 @@ class WebCheckpointRepositoryTests {
     private lateinit var webCheckpointRepository: WebCheckpointRepository
 
     @Autowired
+    private lateinit var webFlowRepository: WebFlowRepository
+
+    @Autowired
     private lateinit var webCheckpointFactory: WebCheckpointFactory
+
+    @Autowired
+    private lateinit var webFlowFactory: WebFlowFactory
 
     @Test
     fun crudSuccessful() {
@@ -45,12 +53,13 @@ class WebCheckpointRepositoryTests {
     @Test
     fun findAllByFlow_returns_entities_with_the_given_flow() {
         // Init
-        val entity1: WebCheckpoint = webCheckpointFactory.build()
-        val entity2: WebCheckpoint = webCheckpointRepository.save(entity1)
+        val flow: WebFlow = webFlowRepository.save(webFlowFactory.build())
+        val entity1: WebCheckpoint = webCheckpointRepository.save(webCheckpointFactory.build(flow = flow))
+        val entity2: WebCheckpoint = webCheckpointRepository.save(webCheckpointFactory.build(flow = flow))
 
         // Read
-        val entities: List<WebCheckpoint> = webCheckpointRepository.findAllByFlow(entity2.flow)
-        Assertions.assertThat(entities).isEqualTo(listOf(entity2))
+        val entities: List<WebCheckpoint> = webCheckpointRepository.findAllByFlow(flow)
+        Assertions.assertThat(entities).containsExactlyInAnyOrder(entity1, entity2)
     }
 
 }
