@@ -6,8 +6,11 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import waffle.domain.entity.WebCheckpoint
+import waffle.domain.entity.WebReg
 import waffle.domain.repository.WebCheckpointRepository
+import waffle.domain.repository.WebRegRepository
 import waffle.test.factory.WebCheckpointFactory
+import waffle.test.factory.WebRegFactory
 import java.util.*
 
 @SpringBootTest
@@ -17,7 +20,13 @@ class FindWebCheckpointQueryTests {
     private lateinit var webCheckpointRepository: WebCheckpointRepository
 
     @Autowired
+    private lateinit var webRegRepository: WebRegRepository
+
+    @Autowired
     private lateinit var webCheckpointFactory: WebCheckpointFactory
+
+    @Autowired
+    private lateinit var webRegFactory: WebRegFactory
 
     @Autowired
     private lateinit var findWebCheckpointQuery: FindWebCheckpointQuery
@@ -25,6 +34,8 @@ class FindWebCheckpointQueryTests {
     @Test
     fun execute_returns_Ok_when_the_WebCheckpoint_exists() {
         val entity: WebCheckpoint = webCheckpointRepository.save(webCheckpointFactory.build())
+        val regs: List<WebReg> =
+            listOf(webRegRepository.save(webRegFactory.build(checkpointA = entity)))
 
         val response: FindWebCheckpointQuery.Response = findWebCheckpointQuery.execute(
             id = entity.id,
@@ -35,6 +46,7 @@ class FindWebCheckpointQueryTests {
 
         SoftAssertions.assertSoftly {
             it.assertThat(response.webCheckpoint).isEqualTo(entity)
+            it.assertThat(response.regs).isEqualTo(regs)
         }
     }
 

@@ -1,6 +1,7 @@
 package waffle.usecase.query
 
 import waffle.domain.entity.WebCheckpoint
+import waffle.domain.entity.WebReg
 import java.util.*
 
 /**
@@ -26,6 +27,11 @@ interface FindWebCheckpointQuery {
              * WebCheckpoint.
              */
             val webCheckpoint: WebCheckpoint,
+
+            /**
+             * List of WebReg.
+             */
+            val regs: List<WebReg>,
 
             ) : Response
 
