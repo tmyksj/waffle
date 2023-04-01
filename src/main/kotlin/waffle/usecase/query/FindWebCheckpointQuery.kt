@@ -25,9 +25,9 @@ interface FindWebCheckpointQuery {
             /**
              * WebCheckpoint.
              */
-            val webCheckpoint: WebCheckpoint
+            val webCheckpoint: WebCheckpoint,
 
-        ) : Response
+            ) : Response
 
         data class Error(
 
