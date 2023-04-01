@@ -4,7 +4,9 @@ import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import waffle.domain.entity.WebCheckpoint
 import waffle.domain.entity.WebReg
+import waffle.test.factory.WebCheckpointFactory
 import waffle.test.factory.WebRegFactory
 import java.util.*
 
@@ -12,7 +14,13 @@ import java.util.*
 class WebRegRepositoryTests {
 
     @Autowired
+    private lateinit var webCheckpointRepository: WebCheckpointRepository
+
+    @Autowired
     private lateinit var webRegRepository: WebRegRepository
+
+    @Autowired
+    private lateinit var webCheckpointFactory: WebCheckpointFactory
 
     @Autowired
     private lateinit var webRegFactory: WebRegFactory
@@ -40,6 +48,18 @@ class WebRegRepositoryTests {
 
         // Delete
         // is not supported.
+    }
+
+    @Test
+    fun findAllByCheckpoint_returns_entities_with_the_given_checkpoint() {
+        // Init
+        val checkpoint: WebCheckpoint = webCheckpointRepository.save(webCheckpointFactory.build())
+        val entity1: WebReg = webRegRepository.save(webRegFactory.build(checkpointA = checkpoint))
+        val entity2: WebReg = webRegRepository.save(webRegFactory.build(checkpointB = checkpoint))
+
+        // Read
+        val entities: List<WebReg> = webRegRepository.findAllByCheckpoint(checkpoint)
+        Assertions.assertThat(entities).containsExactlyInAnyOrder(entity1, entity2)
     }
 
 }

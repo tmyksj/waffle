@@ -1,5 +1,6 @@
 package waffle.domain.repository
 
+import waffle.domain.entity.WebCheckpoint
 import waffle.domain.entity.WebReg
 import java.util.*
 
@@ -7,6 +8,14 @@ import java.util.*
  * Repository for [WebReg].
  */
 interface WebRegRepository {
+
+    /**
+     * Retrieves entities by its checkpoint.
+     *
+     * @param checkpoint
+     * @return the entities with the given checkpoint.
+     */
+    fun findAllByCheckpoint(checkpoint: WebCheckpoint): List<WebReg>
 
     /**
      * Retrieves an entity by its id.

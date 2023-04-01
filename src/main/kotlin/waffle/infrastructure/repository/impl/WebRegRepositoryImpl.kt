@@ -4,6 +4,7 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 import waffle.core.storage.BlobStorage
+import waffle.domain.entity.WebCheckpoint
 import waffle.domain.entity.WebReg
 import waffle.domain.repository.WebCheckpointRepository
 import waffle.domain.repository.WebRegRepository
@@ -18,6 +19,33 @@ class WebRegRepositoryImpl(
     private val webCheckpointRepository: WebCheckpointRepository,
     private val webRegJpaRepository: WebRegJpaRepository,
 ) : WebRegRepository {
+
+    override fun findAllByCheckpoint(checkpoint: WebCheckpoint): List<WebReg> {
+        val jpaEntities: List<WebRegJpaEntity> =
+            webRegJpaRepository.findAllByWebCheckpointId(listOf(checkpoint.id.toString()))
+
+        val checkpointEntities: List<WebCheckpoint> =
+            webCheckpointRepository.findAllById(
+                jpaEntities.map { UUID.fromString(it.webCheckpointIdA) }
+                        + jpaEntities.map { UUID.fromString(it.webCheckpointIdB) })
+
+        val checkpoints: Map<UUID, WebCheckpoint> =
+            checkpointEntities.associateBy { it.id }
+
+        return jpaEntities.map {
+            WebReg(
+                id = UUID.fromString(it.id),
+                checkpointA = checkNotNull(checkpoints[UUID.fromString(it.webCheckpointIdA)]),
+                checkpointB = checkNotNull(checkpoints[UUID.fromString(it.webCheckpointIdB)]),
+                state = WebReg.State.values()[it.state.toInt()],
+                startedDate = it.startedDate,
+                completedDate = it.completedDate,
+                failedDate = it.failedDate,
+                createdDate = it.createdDate,
+                lastModifiedDate = it.lastModifiedDate,
+            )
+        }
+    }
 
     override fun findById(id: UUID): WebReg? {
         val jpaEntity: WebRegJpaEntity =
