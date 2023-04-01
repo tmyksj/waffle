@@ -18,6 +18,7 @@ import waffle.web.form.webreg.DetailsForm
 import waffle.web.form.webreg.OutputForm
 import waffle.web.form.webreg.QuickstartForm
 import java.net.URL
+import java.util.*
 
 /**
  * Controller for regression test for Web.
@@ -63,8 +64,8 @@ class WebRegController(
         }
 
         val response: CreateWebRegCommand.Response = createWebRegCommand.execute(
-            checkpointA = createForm.checkpointA,
-            checkpointB = createForm.checkpointB,
+            checkpointA = UUID.fromString(createForm.checkpointA),
+            checkpointB = UUID.fromString(createForm.checkpointB),
         )
 
         return if (response is CreateWebRegCommand.Response.Ok) {
@@ -163,7 +164,7 @@ class WebRegController(
         }
 
         val response: FindWebRegQuery.Response = findWebRegQuery.execute(
-            id = detailsForm.id,
+            id = UUID.fromString(detailsForm.id),
         )
 
         return if (response is FindWebRegQuery.Response.Ok) {
@@ -193,7 +194,7 @@ class WebRegController(
         }
 
         val response: FindWebRegQuery.Response = findWebRegQuery.execute(
-            id = outputForm.id,
+            id = UUID.fromString(outputForm.id),
         )
 
         if (response is FindWebRegQuery.Response.Ok) {

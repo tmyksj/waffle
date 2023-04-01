@@ -13,6 +13,7 @@ import waffle.usecase.command.CreateWebCheckpointCommand
 import waffle.usecase.query.FindWebCheckpointQuery
 import waffle.web.form.webcheckpoint.CreateForm
 import waffle.web.form.webcheckpoint.DetailsForm
+import java.util.*
 
 /**
  * Controller for a WebCheckpoint entity.
@@ -57,7 +58,7 @@ class WebCheckpointController(
         }
 
         val response: CreateWebCheckpointCommand.Response = createWebCheckpointCommand.execute(
-            flow = createForm.flow,
+            flow = UUID.fromString(createForm.flow),
         )
 
         return if (response is CreateWebCheckpointCommand.Response.Ok) {
@@ -91,7 +92,7 @@ class WebCheckpointController(
         }
 
         val response: FindWebCheckpointQuery.Response = findWebCheckpointQuery.execute(
-            id = detailsForm.id,
+            id = UUID.fromString(detailsForm.id),
         )
 
         return if (response is FindWebCheckpointQuery.Response.Ok) {

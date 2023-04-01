@@ -1,7 +1,7 @@
 package waffle.web.form.webreg
 
+import jakarta.validation.constraints.Pattern
 import waffle.web.controller.WebRegController
-import java.util.*
 
 /**
  * Form for [WebRegController.create].
@@ -11,11 +11,13 @@ data class CreateForm(
     /**
      * WebCheckpoint A.
      */
-    val checkpointA: UUID = UUID.randomUUID(),
+    @field:Pattern(regexp = "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+    val checkpointA: String = "",
 
     /**
      * WebCheckpoint B.
      */
-    val checkpointB: UUID = UUID.randomUUID(),
+    @field:Pattern(regexp = "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+    val checkpointB: String = "",
 
     )

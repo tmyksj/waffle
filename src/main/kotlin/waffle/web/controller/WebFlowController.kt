@@ -13,6 +13,7 @@ import waffle.usecase.query.FindWebFlowQuery
 import waffle.web.form.webflow.CreateForm
 import waffle.web.form.webflow.DetailsForm
 import java.net.URL
+import java.util.*
 
 /**
  * Controller for a WebFlow entity.
@@ -93,7 +94,7 @@ class WebFlowController(
         }
 
         val response: FindWebFlowQuery.Response = findWebFlowQuery.execute(
-            id = detailsForm.id,
+            id = UUID.fromString(detailsForm.id),
         )
 
         return if (response is FindWebFlowQuery.Response.Ok) {
