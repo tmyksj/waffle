@@ -18,6 +18,14 @@ interface WebCheckpointRepository {
     fun findAllByFlow(flow: WebFlow): List<WebCheckpoint>
 
     /**
+     * Retrieves entities by its id.
+     *
+     * @param ids
+     * @return the entities with the given ids.
+     */
+    fun findAllById(ids: List<UUID>): List<WebCheckpoint>
+
+    /**
      * Retrieves an entity by its id.
      *
      * @param id

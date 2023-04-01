@@ -68,6 +68,51 @@ class WebCheckpointRepositoryImpl(
         }
     }
 
+    override fun findAllById(ids: List<UUID>): List<WebCheckpoint> {
+        val jpaEntities: List<WebCheckpointJpaEntity> =
+            webCheckpointJpaRepository.findAllById(ids.map { it.toString() })
+
+        val flowEntities: List<WebFlow> =
+            webFlowRepository.findAllById(jpaEntities.map { UUID.fromString(it.webFlowId) })
+
+        val flows: Map<UUID, WebFlow> =
+            flowEntities.associateBy { it.id }
+
+        val snapshotJpaEntities: List<WebCheckpointSnapshotJpaEntity> =
+            webCheckpointSnapshotJpaRepository.findAllByWebCheckpointId(jpaEntities.map { it.id })
+
+        val screenshots: Map<UUID, Blob> =
+            blobStorage.findAllById(snapshotJpaEntities.map { UUID.fromString(it.screenshot) })
+
+        val snapshots: Map<String, List<WebSnapshot>> =
+            snapshotJpaEntities.groupBy(
+                {
+                    it.id.webCheckpointId
+                },
+                {
+                    WebSnapshot(
+                        resource = URL(it.resource),
+                        widthPx = it.widthPx,
+                        screenshot = checkNotNull(screenshots[UUID.fromString(it.screenshot)]),
+                    )
+                },
+            )
+
+        return jpaEntities.map {
+            WebCheckpoint(
+                id = UUID.fromString(it.id),
+                flow = checkNotNull(flows[UUID.fromString(it.webFlowId)]),
+                snapshots = snapshots[it.id] ?: listOf(),
+                state = WebCheckpoint.State.values()[it.state.toInt()],
+                startedDate = it.startedDate,
+                completedDate = it.completedDate,
+                failedDate = it.failedDate,
+                createdDate = it.createdDate,
+                lastModifiedDate = it.lastModifiedDate,
+            )
+        }
+    }
+
     override fun findById(id: UUID): WebCheckpoint? {
         val jpaEntity: WebCheckpointJpaEntity =
             webCheckpointJpaRepository.findByIdOrNull(id.toString()) ?: return null

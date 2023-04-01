@@ -62,4 +62,15 @@ class WebCheckpointRepositoryTests {
         Assertions.assertThat(entities).containsExactlyInAnyOrder(entity1, entity2)
     }
 
+    @Test
+    fun findAllById_returns_entities_with_the_given_ids() {
+        // Init
+        val entity1: WebCheckpoint = webCheckpointRepository.save(webCheckpointFactory.build())
+        val entity2: WebCheckpoint = webCheckpointRepository.save(webCheckpointFactory.build())
+
+        // Read
+        val entities: List<WebCheckpoint> = webCheckpointRepository.findAllById(listOf(entity1.id, entity2.id))
+        Assertions.assertThat(entities).containsExactlyInAnyOrder(entity1, entity2)
+    }
+
 }
