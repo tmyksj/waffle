@@ -20,6 +20,37 @@ class WebFlowRepositoryImpl(
     private val webFlowJpaRepository: WebFlowJpaRepository,
 ) : WebFlowRepository {
 
+    override fun findAllById(ids: List<UUID>): List<WebFlow> {
+        val jpaEntities: List<WebFlowJpaEntity> =
+            webFlowJpaRepository.findAllById(ids.map { it.toString() })
+
+        val compositionJpaEntities: List<WebFlowCompositionJpaEntity> =
+            webFlowCompositionJpaRepository.findAllByWebFlowId(jpaEntities.map { it.id })
+
+        val compositions: Map<String, List<WebComposition>> =
+            compositionJpaEntities.groupBy(
+                {
+                    it.id.webFlowId
+                },
+                {
+                    WebComposition(
+                        resource = URL(it.resource),
+                        widthPx = it.widthPx,
+                        delayMs = it.delayMs,
+                    )
+                },
+            )
+
+        return jpaEntities.map {
+            WebFlow(
+                id = UUID.fromString(it.id),
+                compositions = compositions[it.id] ?: listOf(),
+                createdDate = it.createdDate,
+                lastModifiedDate = it.lastModifiedDate,
+            )
+        }
+    }
+
     override fun findById(id: UUID): WebFlow? {
         val jpaEntity: WebFlowJpaEntity =
             webFlowJpaRepository.findByIdOrNull(id.toString()) ?: return null

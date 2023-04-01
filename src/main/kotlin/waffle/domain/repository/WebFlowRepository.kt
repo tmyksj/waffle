@@ -9,6 +9,14 @@ import java.util.*
 interface WebFlowRepository {
 
     /**
+     * Retrieves entities by its id.
+     *
+     * @param ids
+     * @return the entities with the given ids.
+     */
+    fun findAllById(ids: List<UUID>): List<WebFlow>
+
+    /**
      * Retrieves an entity by its id.
      *
      * @param id

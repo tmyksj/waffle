@@ -42,4 +42,15 @@ class WebFlowRepositoryTests {
         // is not supported.
     }
 
+    @Test
+    fun findAllById_returns_entities_with_the_given_ids() {
+        // Init
+        val entity1: WebFlow = webFlowRepository.save(webFlowFactory.build())
+        val entity2: WebFlow = webFlowRepository.save(webFlowFactory.build())
+
+        // Read
+        val entities: List<WebFlow> = webFlowRepository.findAllById(listOf(entity1.id, entity2.id))
+        Assertions.assertThat(entities).containsExactlyInAnyOrder(entity1, entity2)
+    }
+
 }
