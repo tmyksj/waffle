@@ -1,49 +1,39 @@
 <!DOCTYPE html>
 <html lang="en"
-      th:replace="~{default :: layout(~{:: meta}, ~{:: title}, ~{:: 'th:block'})}"
+      th:replace="~{default :: layout(~{:: head/content()}, ~{:: body/content()})}"
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>WebCheckpoint - Waffle</title>
+    <link rel="stylesheet"
+          th:href="@{/Stylesheets/Core.css}">
 </head>
 <body>
-<th:block>
-    <div class="u_ai-c u_d-f u_jc-sb u_mt-2.0">
-        <h1>WebCheckpoint</h1>
+<div class="u_mt-2.0">
+    <h1>WebCheckpoint</h1>
+</div>
+<form class="u_mt-1.6"
+      method="post"
+      th:action="@{/WebCheckpoint}"
+      th:object="${createForm}">
+    <div class="c_pane u_mt-1.6 u_w-50.0%">
+        <div class="c_unit">
+            <div class="c_unit_subject">
+                <label class="c_label"
+                       for="flow">WebFlow</label>
+                <input class="c_input"
+                       pattern="[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                       required="required"
+                       th:field="*{flow}"
+                       type="text">
+            </div>
+        </div>
     </div>
-    <form class="u_mt-1.6"
-          id="form"
-          method="post"
-          th:action="@{/WebCheckpoint}">
-        <div class="c_table">
-            <table>
-                <colgroup>
-                    <col style="width: 100%;">
-                </colgroup>
-                <thead>
-                <tr>
-                    <th>WebFlow</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>
-                        <input aria-label="WebFlow"
-                               class="c_input"
-                               name="flow"
-                               required="required"
-                               type="text">
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="u_pb-0.4 u_pr-1.0 u_pt-0.4 u_ta-r">
-            <button class="c_button"
-                    type="submit">Submit
-            </button>
-        </div>
-    </form>
-</th:block>
+    <div class="u_pb-0.4 u_pr-1.0 u_pt-0.4 u_ta-r u_w-50.0%">
+        <button class="c_button"
+                type="submit">Submit
+        </button>
+    </div>
+</form>
 </body>
 </html>

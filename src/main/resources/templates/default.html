@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en"
-      th:fragment="layout(meta, title, content)"
+      th:fragment="layout(meta, content)"
       xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8"
-          th:replace="${meta}">
-    <title th:replace="${title}">Waffle</title>
+<head th:insert="${meta}">
+    <meta charset="UTF-8">
+    <title>Waffle</title>
     <link rel="stylesheet"
           th:href="@{/Stylesheets/Core.css}">
 </head>

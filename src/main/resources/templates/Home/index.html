@@ -1,23 +1,21 @@
 <!DOCTYPE html>
 <html lang="en"
-      th:replace="~{default :: layout(~{:: meta}, ~{:: title}, ~{:: 'th:block'})}"
+      th:replace="~{default :: layout(~{:: head/content()}, ~{:: body/content()})}"
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Home - Waffle</title>
+    <link rel="stylesheet"
+          th:href="@{/Stylesheets/Core.css}">
 </head>
 <body>
-<th:block>
-    <div class="c_home">
-        <a class="c_home_anchor"
-           th:href="@{/WebFlow}">WebFlow</a>
-        <a class="c_home_anchor"
-           th:href="@{/WebCheckpoint}">WebCheckpoint</a>
-        <a class="c_home_anchor"
-           th:href="@{/WebReg}">WebReg</a>
-        <a class="c_home_anchor"
-           th:href="@{/WebReg/Quickstart}">WebReg<br>(Quickstart)</a>
-    </div>
-</th:block>
+<div class="c_home">
+    <a class="c_home_anchor"
+       th:href="@{/WebFlow}">WebFlow</a>
+    <a class="c_home_anchor"
+       th:href="@{/WebReg}">WebReg</a>
+    <a class="c_home_anchor"
+       th:href="@{/WebReg/Quickstart}">WebReg<br>Quickstart</a>
+</div>
 </body>
 </html>

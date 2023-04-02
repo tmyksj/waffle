@@ -100,6 +100,7 @@ class WebFlowController(
         return if (response is FindWebFlowQuery.Response.Ok) {
             ModelAndView().apply {
                 addObject("webFlow", response.webFlow)
+                addObject("checkpoints", response.checkpoints)
 
                 status = HttpStatus.OK
                 viewName = "WebFlow/details"

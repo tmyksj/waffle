@@ -98,6 +98,7 @@ class WebCheckpointController(
         return if (response is FindWebCheckpointQuery.Response.Ok) {
             ModelAndView().apply {
                 addObject("webCheckpoint", response.webCheckpoint)
+                addObject("regs", response.regs)
 
                 status = HttpStatus.OK
                 viewName = "WebCheckpoint/details"

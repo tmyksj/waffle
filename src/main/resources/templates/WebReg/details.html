@@ -1,91 +1,60 @@
 <!DOCTYPE html>
 <html lang="en"
-      th:replace="~{default :: layout(~{:: meta}, ~{:: title}, ~{:: 'th:block'})}"
+      th:replace="~{default :: layout(~{:: head/content()}, ~{:: body/content()})}"
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>WebReg - Waffle</title>
+    <link rel="stylesheet"
+          th:href="@{/Stylesheets/Core.css}">
 </head>
 <body>
-<th:block>
-    <div class="u_ai-c u_d-f u_jc-sb u_mt-2.0">
-        <h1>WebReg</h1>
+<div class="u_ai-c u_d-f u_jc-sb u_mt-2.0">
+    <div>
         <div class="u_ai-c u_d-f">
-            <span class="c_icon +dot u_mr-0.6"
+            <h1>WebReg</h1>
+            <span class="c_icon +dot u_ml-0.6"
                   th:if="${webReg.isReady()}"></span>
-            <span class="u_mr-1.0"
-                  th:if="${webReg.isReady()}">Ready</span>
-            <span class="c_icon +progress u_mr-0.6"
+            <span class="c_icon +progress u_ml-0.6"
                   th:if="${webReg.isStarted()}"></span>
-            <span class="u_mr-1.0"
-                  th:if="${webReg.isStarted()}">Started</span>
-            <span class="c_icon +check u_mr-0.6"
+            <span class="c_icon +check u_ml-0.6"
                   th:if="${webReg.isCompleted()}"></span>
-            <span class="u_mr-1.0"
-                  th:if="${webReg.isCompleted()}">Completed</span>
-            <span class="c_icon +x u_mr-0.6"
+            <span class="c_icon +x u_ml-0.6"
                   th:if="${webReg.isFailed()}"></span>
-            <span class="u_mr-1.0"
-                  th:if="${webReg.isFailed()}">Failed</span>
-            <a class="c_button u_mr-1.0"
-               th:href="@{/WebReg/{id}/Output(id=${webReg.id})}"
-               th:if="${webReg.isCompleted()}">Download</a>
-            <span aria-disabled="true"
-                  class="c_button u_mr-1.0"
-                  th:unless="${webReg.isCompleted()}">Download</span>
+        </div>
+        <span class="u_fs-0.9"
+              th:text="${webReg.id}"></span>
+    </div>
+    <a class="c_button"
+       th:href="@{/WebReg/{id}/Output(id=${webReg.id})}"
+       th:if="${webReg.isCompleted()}">Download</a>
+    <span aria-disabled="true"
+          class="c_button"
+          th:unless="${webReg.isCompleted()}">Download</span>
+</div>
+<div class="u_d-f u_mt-1.6">
+    <div class="c_pane u_w-50.0%">
+        <div class="c_unit">
+            <div class="c_unit_subject">
+                <span class="c_unit_label">Expected Checkpoint</span>
+                <span class="c_unit_text">
+                    <a th:href="@{/WebCheckpoint/{id}(id=${webReg.checkpointA.id})}"
+                       th:text="${webReg.checkpointA.id}"></a>
+                </span>
+            </div>
         </div>
     </div>
-    <div class="c_table u_mt-1.6">
-        <table>
-            <colgroup>
-                <col style="width: 25%;">
-                <col style="width: 12.5%;">
-                <col style="width: 12.5%;">
-                <col style="width: 25%;">
-                <col style="width: 12.5%;">
-                <col style="width: 12.5%;">
-            </colgroup>
-            <thead>
-            <tr>
-                <th colspan="3">Expected</th>
-                <th colspan="3">Actual</th>
-            </tr>
-            <tr>
-                <th>URL</th>
-                <th>Window Width (px)</th>
-                <th>Delay (ms)</th>
-                <th>URL</th>
-                <th>Window Width (px)</th>
-                <th>Delay (ms)</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="i : ${#numbers.sequence(0, T(java.lang.Math).max(
-                    webReg.checkpointA.flow.compositions.size(), webReg.checkpointB.flow.compositions.size()) - 1)}">
-                <th:block th:if="${i < webReg.checkpointA.flow.compositions.size()}">
-                    <td th:text="${webReg.checkpointA.flow.compositions[i].resource}"></td>
-                    <td th:text="${webReg.checkpointA.flow.compositions[i].widthPx}"></td>
-                    <td th:text="${webReg.checkpointA.flow.compositions[i].delayMs}"></td>
-                </th:block>
-                <th:block th:if="${i >= webReg.checkpointA.flow.compositions.size()}">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </th:block>
-                <th:block th:if="${i < webReg.checkpointB.flow.compositions.size()}">
-                    <td th:text="${webReg.checkpointB.flow.compositions[i].resource}"></td>
-                    <td th:text="${webReg.checkpointB.flow.compositions[i].widthPx}"></td>
-                    <td th:text="${webReg.checkpointB.flow.compositions[i].delayMs}"></td>
-                </th:block>
-                <th:block th:if="${i >= webReg.checkpointB.flow.compositions.size()}">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </th:block>
-            </tr>
-            </tbody>
-        </table>
+    <div class="c_pane u_w-50.0%">
+        <div class="c_unit">
+            <div class="c_unit_subject">
+                <span class="c_unit_label">Actual Checkpoint</span>
+                <span class="c_unit_text">
+                    <a th:href="@{/WebCheckpoint/{id}(id=${webReg.checkpointB.id})}"
+                       th:text="${webReg.checkpointB.id}"></a>
+                </span>
+            </div>
+        </div>
     </div>
-</th:block>
+</div>
 </body>
 </html>

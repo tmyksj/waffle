@@ -1,58 +1,54 @@
 <!DOCTYPE html>
 <html lang="en"
-      th:replace="~{default :: layout(~{:: meta}, ~{:: title}, ~{:: 'th:block'})}"
+      th:replace="~{default :: layout(~{:: head/content()}, ~{:: body/content()})}"
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>WebReg - Waffle</title>
+    <link rel="stylesheet"
+          th:href="@{/Stylesheets/Core.css}">
 </head>
 <body>
-<th:block>
-    <div class="u_ai-c u_d-f u_jc-sb u_mt-2.0">
-        <h1>WebReg</h1>
+<div class="u_mt-2.0">
+    <h1>WebReg</h1>
+</div>
+<form class="u_mt-1.6"
+      method="post"
+      th:action="@{/WebReg}"
+      th:object="${createForm}">
+    <div class="u_d-f u_mt-1.6">
+        <div class="c_pane u_w-50.0%">
+            <div class="c_unit">
+                <div class="c_unit_subject">
+                    <label class="c_label"
+                           for="checkpointA">Expected Checkpoint</label>
+                    <input class="c_input"
+                           pattern="[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                           required="required"
+                           th:field="*{checkpointA}"
+                           type="text">
+                </div>
+            </div>
+        </div>
+        <div class="c_pane u_w-50.0%">
+            <div class="c_unit">
+                <div class="c_unit_subject">
+                    <label class="c_label"
+                           for="checkpointB">Actual Checkpoint</label>
+                    <input class="c_input"
+                           pattern="[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                           required="required"
+                           th:field="*{checkpointB}"
+                           type="text">
+                </div>
+            </div>
+        </div>
     </div>
-    <form class="u_mt-1.6"
-          id="form"
-          method="post"
-          th:action="@{/WebReg}">
-        <div class="c_table">
-            <table>
-                <colgroup>
-                    <col style="width: 50%;">
-                    <col style="width: 50%;">
-                </colgroup>
-                <thead>
-                <tr>
-                    <th>Expected Checkpoint</th>
-                    <th>Actual Checkpoint</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>
-                        <input aria-label="Expected Checkpoint"
-                               class="c_input"
-                               name="checkpointA"
-                               required="required"
-                               type="text">
-                    </td>
-                    <td>
-                        <input aria-label="Actual Checkpoint"
-                               class="c_input"
-                               name="checkpointB"
-                               required="required"
-                               type="text">
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="u_pb-0.4 u_pr-1.0 u_pt-0.4 u_ta-r">
-            <button class="c_button"
-                    type="submit">Submit
-            </button>
-        </div>
-    </form>
-</th:block>
+    <div class="u_pb-0.4 u_pr-1.0 u_pt-0.4 u_ta-r">
+        <button class="c_button"
+                type="submit">Submit
+        </button>
+    </div>
+</form>
 </body>
 </html>
