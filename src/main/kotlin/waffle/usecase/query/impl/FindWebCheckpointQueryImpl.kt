@@ -25,6 +25,7 @@ class FindWebCheckpointQueryImpl(
             )
 
         val regs: List<WebReg> = webRegRepository.findAllByCheckpoint(entity)
+            .sortedByDescending { listOfNotNull(it.startedDate, it.completedDate, it.failedDate, it.createdDate).max() }
 
         return FindWebCheckpointQuery.Response.Ok(
             webCheckpoint = entity,

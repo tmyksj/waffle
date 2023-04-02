@@ -29,7 +29,7 @@ interface FindWebCheckpointQuery {
             val webCheckpoint: WebCheckpoint,
 
             /**
-             * List of WebReg.
+             * List of WebReg in descending order of max of startedDate, completedDate, failedDate and createdDate.
              */
             val regs: List<WebReg>,
 
