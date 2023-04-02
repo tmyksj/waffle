@@ -5,6 +5,7 @@ import org.assertj.core.api.SoftAssertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import waffle.core.time.now
 import waffle.domain.entity.WebCheckpoint
 import waffle.domain.entity.WebFlow
 import waffle.domain.repository.WebCheckpointRepository
@@ -35,7 +36,48 @@ class FindWebFlowQueryTests {
     fun execute_returns_Ok_when_the_WebFlow_exists() {
         val entity: WebFlow = webFlowRepository.save(webFlowFactory.build())
         val checkpoints: List<WebCheckpoint> =
-            listOf(webCheckpointRepository.save(webCheckpointFactory.build(flow = entity)))
+            List(24) {
+                when (it) {
+                    in 0..5 -> {
+                        webCheckpointRepository.save(
+                            webCheckpointFactory.build(
+                                flow = entity,
+                                startedDate = now().minusHours(it.toLong()),
+                                createdDate = now().minusHours(24),
+                            ),
+                        )
+                    }
+
+                    in 6..11 -> {
+                        webCheckpointRepository.save(
+                            webCheckpointFactory.build(
+                                flow = entity,
+                                completedDate = now().minusHours(it.toLong()),
+                                createdDate = now().minusHours(24),
+                            ),
+                        )
+                    }
+
+                    in 12..17 -> {
+                        webCheckpointRepository.save(
+                            webCheckpointFactory.build(
+                                flow = entity,
+                                failedDate = now().minusHours(it.toLong()),
+                                createdDate = now().minusHours(24),
+                            ),
+                        )
+                    }
+
+                    else -> {
+                        webCheckpointRepository.save(
+                            webCheckpointFactory.build(
+                                flow = entity,
+                                createdDate = now().minusHours(it.toLong()),
+                            ),
+                        )
+                    }
+                }
+            }
 
         val response: FindWebFlowQuery.Response = findWebFlowQuery.execute(
             id = entity.id,

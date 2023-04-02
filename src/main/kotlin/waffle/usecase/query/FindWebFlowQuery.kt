@@ -29,7 +29,8 @@ interface FindWebFlowQuery {
             val webFlow: WebFlow,
 
             /**
-             * List of WebCheckpoint.
+             * List of WebCheckpoint in descending order of max of startedDate, completedDate, failedDate and
+             * createdDate.
              */
             val checkpoints: List<WebCheckpoint>,
 

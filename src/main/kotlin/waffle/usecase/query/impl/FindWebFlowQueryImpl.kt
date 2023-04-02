@@ -25,6 +25,7 @@ class FindWebFlowQueryImpl(
             )
 
         val checkpoints: List<WebCheckpoint> = webCheckpointRepository.findAllByFlow(entity)
+            .sortedByDescending { listOfNotNull(it.startedDate, it.completedDate, it.failedDate, it.createdDate).max() }
 
         return FindWebFlowQuery.Response.Ok(
             webFlow = entity,
