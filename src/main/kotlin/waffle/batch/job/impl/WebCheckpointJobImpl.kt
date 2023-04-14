@@ -85,12 +85,12 @@ class WebCheckpointJobImpl(
 
             try {
                 val snapshots: List<WebSnapshot> = entity2.flow.compositions.map {
-                    Thread.sleep(it.delayMs)
-
                     WebSnapshot(
                         resource = it.resource,
                         widthPx = it.widthPx,
                         screenshot = Blob {
+                            Thread.sleep(it.delayMs)
+
                             browserComponent.captureScreenshot(
                                 url = it.resource,
                                 width = it.widthPx.toInt(),
