@@ -12,11 +12,9 @@ import org.springframework.transaction.PlatformTransactionManager
 import org.springframework.transaction.TransactionDefinition
 import org.springframework.transaction.support.TransactionTemplate
 import waffle.batch.job.WebCheckpointJob
-import waffle.core.component.BrowserComponent
-import waffle.core.type.Blob
 import waffle.domain.entity.WebCheckpoint
-import waffle.domain.model.WebSnapshot
 import waffle.domain.repository.WebCheckpointRepository
+import waffle.domain.service.WebCheckpointService
 import java.util.*
 
 @Component
@@ -61,8 +59,8 @@ class WebCheckpointJobImpl(
     @Component
     class TaskletImpl(
         private val platformTransactionManager: PlatformTransactionManager,
-        private val browserComponent: BrowserComponent,
         private val webCheckpointRepository: WebCheckpointRepository,
+        private val webCheckpointService: WebCheckpointService,
     ) : Tasklet {
 
         override fun execute(contribution: StepContribution, chunkContext: ChunkContext): RepeatStatus {
@@ -75,38 +73,11 @@ class WebCheckpointJobImpl(
                 transactionManager = platformTransactionManager
             }
 
-            val entity1: WebCheckpoint = transactionTemplate.execute {
+            val entity: WebCheckpoint = transactionTemplate.execute {
                 webCheckpointRepository.findById(id)
             } ?: return RepeatStatus.FINISHED
 
-            val entity2: WebCheckpoint = transactionTemplate.execute {
-                webCheckpointRepository.save(entity1.start())
-            }.let { checkNotNull(it) }
-
-            try {
-                val snapshots: List<WebSnapshot> = entity2.flow.compositions.map {
-                    WebSnapshot(
-                        resource = it.resource,
-                        widthPx = it.widthPx,
-                        screenshot = Blob {
-                            Thread.sleep(it.delayMs)
-
-                            browserComponent.captureScreenshot(
-                                url = it.resource,
-                                width = it.widthPx.toInt(),
-                            ).inputStream()
-                        },
-                    )
-                }
-
-                transactionTemplate.execute {
-                    webCheckpointRepository.save(entity2.complete(snapshots))
-                }
-            } catch (e: Exception) {
-                transactionTemplate.execute {
-                    webCheckpointRepository.save(entity1.fail())
-                }
-            }
+            webCheckpointService.create(entity)
 
             return RepeatStatus.FINISHED
         }
