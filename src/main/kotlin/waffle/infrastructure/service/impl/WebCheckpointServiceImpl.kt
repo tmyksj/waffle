@@ -30,17 +30,17 @@ class WebCheckpointServiceImpl(
             }.let { checkNotNull(it) }
 
             val snapshots: List<WebSnapshot> = e1.flow.compositions.map {
+                Thread.sleep(it.delayMs)
+
+                val screenshot: ByteArray = browserComponent.captureScreenshot(
+                    url = it.resource,
+                    width = it.widthPx.toInt(),
+                )
+
                 WebSnapshot(
                     resource = it.resource,
                     widthPx = it.widthPx,
-                    screenshot = Blob {
-                        Thread.sleep(it.delayMs)
-
-                        browserComponent.captureScreenshot(
-                            url = it.resource,
-                            width = it.widthPx.toInt(),
-                        ).inputStream()
-                    },
+                    screenshot = Blob { screenshot.inputStream() },
                 )
             }
 
