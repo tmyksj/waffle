@@ -4,6 +4,7 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 import waffle.core.storage.BlobStorage
+import waffle.core.type.Blob
 import waffle.domain.entity.WebCheckpoint
 import waffle.domain.entity.WebReg
 import waffle.domain.repository.WebCheckpointRepository
@@ -32,17 +33,23 @@ class WebRegRepositoryImpl(
         val checkpoints: Map<UUID, WebCheckpoint> =
             checkpointEntities.associateBy { it.id }
 
-        return jpaEntities.map {
+        val outputs: Map<UUID, Blob> =
+            blobStorage.findAllById(jpaEntities.mapNotNull { it.output }.map { UUID.fromString(it) })
+
+        return jpaEntities.map { jpaEntity ->
             WebReg(
-                id = UUID.fromString(it.id),
-                checkpointA = checkNotNull(checkpoints[UUID.fromString(it.webCheckpointIdA)]),
-                checkpointB = checkNotNull(checkpoints[UUID.fromString(it.webCheckpointIdB)]),
-                state = WebReg.State.values()[it.state.toInt()],
-                startedDate = it.startedDate,
-                completedDate = it.completedDate,
-                failedDate = it.failedDate,
-                createdDate = it.createdDate,
-                lastModifiedDate = it.lastModifiedDate,
+                id = UUID.fromString(jpaEntity.id),
+                checkpointA = checkNotNull(checkpoints[UUID.fromString(jpaEntity.webCheckpointIdA)]),
+                checkpointB = checkNotNull(checkpoints[UUID.fromString(jpaEntity.webCheckpointIdB)]),
+                output = jpaEntity.output?.let {
+                    outputs[UUID.fromString(it)]
+                },
+                state = WebReg.State.values()[jpaEntity.state.toInt()],
+                startedDate = jpaEntity.startedDate,
+                completedDate = jpaEntity.completedDate,
+                failedDate = jpaEntity.failedDate,
+                createdDate = jpaEntity.createdDate,
+                lastModifiedDate = jpaEntity.lastModifiedDate,
             )
         }
     }
