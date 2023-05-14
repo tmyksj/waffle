@@ -1,6 +1,7 @@
 package waffle.domain.entity
 
 import waffle.core.time.now
+import waffle.core.type.Blob
 import waffle.domain.model.WebSnapshot
 import java.time.LocalDateTime
 import java.util.*
@@ -19,6 +20,11 @@ data class WebCheckpoint(
      * WebFlow.
      */
     val flow: WebFlow,
+
+    /**
+     * Output.
+     */
+    val output: Blob? = null,
 
     /**
      * Snapshots.
@@ -103,13 +109,15 @@ data class WebCheckpoint(
     }
 
     /**
-     * The transition to the state "Completed" with given snapshots.
+     * The transition to the state "Completed" with a given output and snapshots.
      *
+     * @param output
      * @param snapshots
      * @return
      */
-    fun complete(snapshots: List<WebSnapshot>): WebCheckpoint {
+    fun complete(output: Blob, snapshots: List<WebSnapshot>): WebCheckpoint {
         return copy(
+            output = output,
             snapshots = snapshots,
             state = State.Completed,
             completedDate = now(),

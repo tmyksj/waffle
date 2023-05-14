@@ -9,6 +9,7 @@ import org.junit.jupiter.params.provider.MethodSource
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import waffle.core.time.now
+import waffle.core.type.Blob
 import waffle.domain.model.WebSnapshot
 import waffle.test.factory.WebCheckpointFactory
 import waffle.test.factory.WebSnapshotFactory
@@ -63,13 +64,15 @@ class WebCheckpointTests {
 
     @Test
     fun transition_to_the_state_Completed() {
+        val output = Blob()
         val snapshots: List<WebSnapshot> = listOf(webSnapshotFactory.build())
         val now: LocalDateTime = now()
 
         val entity: WebCheckpoint = webCheckpointFactory.build()
-        val actual: WebCheckpoint = entity.complete(snapshots)
+        val actual: WebCheckpoint = entity.complete(output, snapshots)
 
         SoftAssertions.assertSoftly {
+            it.assertThat(actual.output).isEqualTo(output)
             it.assertThat(actual.snapshots).isEqualTo(snapshots)
             it.assertThat(actual.state).isEqualTo(WebCheckpoint.State.Completed)
             it.assertThat(actual.completedDate).isAfterOrEqualTo(now)

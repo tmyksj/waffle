@@ -2,6 +2,7 @@ create table wf_web_checkpoint
 (
     id                 varchar(36) not null,
     wf_web_flow_id     varchar(36) not null,
+    output             varchar(36),
     state              bigint      not null,
     started_date       datetime(6)          default 0,
     completed_date     datetime(6)          default 0,

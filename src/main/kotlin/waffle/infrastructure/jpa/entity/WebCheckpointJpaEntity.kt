@@ -25,6 +25,11 @@ data class WebCheckpointJpaEntity(
     val webFlowId: String = "",
 
     /**
+     * Output.
+     */
+    val output: String? = null,
+
+    /**
      * State.
      */
     val state: Long = 0,

@@ -3,6 +3,7 @@ package waffle.test.factory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.TestComponent
 import waffle.core.time.now
+import waffle.core.type.Blob
 import waffle.domain.entity.WebCheckpoint
 import waffle.domain.entity.WebFlow
 import waffle.domain.model.WebSnapshot
@@ -31,6 +32,7 @@ class WebCheckpointFactory {
     fun build(
         id: UUID = UUID.randomUUID(),
         flow: WebFlow = webFlowRepository.save(webFlowFactory.build()),
+        output: Blob? = null,
         snapshots: List<WebSnapshot> = listOf(webSnapshotFactory.build()),
         state: WebCheckpoint.State = WebCheckpoint.State.Ready,
         startedDate: LocalDateTime? = null,
@@ -42,6 +44,7 @@ class WebCheckpointFactory {
         return WebCheckpoint(
             id = id,
             flow = flow,
+            output = output,
             snapshots = snapshots,
             state = state,
             startedDate = startedDate,
@@ -58,6 +61,7 @@ class WebCheckpointFactory {
     fun modify(
         entity: WebCheckpoint,
         flow: WebFlow = entity.flow,
+        output: Blob? = entity.output,
         snapshots: List<WebSnapshot> = entity.snapshots,
         state: WebCheckpoint.State = entity.state,
         startedDate: LocalDateTime? = entity.startedDate,
@@ -68,6 +72,7 @@ class WebCheckpointFactory {
     ): WebCheckpoint {
         return entity.copy(
             flow = flow,
+            output = output,
             snapshots = snapshots,
             state = state,
             startedDate = startedDate,

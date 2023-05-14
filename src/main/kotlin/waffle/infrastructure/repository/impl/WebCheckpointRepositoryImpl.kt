@@ -33,6 +33,9 @@ class WebCheckpointRepositoryImpl(
         val flowEntity: WebFlow =
             webFlowRepository.findById(flow.id) ?: return listOf()
 
+        val outputs: Map<UUID, Blob> =
+            blobStorage.findAllById(jpaEntities.mapNotNull { it.output }.map { UUID.fromString(it) })
+
         val snapshotJpaEntities: List<WebCheckpointSnapshotJpaEntity> =
             webCheckpointSnapshotJpaRepository.findAllByWebCheckpointId(jpaEntities.map { it.id })
 
@@ -53,17 +56,20 @@ class WebCheckpointRepositoryImpl(
                 },
             )
 
-        return jpaEntities.map {
+        return jpaEntities.map { jpaEntity ->
             WebCheckpoint(
-                id = UUID.fromString(it.id),
+                id = UUID.fromString(jpaEntity.id),
                 flow = flowEntity,
-                snapshots = snapshots[it.id] ?: listOf(),
-                state = WebCheckpoint.State.values()[it.state.toInt()],
-                startedDate = it.startedDate,
-                completedDate = it.completedDate,
-                failedDate = it.failedDate,
-                createdDate = it.createdDate,
-                lastModifiedDate = it.lastModifiedDate,
+                output = jpaEntity.output?.let {
+                    outputs[UUID.fromString(it)]
+                },
+                snapshots = snapshots[jpaEntity.id] ?: listOf(),
+                state = WebCheckpoint.State.values()[jpaEntity.state.toInt()],
+                startedDate = jpaEntity.startedDate,
+                completedDate = jpaEntity.completedDate,
+                failedDate = jpaEntity.failedDate,
+                createdDate = jpaEntity.createdDate,
+                lastModifiedDate = jpaEntity.lastModifiedDate,
             )
         }
     }
@@ -78,6 +84,9 @@ class WebCheckpointRepositoryImpl(
         val flows: Map<UUID, WebFlow> =
             flowEntities.associateBy { it.id }
 
+        val outputs: Map<UUID, Blob> =
+            blobStorage.findAllById(jpaEntities.mapNotNull { it.output }.map { UUID.fromString(it) })
+
         val snapshotJpaEntities: List<WebCheckpointSnapshotJpaEntity> =
             webCheckpointSnapshotJpaRepository.findAllByWebCheckpointId(jpaEntities.map { it.id })
 
@@ -98,17 +107,20 @@ class WebCheckpointRepositoryImpl(
                 },
             )
 
-        return jpaEntities.map {
+        return jpaEntities.map { jpaEntity ->
             WebCheckpoint(
-                id = UUID.fromString(it.id),
-                flow = checkNotNull(flows[UUID.fromString(it.webFlowId)]),
-                snapshots = snapshots[it.id] ?: listOf(),
-                state = WebCheckpoint.State.values()[it.state.toInt()],
-                startedDate = it.startedDate,
-                completedDate = it.completedDate,
-                failedDate = it.failedDate,
-                createdDate = it.createdDate,
-                lastModifiedDate = it.lastModifiedDate,
+                id = UUID.fromString(jpaEntity.id),
+                flow = checkNotNull(flows[UUID.fromString(jpaEntity.webFlowId)]),
+                output = jpaEntity.output?.let {
+                    outputs[UUID.fromString(it)]
+                },
+                snapshots = snapshots[jpaEntity.id] ?: listOf(),
+                state = WebCheckpoint.State.values()[jpaEntity.state.toInt()],
+                startedDate = jpaEntity.startedDate,
+                completedDate = jpaEntity.completedDate,
+                failedDate = jpaEntity.failedDate,
+                createdDate = jpaEntity.createdDate,
+                lastModifiedDate = jpaEntity.lastModifiedDate,
             )
         }
     }
@@ -128,6 +140,9 @@ class WebCheckpointRepositoryImpl(
             flow = checkNotNull(
                 webFlowRepository.findById(UUID.fromString(jpaEntity.webFlowId)),
             ),
+            output = jpaEntity.output?.let {
+                blobStorage.findById(UUID.fromString(it))
+            },
             snapshots = snapshotJpaEntities.map {
                 WebSnapshot(
                     resource = URL(it.resource),
@@ -149,6 +164,9 @@ class WebCheckpointRepositoryImpl(
             (webCheckpointJpaRepository.findByIdOrNull(entity.id.toString()) ?: WebCheckpointJpaEntity()).copy(
                 id = entity.id.toString(),
                 webFlowId = entity.flow.id.toString(),
+                output = entity.output?.let {
+                    blobStorage.save(it).toString()
+                },
                 state = WebCheckpoint.State.values().indexOf(entity.state).toLong(),
                 startedDate = entity.startedDate,
                 completedDate = entity.completedDate,
