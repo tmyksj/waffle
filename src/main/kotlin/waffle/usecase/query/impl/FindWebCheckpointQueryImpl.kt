@@ -24,6 +24,9 @@ class FindWebCheckpointQueryImpl(
                 isNotFound = true,
             )
 
+        // Load the output in this transaction.
+        entity.output?.byteArray
+
         val regs: List<WebReg> = webRegRepository.findAllByCheckpoint(entity)
             .sortedByDescending { listOfNotNull(it.startedDate, it.completedDate, it.failedDate, it.createdDate).max() }
 
