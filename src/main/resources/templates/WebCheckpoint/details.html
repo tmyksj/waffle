@@ -9,20 +9,28 @@
           th:href="@{/Stylesheets/Core.css}">
 </head>
 <body>
-<div class="u_mt-2.0">
-    <div class="u_ai-c u_d-f">
-        <h1>WebCheckpoint</h1>
-        <span class="c_icon +dot u_ml-0.6"
-              th:if="${webCheckpoint.isReady()}"></span>
-        <span class="c_icon +progress u_ml-0.6"
-              th:if="${webCheckpoint.isStarted()}"></span>
-        <span class="c_icon +check u_ml-0.6"
-              th:if="${webCheckpoint.isCompleted()}"></span>
-        <span class="c_icon +x u_ml-0.6"
-              th:if="${webCheckpoint.isFailed()}"></span>
+<div class="u_ai-c u_d-f u_jc-sb u_mt-2.0">
+    <div>
+        <div class="u_ai-c u_d-f">
+            <h1>WebCheckpoint</h1>
+            <span class="c_icon +dot u_ml-0.6"
+                  th:if="${webCheckpoint.isReady()}"></span>
+            <span class="c_icon +progress u_ml-0.6"
+                  th:if="${webCheckpoint.isStarted()}"></span>
+            <span class="c_icon +check u_ml-0.6"
+                  th:if="${webCheckpoint.isCompleted()}"></span>
+            <span class="c_icon +x u_ml-0.6"
+                  th:if="${webCheckpoint.isFailed()}"></span>
+        </div>
+        <span class="u_fs-0.9"
+              th:text="${webCheckpoint.id}"></span>
     </div>
-    <span class="u_fs-0.9"
-          th:text="${webCheckpoint.id}"></span>
+    <a class="c_button"
+       th:href="@{/WebCheckpoint/{id}/Output(id=${webCheckpoint.id})}"
+       th:if="${webCheckpoint.isCompleted()}">Download</a>
+    <span aria-disabled="true"
+          class="c_button"
+          th:unless="${webCheckpoint.isCompleted()}">Download</span>
 </div>
 <div class="c_pane u_mt-1.6 u_w-50.0%">
     <div class="c_unit">
