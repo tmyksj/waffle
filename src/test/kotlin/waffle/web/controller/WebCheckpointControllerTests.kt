@@ -9,12 +9,15 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultActions
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import waffle.core.type.Blob
 import waffle.domain.entity.WebCheckpoint
 import waffle.domain.repository.WebCheckpointRepository
 import waffle.domain.repository.WebFlowRepository
 import waffle.test.factory.WebCheckpointFactory
 import waffle.test.factory.WebFlowFactory
+import java.io.ByteArrayOutputStream
 import java.util.*
+import java.util.zip.ZipOutputStream
 
 @AutoConfigureMockMvc
 @SpringBootTest
@@ -91,6 +94,47 @@ class WebCheckpointControllerTests {
     fun details_responds_NotFound_when_params_are_invalid() {
         val resultActions: ResultActions = mockMvc.perform(
             MockMvcRequestBuilders.get("/WebCheckpoint/INVALID_ID"),
+        )
+
+        resultActions.andExpect(MockMvcResultMatchers.status().isNotFound)
+    }
+
+    @Test
+    fun output_responds_Ok_when_the_WebCheckpoint_and_its_output_exist() {
+        val output = Blob { ByteArrayOutputStream().apply { use { ZipOutputStream(it) } }.toByteArray().inputStream() }
+        val entity: WebCheckpoint = webCheckpointRepository.save(webCheckpointFactory.build(output = output))
+
+        val resultActions: ResultActions = mockMvc.perform(
+            MockMvcRequestBuilders.get("/WebCheckpoint/${entity.id}/Output"),
+        )
+
+        resultActions.andExpect(MockMvcResultMatchers.status().isOk)
+    }
+
+    @Test
+    fun output_responds_NotFound_when_the_output_doesnt_exist() {
+        val entity: WebCheckpoint = webCheckpointRepository.save(webCheckpointFactory.build(output = null))
+
+        val resultActions: ResultActions = mockMvc.perform(
+            MockMvcRequestBuilders.get("/WebCheckpoint/${entity.id}/Output"),
+        )
+
+        resultActions.andExpect(MockMvcResultMatchers.status().isNotFound)
+    }
+
+    @Test
+    fun output_responds_NotFound_when_the_WebCheckpoint_doesnt_exist() {
+        val resultActions: ResultActions = mockMvc.perform(
+            MockMvcRequestBuilders.get("/WebCheckpoint/${UUID.randomUUID()}/Output"),
+        )
+
+        resultActions.andExpect(MockMvcResultMatchers.status().isNotFound)
+    }
+
+    @Test
+    fun output_responds_NotFound_when_params_are_invalid() {
+        val resultActions: ResultActions = mockMvc.perform(
+            MockMvcRequestBuilders.get("/WebCheckpoint/INVALID_ID/Output"),
         )
 
         resultActions.andExpect(MockMvcResultMatchers.status().isNotFound)

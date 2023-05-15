@@ -1,6 +1,7 @@
 package waffle.web.controller
 
 import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.validation.BindingResult
 import org.springframework.validation.annotation.Validated
@@ -9,10 +10,12 @@ import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.servlet.ModelAndView
 import waffle.batch.launcher.WebCheckpointLauncher
+import waffle.core.component.ContentTypeComponent
 import waffle.usecase.command.CreateWebCheckpointCommand
 import waffle.usecase.query.FindWebCheckpointQuery
 import waffle.web.form.webcheckpoint.CreateForm
 import waffle.web.form.webcheckpoint.DetailsForm
+import waffle.web.form.webcheckpoint.OutputForm
 import java.util.*
 
 /**
@@ -21,6 +24,7 @@ import java.util.*
 @Controller
 class WebCheckpointController(
     private val webCheckpointLauncher: WebCheckpointLauncher,
+    private val contentTypeComponent: ContentTypeComponent,
     private val createWebCheckpointCommand: CreateWebCheckpointCommand,
     private val findWebCheckpointQuery: FindWebCheckpointQuery,
 ) {
@@ -103,6 +107,40 @@ class WebCheckpointController(
                 status = HttpStatus.OK
                 viewName = "WebCheckpoint/details"
             }
+        } else {
+            throw ResponseStatusException(HttpStatus.NOT_FOUND)
+        }
+    }
+
+    /**
+     * GET: /WebCheckpoint/{id}/Output
+     *
+     * Responds an output by its id or responds HTTP status 404 if none found.
+     */
+    @RequestMapping(method = [RequestMethod.GET], path = ["/WebCheckpoint/{id}/Output"])
+    fun output(
+        @Validated outputForm: OutputForm,
+        bindingResult: BindingResult,
+    ): Any {
+        if (bindingResult.hasErrors()) {
+            throw ResponseStatusException(HttpStatus.NOT_FOUND)
+        }
+
+        val response: FindWebCheckpointQuery.Response = findWebCheckpointQuery.execute(
+            id = UUID.fromString(outputForm.id),
+        )
+
+        if (response is FindWebCheckpointQuery.Response.Ok) {
+            val output: ByteArray = response.webCheckpoint.output?.byteArray
+                ?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
+
+            val type: String = contentTypeComponent.guessType(output)
+            val extension: String = contentTypeComponent.guessExtension(output)
+
+            return ResponseEntity.ok()
+                .header("Content-Type", type)
+                .header("Content-Disposition", "attachment; filename=\"${response.webCheckpoint.id}${extension}\"")
+                .body(output)
         } else {
             throw ResponseStatusException(HttpStatus.NOT_FOUND)
         }
