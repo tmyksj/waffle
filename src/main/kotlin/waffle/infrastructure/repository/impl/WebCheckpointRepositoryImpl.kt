@@ -188,7 +188,9 @@ class WebCheckpointRepositoryImpl(
                 )
             }
 
-        webCheckpointSnapshotJpaRepository.deleteAllByWebCheckpointId(listOf(jpaEntity.id))
+        webCheckpointSnapshotJpaRepository.deleteAll(
+            webCheckpointSnapshotJpaRepository.findAllByWebCheckpointId(listOf(jpaEntity.id)),
+        )
 
         webCheckpointJpaRepository.save(jpaEntity)
         webCheckpointSnapshotJpaRepository.saveAll(snapshotJpaEntities)
