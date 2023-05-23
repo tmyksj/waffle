@@ -93,7 +93,9 @@ class WebFlowRepositoryImpl(
                 )
             }
 
-        webFlowCompositionJpaRepository.deleteAllByWebFlowId(listOf(jpaEntity.id))
+        webFlowCompositionJpaRepository.deleteAll(
+            webFlowCompositionJpaRepository.findAllByWebFlowId(listOf(jpaEntity.id)),
+        )
 
         webFlowJpaRepository.save(jpaEntity)
         webFlowCompositionJpaRepository.saveAll(compositionJpaEntities)
