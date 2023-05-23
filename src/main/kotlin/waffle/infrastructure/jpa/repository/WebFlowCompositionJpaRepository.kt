@@ -1,7 +1,6 @@
 package waffle.infrastructure.jpa.repository
 
 import org.springframework.data.jpa.repository.JpaRepository
-import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
@@ -13,16 +12,6 @@ import waffle.infrastructure.jpa.entity.WebFlowCompositionJpaEntity
 @Repository
 @Transactional
 interface WebFlowCompositionJpaRepository : JpaRepository<WebFlowCompositionJpaEntity, WebFlowCompositionJpaEntity.Id> {
-
-    /**
-     * Deletes all instances with the given IDs.
-     *
-     * @param webFlowIds
-     * @return
-     */
-    @Modifying
-    @Query("delete from wf_web_flow_composition w where w.id.webFlowId in ?1")
-    fun deleteAllByWebFlowId(webFlowIds: Iterable<String>)
 
     /**
      * Returns all instances with the given IDs.
