@@ -30,4 +30,19 @@ data class WebFlow(
      */
     val lastModifiedDate: LocalDateTime = createdDate,
 
-    )
+    ) {
+
+    /**
+     * Recompose compositions.
+     *
+     * @param compositions
+     * @return
+     */
+    fun recompose(compositions: List<WebComposition>): WebFlow {
+        return copy(
+            compositions = compositions,
+            lastModifiedDate = now(),
+        )
+    }
+
+}
