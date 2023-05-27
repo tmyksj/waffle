@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en"
+      th:replace="~{default :: layout(~{:: head/content()}, ~{:: body/content()})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>WebFlow - Waffle</title>
+    <link rel="stylesheet"
+          th:href="@{/Stylesheets/Core.css}">
+    <script th:src="@{/Scripts/vue.global.prod.js}"></script>
+    <script th:inline="javascript">
+        window.addEventListener("DOMContentLoaded", () => {
+            Vue.createApp({
+                data() {
+                    return {
+                        form: [[${modifyForm}]],
+                    };
+                },
+
+                methods: {
+                    update(key) {
+                        const attrs = [
+                            "resource",
+                            "widthPx",
+                            "delayMs",
+                        ];
+
+                        const some = (composition) => {
+                            return attrs.some(attr => composition[attr] !== "");
+                        };
+
+                        const row = () => {
+                            return Object.fromEntries([["key", Math.random()], ...attrs.map(attr => [attr, ""])]);
+                        };
+
+                        this.form.compositions.forEach((composition) => {
+                            composition.key ||= Math.random();
+                        });
+
+                        const hold = [];
+
+                        this.form.compositions.forEach((composition, idx) => {
+                            if (composition.key === key || some(composition)) {
+                                hold.push(idx);
+                            }
+                        });
+
+                        this.form.compositions = this.form.compositions.filter((_, idx) => {
+                            return hold.includes(idx);
+                        });
+
+                        if (this.form.compositions.length === 0 || some(this.form.compositions.at(-1))) {
+                            this.form.compositions.push(row());
+                        }
+                    },
+                },
+
+                created() {
+                    this.update(null);
+                },
+            }).mount("body");
+        });
+    </script>
+</head>
+<body>
+<div class="u_mt-2.0">
+    <h1>WebFlow</h1>
+</div>
+<form class="u_mt-1.6"
+      method="post"
+      th:action="@{/WebFlow/{id}/Modify(id=${modifyForm.id})}">
+    <div class="c_pane u_mt-1.6 u_w-50.0%"
+         v-bind:key="composition.key"
+         v-for="(composition, idx) in form.compositions">
+        <div class="c_unit">
+            <div class="c_unit_subject">
+                <label class="c_label"
+                       v-bind:for="composition.key + 'resource'">URL</label>
+                <input class="c_input"
+                       pattern="https?://.+"
+                       type="text"
+                       v-bind:id="composition.key + 'resource'"
+                       v-bind:name="idx === 0 || idx < form.compositions.length - 1 ? 'compositions[' + idx + '].resource' : ''"
+                       v-bind:required="idx === 0 || idx < form.compositions.length - 1"
+                       v-model="composition.resource"
+                       v-on:focus="update(composition.key)"
+                       v-on:input="update(composition.key)">
+            </div>
+            <div class="c_unit_attribute">
+                <label class="c_label"
+                       v-bind:for="composition.key + 'widthPx'">Window Width (px)</label>
+                <input class="c_input"
+                       max="4000"
+                       min="100"
+                       type="number"
+                       v-bind:id="composition.key + 'widthPx'"
+                       v-bind:name="idx === 0 || idx < form.compositions.length - 1 ? 'compositions[' + idx + '].widthPx' : ''"
+                       v-bind:required="idx === 0 || idx < form.compositions.length - 1"
+                       v-model="composition.widthPx"
+                       v-on:focus="update(composition.key)"
+                       v-on:input="update(composition.key)">
+            </div>
+            <div class="c_unit_attribute">
+                <label class="c_label"
+                       v-bind:for="composition.key + 'delayMs'">Delay (ms)</label>
+                <input class="c_input"
+                       max="60000"
+                       min="0"
+                       type="number"
+                       v-bind:id="composition.key + 'delayMs'"
+                       v-bind:name="idx === 0 || idx < form.compositions.length - 1 ? 'compositions[' + idx + '].delayMs' : ''"
+                       v-bind:required="idx === 0 || idx < form.compositions.length - 1"
+                       v-model="composition.delayMs"
+                       v-on:focus="update(composition.key)"
+                       v-on:input="update(composition.key)">
+            </div>
+        </div>
+    </div>
+    <div class="u_pb-0.4 u_pr-1.0 u_pt-0.4 u_ta-r u_w-50.0%">
+        <button class="c_button"
+                type="submit"
+                v-on:click="update(null)">Submit
+        </button>
+    </div>
+</form>
+</body>
+</html>

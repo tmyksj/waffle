@@ -123,11 +123,151 @@ class WebFlowControllerTests {
         resultActions.andExpect(MockMvcResultMatchers.status().isNotFound)
     }
 
+    @Test
+    fun modifyForm_responds_Ok_when_the_WebFlow_exists() {
+        val entity: WebFlow = webFlowRepository.save(webFlowFactory.build())
+
+        val resultActions: ResultActions = mockMvc.perform(
+            MockMvcRequestBuilders.get("/WebFlow/${entity.id}/Modify"),
+        )
+
+        resultActions.andExpect(MockMvcResultMatchers.status().isOk)
+    }
+
+    @Test
+    fun modifyForm_responds_NotFound_when_the_WebFlow_doesnt_exist() {
+        val resultActions: ResultActions = mockMvc.perform(
+            MockMvcRequestBuilders.get("/WebFlow/${UUID.randomUUID()}/Modify"),
+        )
+
+        resultActions.andExpect(MockMvcResultMatchers.status().isNotFound)
+    }
+
+    @Test
+    fun modifyForm_responds_NotFound_when_params_are_invalid() {
+        val resultActions: ResultActions = mockMvc.perform(
+            MockMvcRequestBuilders.get("/WebFlow/INVALID_ID/Modify"),
+        )
+
+        resultActions.andExpect(MockMvcResultMatchers.status().isNotFound)
+    }
+
+    @CsvSource(
+        textBlock = """
+            [ID], http://127.0.0.1, 100,  0,     ,                 ,     ,
+            [ID], http://127.0.0.1, 1920, 1000,  ,                 ,     ,
+            [ID], http://127.0.0.1, 4000, 60000, ,                 ,     ,
+            [ID], http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, 1000,""",
+    )
+    @ParameterizedTest
+    fun modify_responds_SeeOther_when_params_are_valid(
+        @AggregateWith(ModifyArgumentsAggregator::class) params: MultiValueMap<String, String>,
+    ) {
+        if (params.getFirst("id") == "[ID]") {
+            params.set("id", webFlowRepository.save(webFlowFactory.build()).id.toString())
+        }
+
+        val id: String = checkNotNull(params.getFirst("id"))
+        params.remove("id")
+
+        val resultActions: ResultActions = mockMvc.perform(
+            MockMvcRequestBuilders.post("/WebFlow/${id}/Modify")
+                .with(SecurityMockMvcRequestPostProcessors.csrf())
+                .params(params),
+        )
+
+        resultActions.andExpect(MockMvcResultMatchers.status().isSeeOther)
+            .andExpect(MockMvcResultMatchers.redirectedUrlPattern("/WebFlow/*"))
+    }
+
+    @CsvSource(
+        textBlock = """
+            [ID], ,                 ,     ,      ,                 ,     ,
+            [ID], '',               '',   '',    ,                 ,     ,
+            [ID], INVALID_URL,      1920, 1000,  ,                 ,     ,
+            [ID], http://127.0.0.1, 99,   1000,  ,                 ,     ,
+            [ID], http://127.0.0.1, 4001, 1000,  ,                 ,     ,
+            [ID], http://127.0.0.1, 1920, -1,    ,                 ,     ,
+            [ID], http://127.0.0.1, 1920, 60001, ,                 ,     ,
+            [ID], http://127.0.0.1, 1920, 1000,  '',               '',   '',
+            [ID], http://127.0.0.1, 1920, 1000,  INVALID_URL,      1920, 1000,
+            [ID], http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 99,   1000,
+            [ID], http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 4001, 1000,
+            [ID], http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, -1,
+            [ID], http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, 60001,""",
+    )
+    @ParameterizedTest
+    fun modify_responds_BadRequest_when_params_are_invalid(
+        @AggregateWith(ModifyArgumentsAggregator::class) params: MultiValueMap<String, String>,
+    ) {
+        if (params.getFirst("id") == "[ID]") {
+            params.set("id", webFlowRepository.save(webFlowFactory.build()).id.toString())
+        }
+
+        val id: String = checkNotNull(params.getFirst("id"))
+        params.remove("id")
+
+        val resultActions: ResultActions = mockMvc.perform(
+            MockMvcRequestBuilders.post("/WebFlow/${id}/Modify")
+                .with(SecurityMockMvcRequestPostProcessors.csrf())
+                .params(params),
+        )
+
+        resultActions.andExpect(MockMvcResultMatchers.status().isBadRequest)
+    }
+
+    @CsvSource(
+        textBlock = """
+            [randomUUID], http://127.0.0.1, 1920, 1000, , , ,
+            INVALID_ID,   http://127.0.0.1, 1920, 1000, , , ,""",
+    )
+    @ParameterizedTest
+    fun modify_responds_NotFound_when_params_are_invalid(
+        @AggregateWith(ModifyArgumentsAggregator::class) params: MultiValueMap<String, String>,
+    ) {
+        if (params.getFirst("id") == "[randomUUID]") {
+            params.set("id", UUID.randomUUID().toString())
+        }
+
+        val id: String = checkNotNull(params.getFirst("id"))
+        params.remove("id")
+
+        val resultActions: ResultActions = mockMvc.perform(
+            MockMvcRequestBuilders.post("/WebFlow/${id}/Modify")
+                .with(SecurityMockMvcRequestPostProcessors.csrf())
+                .params(params),
+        )
+
+        resultActions.andExpect(MockMvcResultMatchers.status().isNotFound)
+    }
+
     class CreateArgumentsAggregator : ArgumentsAggregator {
 
         override fun aggregateArguments(accessor: ArgumentsAccessor, context: ParameterContext): Any {
             return LinkedMultiValueMap(
                 arrayOf(
+                    "compositions[0].resource",
+                    "compositions[0].widthPx",
+                    "compositions[0].delayMs",
+                    "compositions[1].resource",
+                    "compositions[1].widthPx",
+                    "compositions[1].delayMs",
+                ).mapIndexed { index, s ->
+                    Pair(s, accessor.getString(index))
+                }.filter {
+                    it.second != null
+                }.groupBy({ it.first }, { it.second }),
+            )
+        }
+
+    }
+
+    class ModifyArgumentsAggregator : ArgumentsAggregator {
+
+        override fun aggregateArguments(accessor: ArgumentsAccessor, context: ParameterContext): Any {
+            return LinkedMultiValueMap(
+                arrayOf(
+                    "id",
                     "compositions[0].resource",
                     "compositions[0].widthPx",
                     "compositions[0].delayMs",
