@@ -15,8 +15,12 @@
         <span class="u_fs-0.9"
               th:text="${webFlow.id}"></span>
     </div>
-    <a class="c_button"
-       th:href="@{/WebFlow/{id}/Modify(id=${webFlow.id})}">Modify</a>
+    <div class="u_d-f">
+        <a class="c_button u_ml-0.4"
+           th:href="@{/WebFlow/{id}/Modify(id=${webFlow.id})}">Modify</a>
+        <a class="c_button u_ml-0.4"
+           th:href="@{/WebCheckpoint(flow=${webFlow.id})}">Create a checkpoint</a>
+    </div>
 </div>
 <div class="c_pane u_mt-1.6 u_w-50.0%"
      th:each="composition : ${webFlow.compositions}">
@@ -42,10 +46,8 @@
         </div>
     </div>
 </div>
-<div class="u_ai-c u_d-f u_jc-sb u_mt-4.0 u_w-50.0%">
+<div class="u_mt-4.0">
     <h2>Checkpoints</h2>
-    <a class="c_button"
-       th:href="@{/WebCheckpoint(flow=${webFlow.id})}">Create a checkpoint</a>
 </div>
 <div class="c_pane u_mt-1.6 u_w-50.0%"
      th:each="checkpoint : ${checkpoints}">
