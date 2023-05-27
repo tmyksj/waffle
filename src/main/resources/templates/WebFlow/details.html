@@ -9,10 +9,14 @@
           th:href="@{/Stylesheets/Core.css}">
 </head>
 <body>
-<div class="u_mt-2.0">
-    <h1>WebFlow</h1>
-    <span class="u_fs-0.9"
-          th:text="${webFlow.id}"></span>
+<div class="u_ai-c u_d-f u_jc-sb u_mt-2.0">
+    <div>
+        <h1>WebFlow</h1>
+        <span class="u_fs-0.9"
+              th:text="${webFlow.id}"></span>
+    </div>
+    <a class="c_button"
+       th:href="@{/WebFlow/{id}/Modify(id=${webFlow.id})}">Modify</a>
 </div>
 <div class="c_pane u_mt-1.6 u_w-50.0%"
      th:each="composition : ${webFlow.compositions}">
