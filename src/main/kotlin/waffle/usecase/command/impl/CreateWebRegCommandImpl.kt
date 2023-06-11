@@ -60,6 +60,7 @@ class CreateWebRegCommandImpl(
                                     WebComposition(
                                         resource = it.resource,
                                         widthPx = it.widthPx,
+                                        heightPx = it.heightPx,
                                         delayMs = it.delayMs,
                                     )
                                 },
@@ -75,6 +76,7 @@ class CreateWebRegCommandImpl(
                                     WebComposition(
                                         resource = it.resource,
                                         widthPx = it.widthPx,
+                                        heightPx = it.heightPx,
                                         delayMs = it.delayMs,
                                     )
                                 },

@@ -47,6 +47,13 @@ data class QuickstartForm(
         var widthPx: Long = 1920,
 
         /**
+         * Window height for a page (pixels).
+         */
+        @field:Max(value = 4000)
+        @field:Min(value = 100)
+        var heightPx: Long = 1080,
+
+        /**
          * Waiting time before accessing to a page (milliseconds).
          */
         @field:Max(value = 60000)

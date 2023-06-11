@@ -49,6 +49,11 @@ interface CreateWebRegCommand {
         val widthPx: Long,
 
         /**
+         * Window height for a page (pixels).
+         */
+        val heightPx: Long,
+
+        /**
          * Waiting time before accessing to a page (milliseconds).
          */
         val delayMs: Long,

@@ -22,6 +22,7 @@ class CreateWebFlowCommandImpl(
                     WebComposition(
                         resource = it.resource,
                         widthPx = it.widthPx,
+                        heightPx = it.heightPx,
                         delayMs = it.delayMs,
                     )
                 },

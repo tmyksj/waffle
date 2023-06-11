@@ -36,6 +36,7 @@ class WebFlowRepositoryImpl(
                     WebComposition(
                         resource = URL(it.resource),
                         widthPx = it.widthPx,
+                        heightPx = it.heightPx,
                         delayMs = it.delayMs,
                     )
                 },
@@ -64,6 +65,7 @@ class WebFlowRepositoryImpl(
                 WebComposition(
                     resource = URL(it.resource),
                     widthPx = it.widthPx,
+                    heightPx = it.heightPx,
                     delayMs = it.delayMs,
                 )
             },
@@ -89,6 +91,7 @@ class WebFlowRepositoryImpl(
                     ),
                     resource = it.resource.toString(),
                     widthPx = it.widthPx,
+                    heightPx = it.heightPx,
                     delayMs = it.delayMs,
                 )
             }

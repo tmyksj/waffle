@@ -16,11 +16,13 @@ class WebCompositionFactory {
     fun build(
         resource: URL = URL("http://127.0.0.1:8081"),
         widthPx: Long = 1920,
+        heightPx: Long = 1080,
         delayMs: Long = 0,
     ): WebComposition {
         return WebComposition(
             resource = resource,
             widthPx = widthPx,
+            heightPx = heightPx,
             delayMs = delayMs,
         )
     }

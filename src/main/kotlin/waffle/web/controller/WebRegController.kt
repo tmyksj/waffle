@@ -121,6 +121,7 @@ class WebRegController(
                 CreateWebRegCommand.WebComposition(
                     resource = URL(it.resource),
                     widthPx = it.widthPx,
+                    heightPx = it.heightPx,
                     delayMs = it.delayMs,
                 )
             },
@@ -128,6 +129,7 @@ class WebRegController(
                 CreateWebRegCommand.WebComposition(
                     resource = URL(it.resource),
                     widthPx = it.widthPx,
+                    heightPx = it.heightPx,
                     delayMs = it.delayMs,
                 )
             },

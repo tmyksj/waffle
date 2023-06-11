@@ -22,6 +22,7 @@
                         const attrs = [
                             "resource",
                             "widthPx",
+                            "heightPx",
                             "delayMs",
                         ];
 
@@ -129,6 +130,20 @@
                 </div>
                 <div class="c_unit_attribute">
                     <label class="c_label"
+                           v-bind:for="form.checkpointA[idx].key + 'heightPx'">Window Height (px)</label>
+                    <input class="c_input"
+                           max="4000"
+                           min="100"
+                           type="number"
+                           v-bind:id="form.checkpointA[idx].key + 'heightPx'"
+                           v-bind:name="idx === 0 || idx < form.checkpointA.length - 1 ? 'checkpointA[' + idx + '].heightPx' : ''"
+                           v-bind:required="idx === 0 || idx < form.checkpointA.length - 1"
+                           v-model="form.checkpointA[idx].heightPx"
+                           v-on:focus="update(form.checkpointA[idx].key)"
+                           v-on:input="update(form.checkpointA[idx].key)">
+                </div>
+                <div class="c_unit_attribute">
+                    <label class="c_label"
                            v-bind:for="form.checkpointA[idx].key + 'delayMs'">Delay (ms)</label>
                     <input class="c_input"
                            max="60000"
@@ -169,6 +184,20 @@
                            v-bind:name="idx === 0 || idx < form.checkpointB.length - 1 ? 'checkpointB[' + idx + '].widthPx' : ''"
                            v-bind:required="idx === 0 || idx < form.checkpointB.length - 1"
                            v-model="form.checkpointB[idx].widthPx"
+                           v-on:focus="update(form.checkpointB[idx].key)"
+                           v-on:input="update(form.checkpointB[idx].key)">
+                </div>
+                <div class="c_unit_attribute">
+                    <label class="c_label"
+                           v-bind:for="form.checkpointB[idx].key + 'heightPx'">Window Height (px)</label>
+                    <input class="c_input"
+                           max="4000"
+                           min="100"
+                           type="number"
+                           v-bind:id="form.checkpointB[idx].key + 'heightPx'"
+                           v-bind:name="idx === 0 || idx < form.checkpointB.length - 1 ? 'checkpointB[' + idx + '].heightPx' : ''"
+                           v-bind:required="idx === 0 || idx < form.checkpointB.length - 1"
+                           v-model="form.checkpointB[idx].heightPx"
                            v-on:focus="update(form.checkpointB[idx].key)"
                            v-on:input="update(form.checkpointB[idx].key)">
                 </div>

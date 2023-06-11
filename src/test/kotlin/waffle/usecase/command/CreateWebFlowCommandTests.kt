@@ -25,6 +25,7 @@ class CreateWebFlowCommandTests {
                 CreateWebFlowCommand.WebComposition(
                     resource = URL("http://127.0.0.1:8081"),
                     widthPx = 1920,
+                    heightPx = 1080,
                     delayMs = 1000,
                 ),
             ),
@@ -41,6 +42,7 @@ class CreateWebFlowCommandTests {
                     WebComposition(
                         resource = URL("http://127.0.0.1:8081"),
                         widthPx = 1920,
+                        heightPx = 1080,
                         delayMs = 1000,
                     ),
                 ),

@@ -21,6 +21,7 @@ create table wf_web_checkpoint_snapshot
     idx                  bigint      not null,
     resource             text        not null,
     width_px             bigint      not null,
+    height_px            bigint      not null,
     screenshot           varchar(36) not null,
     primary key (wf_web_checkpoint_id, idx),
     foreign key (wf_web_checkpoint_id) references wf_web_checkpoint (id) on delete cascade on update cascade

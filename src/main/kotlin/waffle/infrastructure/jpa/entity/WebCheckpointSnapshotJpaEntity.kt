@@ -28,6 +28,11 @@ data class WebCheckpointSnapshotJpaEntity(
     val widthPx: Long = 1920,
 
     /**
+     * Window height for a page (pixels).
+     */
+    val heightPx: Long = 1080,
+
+    /**
      * Screenshot of a page.
      */
     val screenshot: String = "",

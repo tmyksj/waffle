@@ -28,6 +28,11 @@ data class WebFlowCompositionJpaEntity(
     val widthPx: Long = 1920,
 
     /**
+     * Window height for a page (pixels).
+     */
+    val heightPx: Long = 1080,
+
+    /**
      * Waiting time before accessing to a page (milliseconds).
      */
     val delayMs: Long = 0,

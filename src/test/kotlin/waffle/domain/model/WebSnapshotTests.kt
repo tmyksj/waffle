@@ -29,4 +29,21 @@ class WebSnapshotTests {
         }
     }
 
+    @Test
+    fun heightPx_must_be_in_range_from_100px_to_4000px() {
+        SoftAssertions.assertSoftly {
+            it.assertThatThrownBy { webSnapshotFactory.build(heightPx = 99) }
+                .isInstanceOf(IllegalArgumentException::class.java)
+
+            it.assertThatCode { webSnapshotFactory.build(heightPx = 100) }
+                .doesNotThrowAnyException()
+
+            it.assertThatCode { webSnapshotFactory.build(heightPx = 4000) }
+                .doesNotThrowAnyException()
+
+            it.assertThatThrownBy { webSnapshotFactory.build(heightPx = 4001) }
+                .isInstanceOf(IllegalArgumentException::class.java)
+        }
+    }
+
 }

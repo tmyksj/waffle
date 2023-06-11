@@ -44,11 +44,13 @@ class WebCheckpointServiceImpl(
                 val screenshot: ByteArray = browserComponent.captureScreenshot(
                     url = it.resource,
                     width = it.widthPx.toInt(),
+                    height = it.heightPx.toInt(),
                 )
 
                 WebSnapshot(
                     resource = it.resource,
                     widthPx = it.widthPx,
+                    heightPx = it.heightPx,
                     screenshot = Blob { screenshot.inputStream() },
                 )
             }

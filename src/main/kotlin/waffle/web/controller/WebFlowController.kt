@@ -66,6 +66,7 @@ class WebFlowController(
                 CreateWebFlowCommand.WebComposition(
                     resource = URL(it.resource),
                     widthPx = it.widthPx,
+                    heightPx = it.heightPx,
                     delayMs = it.delayMs,
                 )
             },
@@ -141,6 +142,7 @@ class WebFlowController(
                         ModifyForm.WebComposition(
                             resource = it.resource.toString(),
                             widthPx = it.widthPx,
+                            heightPx = it.heightPx,
                             delayMs = it.delayMs,
                         )
                     }
@@ -185,6 +187,7 @@ class WebFlowController(
                 ModifyWebFlowCommand.WebComposition(
                     resource = URL(it.resource),
                     widthPx = it.widthPx,
+                    heightPx = it.heightPx,
                     delayMs = it.delayMs,
                 )
             },

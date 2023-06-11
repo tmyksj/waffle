@@ -51,6 +51,7 @@ class WebCheckpointRepositoryImpl(
                     WebSnapshot(
                         resource = URL(it.resource),
                         widthPx = it.widthPx,
+                        heightPx = it.heightPx,
                         screenshot = checkNotNull(screenshots[UUID.fromString(it.screenshot)]),
                     )
                 },
@@ -102,6 +103,7 @@ class WebCheckpointRepositoryImpl(
                     WebSnapshot(
                         resource = URL(it.resource),
                         widthPx = it.widthPx,
+                        heightPx = it.heightPx,
                         screenshot = checkNotNull(screenshots[UUID.fromString(it.screenshot)]),
                     )
                 },
@@ -147,6 +149,7 @@ class WebCheckpointRepositoryImpl(
                 WebSnapshot(
                     resource = URL(it.resource),
                     widthPx = it.widthPx,
+                    heightPx = it.heightPx,
                     screenshot = checkNotNull(screenshots[UUID.fromString(it.screenshot)]),
                 )
             },
@@ -184,6 +187,7 @@ class WebCheckpointRepositoryImpl(
                     ),
                     resource = it.resource.toString(),
                     widthPx = it.widthPx,
+                    heightPx = it.heightPx,
                     screenshot = blobStorage.save(it.screenshot).toString(),
                 )
             }

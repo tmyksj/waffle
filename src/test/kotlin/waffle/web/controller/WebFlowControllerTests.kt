@@ -46,10 +46,15 @@ class WebFlowControllerTests {
 
     @CsvSource(
         textBlock = """
-            http://127.0.0.1, 100,  0,     ,                 ,     ,
-            http://127.0.0.1, 1920, 1000,  ,                 ,     ,
-            http://127.0.0.1, 4000, 60000, ,                 ,     ,
-            http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, 1000,""",
+            http://127.0.0.1, 1920, 1080, 1000,  ,                 ,     ,     ,
+            http://127.0.0.1, 1920, 1080, 1000,  http://127.0.0.1, 1920, 1080, 1000,
+
+            http://127.0.0.1, 100,  1080, 1000,  ,                 ,     ,     ,
+            http://127.0.0.1, 4000, 1080, 1000,  ,                 ,     ,     ,
+            http://127.0.0.1, 1920, 100,  1000,  ,                 ,     ,     ,
+            http://127.0.0.1, 1920, 4000, 1000,  ,                 ,     ,     ,
+            http://127.0.0.1, 1920, 1080, 0,     ,                 ,     ,     ,
+            http://127.0.0.1, 1920, 1080, 60000, ,                 ,     ,     ,""",
     )
     @ParameterizedTest
     fun create_responds_SeeOther_when_params_are_valid(
@@ -67,19 +72,23 @@ class WebFlowControllerTests {
 
     @CsvSource(
         textBlock = """
-            ,                 ,     ,      ,                 ,     ,
-            '',               '',   '',    ,                 ,     ,
-            INVALID_URL,      1920, 1000,  ,                 ,     ,
-            http://127.0.0.1, 99,   1000,  ,                 ,     ,
-            http://127.0.0.1, 4001, 1000,  ,                 ,     ,
-            http://127.0.0.1, 1920, -1,    ,                 ,     ,
-            http://127.0.0.1, 1920, 60001, ,                 ,     ,
-            http://127.0.0.1, 1920, 1000,  '',               '',   '',
-            http://127.0.0.1, 1920, 1000,  INVALID_URL,      1920, 1000,
-            http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 99,   1000,
-            http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 4001, 1000,
-            http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, -1,
-            http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, 60001,""",
+            ,                 ,     ,     ,      ,                 ,     ,     ,
+            '',               '',   '',   '',    ,                 ,     ,     ,
+            INVALID_URL,      1920, 1080, 1000,  ,                 ,     ,     ,
+            http://127.0.0.1, 99,   1080, 1000,  ,                 ,     ,     ,
+            http://127.0.0.1, 4001, 1080, 1000,  ,                 ,     ,     ,
+            http://127.0.0.1, 1920, 99,   1000,  ,                 ,     ,     ,
+            http://127.0.0.1, 1920, 4001, 1000,  ,                 ,     ,     ,
+            http://127.0.0.1, 1920, 1080, -1,    ,                 ,     ,     ,
+            http://127.0.0.1, 1920, 1080, 60001, ,                 ,     ,     ,
+            http://127.0.0.1, 1920, 1080, 1000,  '',               '',   '',   '',
+            http://127.0.0.1, 1920, 1080, 1000,  INVALID_URL,      1920, 1080, 1000,
+            http://127.0.0.1, 1920, 1080, 1000,  http://127.0.0.1, 99,   1080, 1000,
+            http://127.0.0.1, 1920, 1080, 1000,  http://127.0.0.1, 4001, 1080, 1000,
+            http://127.0.0.1, 1920, 1080, 1000,  http://127.0.0.1, 1920, 99,   1000,
+            http://127.0.0.1, 1920, 1080, 1000,  http://127.0.0.1, 1920, 4001, 1000,
+            http://127.0.0.1, 1920, 1080, 1000,  http://127.0.0.1, 1920, 1080, -1,
+            http://127.0.0.1, 1920, 1080, 1000,  http://127.0.0.1, 1920, 1080, 60001,""",
     )
     @ParameterizedTest
     fun create_responds_BadRequest_when_params_are_invalid(
@@ -154,10 +163,15 @@ class WebFlowControllerTests {
 
     @CsvSource(
         textBlock = """
-            [ID], http://127.0.0.1, 100,  0,     ,                 ,     ,
-            [ID], http://127.0.0.1, 1920, 1000,  ,                 ,     ,
-            [ID], http://127.0.0.1, 4000, 60000, ,                 ,     ,
-            [ID], http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, 1000,""",
+            [ID], http://127.0.0.1, 1920, 1080, 1000,  ,                 ,     ,     ,
+            [ID], http://127.0.0.1, 1920, 1080, 1000,  http://127.0.0.1, 1920, 1080, 1000,
+
+            [ID], http://127.0.0.1, 100,  1080, 1000,  ,                 ,     ,     ,
+            [ID], http://127.0.0.1, 4000, 1080, 1000,  ,                 ,     ,     ,
+            [ID], http://127.0.0.1, 1920, 100,  1000,  ,                 ,     ,     ,
+            [ID], http://127.0.0.1, 1920, 4000, 1000,  ,                 ,     ,     ,
+            [ID], http://127.0.0.1, 1920, 1080, 0,     ,                 ,     ,     ,
+            [ID], http://127.0.0.1, 1920, 1080, 60000, ,                 ,     ,     ,""",
     )
     @ParameterizedTest
     fun modify_responds_SeeOther_when_params_are_valid(
@@ -182,19 +196,23 @@ class WebFlowControllerTests {
 
     @CsvSource(
         textBlock = """
-            [ID], ,                 ,     ,      ,                 ,     ,
-            [ID], '',               '',   '',    ,                 ,     ,
-            [ID], INVALID_URL,      1920, 1000,  ,                 ,     ,
-            [ID], http://127.0.0.1, 99,   1000,  ,                 ,     ,
-            [ID], http://127.0.0.1, 4001, 1000,  ,                 ,     ,
-            [ID], http://127.0.0.1, 1920, -1,    ,                 ,     ,
-            [ID], http://127.0.0.1, 1920, 60001, ,                 ,     ,
-            [ID], http://127.0.0.1, 1920, 1000,  '',               '',   '',
-            [ID], http://127.0.0.1, 1920, 1000,  INVALID_URL,      1920, 1000,
-            [ID], http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 99,   1000,
-            [ID], http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 4001, 1000,
-            [ID], http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, -1,
-            [ID], http://127.0.0.1, 1920, 1000,  http://127.0.0.1, 1920, 60001,""",
+            [ID], ,                 ,     ,     ,      ,                 ,     ,     ,
+            [ID], '',               '',   '',   '',    ,                 ,     ,     ,
+            [ID], INVALID_URL,      1920, 1080, 1000,  ,                 ,     ,     ,
+            [ID], http://127.0.0.1, 99,   1080, 1000,  ,                 ,     ,     ,
+            [ID], http://127.0.0.1, 4001, 1080, 1000,  ,                 ,     ,     ,
+            [ID], http://127.0.0.1, 1920, 99,   1000,  ,                 ,     ,     ,
+            [ID], http://127.0.0.1, 1920, 4001, 1000,  ,                 ,     ,     ,
+            [ID], http://127.0.0.1, 1920, 1080, -1,    ,                 ,     ,     ,
+            [ID], http://127.0.0.1, 1920, 1080, 60001, ,                 ,     ,     ,
+            [ID], http://127.0.0.1, 1920, 1080, 1000,  '',               '',   '',   '',
+            [ID], http://127.0.0.1, 1920, 1080, 1000,  INVALID_URL,      1920, 1080, 1000,
+            [ID], http://127.0.0.1, 1920, 1080, 1000,  http://127.0.0.1, 99,   1080, 1000,
+            [ID], http://127.0.0.1, 1920, 1080, 1000,  http://127.0.0.1, 4001, 1080, 1000,
+            [ID], http://127.0.0.1, 1920, 1080, 1000,  http://127.0.0.1, 1920, 99,   1000,
+            [ID], http://127.0.0.1, 1920, 1080, 1000,  http://127.0.0.1, 1920, 4001, 1000,
+            [ID], http://127.0.0.1, 1920, 1080, 1000,  http://127.0.0.1, 1920, 1080, -1,
+            [ID], http://127.0.0.1, 1920, 1080, 1000,  http://127.0.0.1, 1920, 1080, 60001,""",
     )
     @ParameterizedTest
     fun modify_responds_BadRequest_when_params_are_invalid(
@@ -218,8 +236,8 @@ class WebFlowControllerTests {
 
     @CsvSource(
         textBlock = """
-            [randomUUID], http://127.0.0.1, 1920, 1000, , , ,
-            INVALID_ID,   http://127.0.0.1, 1920, 1000, , , ,""",
+            INVALID_ID,   http://127.0.0.1, 1920, 1080, 1000, , , , ,
+            [randomUUID], http://127.0.0.1, 1920, 1080, 1000, , , , ,""",
     )
     @ParameterizedTest
     fun modify_responds_NotFound_when_params_are_invalid(
@@ -248,9 +266,11 @@ class WebFlowControllerTests {
                 arrayOf(
                     "compositions[0].resource",
                     "compositions[0].widthPx",
+                    "compositions[0].heightPx",
                     "compositions[0].delayMs",
                     "compositions[1].resource",
                     "compositions[1].widthPx",
+                    "compositions[1].heightPx",
                     "compositions[1].delayMs",
                 ).mapIndexed { index, s ->
                     Pair(s, accessor.getString(index))
@@ -270,9 +290,11 @@ class WebFlowControllerTests {
                     "id",
                     "compositions[0].resource",
                     "compositions[0].widthPx",
+                    "compositions[0].heightPx",
                     "compositions[0].delayMs",
                     "compositions[1].resource",
                     "compositions[1].widthPx",
+                    "compositions[1].heightPx",
                     "compositions[1].delayMs",
                 ).mapIndexed { index, s ->
                     Pair(s, accessor.getString(index))

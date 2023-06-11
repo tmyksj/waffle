@@ -22,6 +22,7 @@
                         const attrs = [
                             "resource",
                             "widthPx",
+                            "heightPx",
                             "delayMs",
                         ];
 
@@ -97,6 +98,20 @@
                        v-bind:name="idx === 0 || idx < form.compositions.length - 1 ? 'compositions[' + idx + '].widthPx' : ''"
                        v-bind:required="idx === 0 || idx < form.compositions.length - 1"
                        v-model="composition.widthPx"
+                       v-on:focus="update(composition.key)"
+                       v-on:input="update(composition.key)">
+            </div>
+            <div class="c_unit_attribute">
+                <label class="c_label"
+                       v-bind:for="composition.key + 'heightPx'">Window Height (px)</label>
+                <input class="c_input"
+                       max="4000"
+                       min="100"
+                       type="number"
+                       v-bind:id="composition.key + 'heightPx'"
+                       v-bind:name="idx === 0 || idx < form.compositions.length - 1 ? 'compositions[' + idx + '].heightPx' : ''"
+                       v-bind:required="idx === 0 || idx < form.compositions.length - 1"
+                       v-model="composition.heightPx"
                        v-on:focus="update(composition.key)"
                        v-on:input="update(composition.key)">
             </div>

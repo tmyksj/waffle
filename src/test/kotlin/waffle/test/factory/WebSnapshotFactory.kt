@@ -17,6 +17,7 @@ class WebSnapshotFactory {
     fun build(
         resource: URL = URL("http://127.0.0.1:8081"),
         widthPx: Long = 1920,
+        heightPx: Long = 1080,
         screenshot: Blob = Blob {
             checkNotNull(javaClass.getResourceAsStream("/Waffle_of_Japan_001.jpg"))
         },
@@ -24,6 +25,7 @@ class WebSnapshotFactory {
         return WebSnapshot(
             resource = resource,
             widthPx = widthPx,
+            heightPx = heightPx,
             screenshot = screenshot,
         )
     }
