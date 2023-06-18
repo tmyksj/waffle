@@ -18,8 +18,8 @@ class BrowserComponentImpl : BrowserComponent {
         height: Int,
     ): ByteArray {
         val options: ChromeOptions = ChromeOptions()
+            .addArguments("--headless")
             .addArguments("--hide-scrollbars")
-            .setHeadless(true)
 
         return ChromeDriver(options).run {
             Closeable { quit() }.use {
